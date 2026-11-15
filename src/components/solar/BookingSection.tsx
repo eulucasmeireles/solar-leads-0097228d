@@ -87,7 +87,7 @@ function buildCalendarDays(freeSlots: FreeSlotsResponse): DaySlot[] {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  for (let i = 0; i < 14 && days.length < 3; i++) {
+  for (let i = 0; i < 14 && days.length < 4; i++) {
     const d = new Date(today);
     d.setDate(d.getDate() + i);
     const iso = `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
