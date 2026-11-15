@@ -197,9 +197,9 @@ export function CheckoutScreen({
             </div>
           </div>
 
-          <p className="mt-3 flex items-center gap-2 text-[13px] sm:text-[14px] text-solar-muted">
+          <div className="mt-4 flex items-start gap-3 bg-white rounded-xl border border-solar-border p-4">
             <svg
-              className="w-4 h-4 text-solar-primary"
+              className="shrink-0 mt-0.5 w-5 h-5 text-solar-primary"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -208,11 +208,29 @@ export function CheckoutScreen({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
               />
             </svg>
-            30 dias de garantia para solicitar a devolução dos R$97.
-          </p>
+            <div>
+              <p className="font-heading font-semibold text-solar-deep text-[15px] sm:text-[16px]">
+                30 dias de garantia
+              </p>
+              <p className="mt-1 text-[13px] sm:text-[14px] text-solar-muted leading-[1.5]">
+                Você tem 30 dias para solicitar a devolução dos R$97.
+              </p>
+            </div>
+          </div>
+
+          {/* Termos de uso / letras miúdas sobre a geração da lista */}
+          <div className="mt-3 px-2 py-3 text-center sm:text-left text-[12px] text-solar-muted leading-[1.5] border-t border-solar-border/70">
+            <p>
+              * <strong>Condições de reembolso e termos de uso:</strong> O estorno integral de R$97
+              é garantido em até 30 dias após a compra, desde que a lista de contatos enriquecidos
+              ainda não tenha sido gerada e enviada para a cidade escolhida. Uma vez processada a
+              extração e entregue o arquivo em PDF com os dados enriquecidos, o serviço é
+              considerado prestado e a garantia de cancelamento perde a validade.
+            </p>
+          </div>
         </div>
       </main>
 
