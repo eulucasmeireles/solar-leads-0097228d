@@ -394,9 +394,9 @@ export function ReviewScreen({
             {/* Termos de uso / letras miúdas sobre a geração da lista */}
             <div className="mt-3 px-2 py-3 text-center sm:text-left text-[12px] text-solar-muted leading-[1.5] border-t border-solar-border/70">
               <p>
-                * <strong>Condições de reembolso e termos de uso:</strong> O estorno integral de
-                R$97 é garantido em até 30 dias após a compra, desde que a lista de contatos
-                enriquecidos ainda não tenha sido gerada e enviada para a cidade escolhida.
+                * <strong>Condições de reembolso e termos de uso:</strong> O estorno integral é
+                garantido em até 30 dias após a compra, desde que a lista de contatos enriquecidos
+                ainda não tenha sido gerada e enviada.
               </p>
             </div>
 
