@@ -176,27 +176,36 @@ html {
 
 /*
  * Layout do PaymentCheckoutBlock (bloco selado)
- * No desktop, o bloco selado divide em 2 colunas (formulário + resumo).
- * Ocultamos apenas o resumo lateral duplicado e forçamos o grid em coluna
- * única, SEM alterar o display dos containers internos — assim o formulário
- * de pagamento ocupa toda a largura sem quebrar o layout do bloco selado.
+ *
+ * No desktop, o bloco selado divide em 2 colunas via .ghl-payment-checkout__shell
+ * (grid-template-columns: minmax(0,1fr) minmax(280px,360px)):
+ *   - .ghl-payment-checkout__main  → formulário (order:1)
+ *   - .ghl-payment-checkout__aside → barra lateral de resumo (order:2, sticky)
+ *
+ * Forçamos o shell em coluna única e ocultamos apenas a barra lateral de
+ * resumo duplicada. Não tocamos no display dos containers internos do __main
+ * — assim o formulário de cartão ocupa toda a largura sem quebrar o bloco.
  */
-.checkout-host-clean .ghl-payment-checkout {
+.checkout-host-clean .ghl-payment-checkout,
+.checkout-host-clean .ghl-payment-checkout-block {
   width: 100% !important;
   max-width: 100% !important;
 }
 
-/* Grid de coluna única: o formulário ocupa toda a largura disponível */
-.checkout-host-clean .ghl-payment-checkout__grid,
-.checkout-host-clean [class*="payment-checkout__grid"] {
+/* Shell em coluna única: o __main ocupa toda a largura disponível */
+.checkout-host-clean .ghl-payment-checkout__shell {
   grid-template-columns: 1fr !important;
+  gap: 0 !important;
 }
 
-/* Oculta apenas a barra lateral de resumo duplicada, seletor de quantidade,
-   cupom, lista de produtos e placeholder "Sem imagem" — em inglês. */
+.checkout-host-clean .ghl-payment-checkout__main {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Oculta a barra lateral de resumo duplicada e tudo dentro dela:
+   seletor de quantidade, cupom, lista de produtos, "Sem imagem". */
 .checkout-host-clean .ghl-payment-checkout__aside,
-.checkout-host-clean [class*="payment-checkout__aside"],
-.checkout-host-clean [class*="payment-checkout__sidebar"],
 .checkout-host-clean .ghl-payment-checkout__summary-list,
 .checkout-host-clean .ghl-payment-checkout__summary-row,
 .checkout-host-clean .ghl-payment-checkout__summary-line,
