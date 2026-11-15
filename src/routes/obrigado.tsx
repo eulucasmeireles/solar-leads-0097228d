@@ -83,6 +83,8 @@ function ThankYouPage() {
   }, [hydrated]);
 
   const buyerPhone = order?.buyer?.phone ?? null;
+  const buyerName = order?.buyer?.name ?? null;
+  const buyerEmail = order?.buyer?.email ?? null;
   const showFixedCta = pastHeroCta && !calendarVisible;
 
   return (
@@ -202,7 +204,11 @@ function ThankYouPage() {
                 conduzi a conversa até a venda.
               </p>
               <p className="font-['Poppins'] font-semibold text-[#092C5D]">
-                Entre a primeira mensagem e o fechamento, passaram menos de 24h.
+                Entre a primeira mensagem e o fechamento, passaram{" "}
+                <span className="font-['Caveat'] text-[26px] sm:text-[30px] marker-highlight">
+                  menos de um dia
+                </span>
+                .
               </p>
               <p>
                 Na consultoria, vou abrir essa sequência para você entender o que aconteceu durante
@@ -301,7 +307,7 @@ function ThankYouPage() {
 
           {/* G. Agendamento */}
           <section ref={calendarRef} id="agendar" className="mt-12 sm:mt-16 scroll-mt-20">
-            <BookingSection buyerPhone={buyerPhone} />
+            <BookingSection buyerPhone={buyerPhone} buyerName={buyerName} buyerEmail={buyerEmail} />
           </section>
 
           {/* H. FAQ */}
