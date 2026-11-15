@@ -203,9 +203,9 @@ function ThankYouPage() {
                 Esse cliente veio da lista. Eu iniciei o contato, qualifiquei o atendimento e
                 conduzi a conversa até a venda.
               </p>
-              <p className="font-['Poppins'] font-semibold text-[#092C5D]">
+              <p>
                 Entre a primeira mensagem e o fechamento, passaram{" "}
-                <span className="font-['Caveat'] text-[26px] sm:text-[30px] marker-highlight">
+                <span className="font-['Poppins'] font-semibold text-[#092C5D]">
                   menos de um dia
                 </span>
                 .
