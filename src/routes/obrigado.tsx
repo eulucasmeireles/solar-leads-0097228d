@@ -3,34 +3,28 @@ import { useEffect, useRef, useState } from "react";
 import { useHydrated } from "@tanstack/react-router";
 import { readCheckoutOrder, type CheckoutOrder } from "@/integrations/payments";
 import { IMAGES } from "@/lib/solar-leads-data";
-import { ORDER_BUMPS } from "@/lib/checkout-config";
 import { SalesButton } from "@/components/solar/SalesButton";
-import { ComicStrip } from "@/components/solar/ComicStrip";
-import {
-  MessageSquare,
-  Filter,
-  ClipboardList,
-  List,
-  MessageCircle,
-  LayoutGrid,
-  Monitor,
-  Calendar as CalendarIcon,
-} from "lucide-react";
+import { BookingSection } from "@/components/solar/BookingSection";
+import { ObrigadoFaq } from "@/components/solar/ObrigadoFaq";
+import { Clock, MessageSquare, Filter, FileText, CheckCircle2, Maximize2, X } from "lucide-react";
 
 export const Route = createFileRoute("/obrigado")({
   head: () => ({
     meta: [
-      { title: "Tudo certo! — Solar Leads" },
+      { title: "Sua compra liberou um convite especial — Solar Leads" },
       {
         name: "description",
         content:
-          "Pagamento confirmado. Vamos confirmar sua cidade pelo WhatsApp e enviar a lista em PDF. Agende sua consultoria gratuita.",
+          "Você comprou uma lista de contatos. Conheça o caminho para acelerar a prospecção e buscar seus primeiros pedidos de orçamento nas próximas 24h. Consultoria 100% gratuita.",
       },
-      { property: "og:title", content: "Tudo certo! — Solar Leads" },
+      {
+        property: "og:title",
+        content: "Sua compra liberou um convite especial — Solar Leads",
+      },
       {
         property: "og:description",
         content:
-          "Sua lista está chegando pelo WhatsApp. Agende uma consultoria gratuita para trabalhar seus contatos.",
+          "Agende sua consultoria 100% gratuita para acelerar a prospecção com sua lista e buscar seus primeiros orçamentos.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -48,32 +42,16 @@ function formatBRL(value: number): string {
   });
 }
 
-const WHO_SELLS_OPTIONS = [
-  "Eu mesmo",
-  "Eu e mais uma pessoa",
-  "Tenho uma equipe",
-  "Ainda estou organizando",
-];
-
-const WHAT_RESOLVE_OPTIONS = [
-  "Saber como começar o contato",
-  "Qualificar melhor",
-  "Acompanhar os retornos",
-  "Organizar o processo inteiro",
-];
-
 function ThankYouPage() {
   const hydrated = useHydrated();
   const [order, setOrder] = useState<CheckoutOrder | null>(null);
 
-  const firstInviteRef = useRef<HTMLDivElement>(null);
+  const heroCtaRef = useRef<HTMLDivElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
-  const [pastFirstInvite, setPastFirstInvite] = useState(false);
+  const [pastHeroCta, setPastHeroCta] = useState(false);
   const [calendarVisible, setCalendarVisible] = useState(false);
 
-  const [whoSells, setWhoSells] = useState("");
-  const [whatResolve, setWhatResolve] = useState("");
-  const [confirmState, setConfirmState] = useState<"idle" | "pending">("idle");
+  const [chargeModalOpen, setChargeModalOpen] = useState(false);
 
   useEffect(() => {
     if (hydrated) {
@@ -83,30 +61,32 @@ function ThankYouPage() {
 
   useEffect(() => {
     if (!hydrated) return;
-    const firstEl = firstInviteRef.current;
+    const heroEl = heroCtaRef.current;
     const calEl = calendarRef.current;
-    if (!firstEl || !calEl) return;
+    if (!heroEl || !calEl) return;
 
-    const firstObs = new IntersectionObserver(
-      ([entry]) => {
+    const heroObs = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
         if (!entry) return;
-        setPastFirstInvite(entry.boundingClientRect.bottom < 0);
+        setPastHeroCta(entry.boundingClientRect.bottom < 0);
       },
       { threshold: 0 },
     );
-    firstObs.observe(firstEl);
+    heroObs.observe(heroEl);
 
     const calObs = new IntersectionObserver(
-      ([entry]) => {
+      (entries) => {
+        const entry = entries[0];
         if (!entry) return;
         setCalendarVisible(entry.isIntersecting);
       },
-      { rootMargin: "-15% 0px -15% 0px", threshold: 0 },
+      { rootMargin: "-10% 0px -10% 0px", threshold: 0 },
     );
     calObs.observe(calEl);
 
     return () => {
-      firstObs.disconnect();
+      heroObs.disconnect();
       calObs.disconnect();
     };
   }, [hydrated]);
@@ -117,15 +97,13 @@ function ThankYouPage() {
   );
   const buyerPhone = order?.buyer?.phone ?? null;
 
-  const showFixedCta = pastFirstInvite && !calendarVisible && confirmState !== "pending";
-
-  const bumpImages = ORDER_BUMPS.filter((b) => ["ob1", "ob2", "ob3"].includes(b.key));
+  const showFixedCta = pastHeroCta && !calendarVisible;
 
   return (
     <div className="min-h-screen bg-[#F2F7FD] text-[#17324F] font-['Open_Sans'] selection:bg-[#FFE344] selection:text-[#092C5D]">
       {/* Header slim */}
       <header className="bg-[#092C5D] py-3 px-5 shadow-md sticky top-0 z-30">
-        <div className="max-w-[640px] mx-auto flex items-center justify-between">
+        <div className="max-w-[680px] mx-auto flex items-center justify-between">
           <a
             href="/"
             className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors text-[14px] font-['Poppins'] font-medium"
@@ -147,119 +125,220 @@ function ThankYouPage() {
         </div>
       </header>
 
-      <main className="px-5 pt-8 pb-24 sm:pb-28">
-        <div className="max-w-[640px] mx-auto">
-          {/* ============================================================ */}
-          {/* 1. COMPRA CONFIRMADA — entrega pelo WhatsApp (compacto)      */}
-          {/* ============================================================ */}
-          <section className="text-center">
-            <div className="mx-auto w-14 h-14 rounded-full bg-[#075BCC] flex items-center justify-center shadow-lg">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={3}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <h1 className="mt-4 font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[28px] leading-[1.15]">
-              Tudo certo! Sua lista está chegando pelo WhatsApp.
-            </h1>
-            <p className="mt-3 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55] max-w-[480px] mx-auto">
-              Vamos confirmar a cidade da sua lista e enviar o PDF na mesma conversa. A entrega
-              acontece em até 2h após a confirmação do pagamento e da cidade.
-            </p>
-
-            {order && (
-              <div className="mt-5 bg-white rounded-xl border border-[#D7E1EE] p-4 text-left shadow-sm">
-                <p className="font-['Poppins'] font-semibold text-[#092C5D] text-[14px]">
-                  Pedido {order.orderId}
-                </p>
-                <div className="mt-2.5 space-y-1.5">
-                  {order.lines.map((line) => (
-                    <div key={line.priceId} className="flex items-center justify-between gap-3">
-                      <span className="text-[14px] text-[#17324F]">{line.name}</span>
-                      <span className="font-['Poppins'] font-bold text-[#092C5D] text-[14px]">
-                        {formatBRL(line.unitAmount)}
-                      </span>
-                    </div>
-                  ))}
+      <main className="px-5 pt-6 pb-28 sm:pb-32">
+        <div className="max-w-[680px] mx-auto">
+          {/* 1. Confirmação compacta da compra */}
+          <section className="bg-white rounded-2xl border border-[#D7E1EE] p-4 sm:p-5 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#075BCC] flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                <CheckCircle2 className="w-6 h-6 text-white" strokeWidth={2.5} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center justify-between gap-1">
+                  <h1 className="font-['Poppins'] font-bold text-[#092C5D] text-[17px] sm:text-[19px] leading-tight">
+                    Pagamento confirmado! Sua lista está a caminho.
+                  </h1>
+                  {order && (
+                    <span className="text-[12px] text-[#53677D] font-mono">
+                      #{order.orderId.slice(-6)}
+                    </span>
+                  )}
                 </div>
+                <p className="mt-1 text-[14px] sm:text-[15px] text-[#17324F] leading-[1.45]">
+                  Vamos confirmar sua cidade pelo WhatsApp e enviar o PDF na mesma conversa em até
+                  2h após a confirmação.
+                </p>
                 {hasDobro && (
-                  <p className="mt-2.5 text-[13px] text-[#075BCC] font-['Poppins'] font-semibold">
-                    Sua entrega contém 1.000 contatos no total.
+                  <p className="mt-1.5 text-[13px] text-[#075BCC] font-['Poppins'] font-semibold">
+                    ✓ Sua entrega contém 1.000 contatos no total.
                   </p>
                 )}
                 {total != null && (
-                  <div className="mt-3 pt-2.5 border-t border-[#D7E1EE] flex items-center justify-between">
-                    <span className="font-['Poppins'] font-bold text-[#092C5D] text-[15px]">
-                      Total pago
-                    </span>
-                    <span className="font-['Poppins'] font-extrabold text-[#092C5D] text-[18px]">
-                      {formatBRL(total)}
-                    </span>
-                  </div>
+                  <p className="mt-1 text-[13px] text-[#53677D]">
+                    Total do pedido: <strong className="text-[#092C5D]">{formatBRL(total)}</strong>
+                  </p>
                 )}
-              </div>
-            )}
-
-            <div className="mt-5 inline-flex items-start gap-2.5 bg-white rounded-xl border border-[#D7E1EE] p-3.5 text-left">
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="shrink-0 mt-0.5 w-5 h-5 text-[#075BCC]"
-                aria-hidden="true"
-              >
-                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.13c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24zm4.52-5.46c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.41-.56-.42h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.25 3.74.59.26 1.06.41 1.42.52.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z" />
-              </svg>
-              <div>
-                <p className="font-['Poppins'] font-semibold text-[#092C5D] text-[14px]">
-                  Fique de olho no seu WhatsApp
-                </p>
-                <p className="mt-0.5 text-[13px] text-[#53677D] leading-[1.5]">
-                  {buyerPhone
-                    ? `A gente entra em contato no ${buyerPhone} para confirmar a cidade e enviar sua lista.`
-                    : "A gente entra em contato pelo número informado na compra para confirmar a cidade e enviar sua lista."}
-                </p>
+                <div className="mt-2.5 pt-2.5 border-t border-[#D7E1EE]/70 flex flex-wrap items-center justify-between gap-2 text-[13px]">
+                  <span className="text-[#53677D]">
+                    {buyerPhone ? `Contato cadastrado: ${buyerPhone}` : "Fique atento ao WhatsApp"}
+                  </span>
+                  <a
+                    href="https://wa.me/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-['Poppins'] font-semibold text-[#075BCC] hover:underline inline-flex items-center gap-1"
+                  >
+                    Abrir WhatsApp →
+                  </a>
+                </div>
               </div>
             </div>
           </section>
 
-          {/* ============================================================ */}
-          {/* 2. CONVITE PRINCIPAL — consultoria gratuita                   */}
-          {/* ============================================================ */}
-          <section ref={firstInviteRef} className="mt-12 sm:mt-16 scroll-mt-20">
-            <div className="text-center">
-              <span className="inline-block bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-bold text-[11px] sm:text-[12px] uppercase tracking-wider px-3 py-1.5 rounded-full">
-                Consultoria gratuita para quem comprou a lista
-              </span>
+          {/* 2. Convite Principal */}
+          <section className="mt-8 sm:mt-10 text-center">
+            <span className="inline-block bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-extrabold text-[11px] sm:text-[12px] uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-xs">
+              Sua compra liberou um convite especial
+            </span>
 
-              <h2 className="mt-5 font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[30px] leading-[1.18]">
-                A primeira mensagem virou uma venda de{" "}
-                <span className="marker-highlight text-[#092C5D]">R$19.490</span>.
-                <br className="hidden sm:block" /> Vou te mostrar o que aconteceu entre uma coisa e
-                outra.
-              </h2>
+            <h2 className="mt-4 font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[32px] leading-[1.18]">
+              Você comprou uma lista de contatos. Não precisa envelhecer trabalhando nela.
+            </h2>
 
-              <div className="mt-5 space-y-3 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55] text-left max-w-[520px] mx-auto">
-                <p>
-                  Foi um contato da lista. Eu comecei a conversa, qualifiquei o cliente e fechei o
-                  projeto em menos de 24h.
-                </p>
-                <p>
-                  Na consultoria, vou abrir esse caso com você: como entrei em contato, o que
-                  perguntei e como conduzi a conversa até a venda.
-                </p>
-                <p>
-                  Depois, vamos olhar para o seu comercial e entender como você pode começar a
-                  trabalhar os seus contatos.
-                </p>
-              </div>
+            <p className="mt-4 font-['Poppins'] font-semibold text-[#075BCC] text-[17px] sm:text-[19px] leading-[1.4] max-w-[580px] mx-auto">
+              Conheça o caminho para acelerar a prospecção e buscar seus primeiros pedidos de
+              orçamento nas próximas 24h.
+            </p>
+
+            <div className="mt-4 space-y-2.5 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55] max-w-[540px] mx-auto text-left sm:text-center">
+              <p>
+                Na consultoria, vou abrir o caso da minha venda de{" "}
+                <span className="font-['Poppins'] font-bold text-[#092C5D] bg-[#FFE344]/50 px-1 rounded">
+                  R$19.490
+                </span>
+                , que começou com uma primeira mensagem e foi fechada em menos de um dia.
+              </p>
+              <p>
+                E mostrar como você pode organizar o trabalho com a sua lista para avançar com mais
+                agilidade.
+              </p>
             </div>
 
-            {/* Orçamento + conversa (documentos originais, sem a notificação de Pix como prova) */}
+            <div ref={heroCtaRef} className="mt-6 flex flex-col items-center">
+              <div className="inline-block mb-2 font-['Poppins'] font-extrabold text-[12px] sm:text-[13px] text-[#092C5D] bg-[#FFE344] px-3 py-1 rounded-full uppercase tracking-wider">
+                100% Gratuita
+              </div>
+              <SalesButton text="QUERO AGENDAR MINHA CONSULTORIA" href="#agendar" size="large" />
+            </div>
+          </section>
+
+          {/* 3. Charge do arqueólogo e do vendedor fossilizado */}
+          <section className="mt-10 sm:mt-12">
+            <div className="relative rounded-2xl overflow-hidden border border-[#D7E1EE] bg-white shadow-md">
+              <img
+                src={IMAGES.chargeFossil}
+                alt="Charge de humor: arqueólogo encontra um vendedor fossilizado na mesa com a lista telefônica e pergunta: 'Você ainda tá nessa lista?'. O esqueleto responde pelo celular: 'Calma. Só faltam 499.'"
+                className="w-full h-auto block cursor-pointer transition-transform duration-200 hover:scale-[1.01]"
+                loading="eager"
+                onClick={() => setChargeModalOpen(true)}
+              />
+              <button
+                type="button"
+                onClick={() => setChargeModalOpen(true)}
+                className="absolute bottom-3 right-3 bg-[#092C5D]/85 hover:bg-[#092C5D] text-white text-[12px] font-['Poppins'] font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm backdrop-blur-xs transition-colors"
+                aria-label="Ampliar charge"
+              >
+                <Maximize2 className="w-3.5 h-3.5" />
+                Toque para ampliar
+              </button>
+            </div>
+          </section>
+
+          {/* 4. A gente exagerou no tempo. No trabalho, nem tanto. */}
+          <section className="mt-10 sm:mt-14 bg-white rounded-2xl border border-[#D7E1EE] p-5 sm:p-7 shadow-sm">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] leading-[1.2]">
+              A gente exagerou no tempo. No trabalho, nem tanto.
+            </h2>
+
+            <div className="mt-5 space-y-2 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.6]">
+              <p className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#075BCC] shrink-0" />
+                Você abre um contato.
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#075BCC] shrink-0" />
+                Inicia a conversa.
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#075BCC] shrink-0" />
+                Vai para o próximo.
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FFE344] border border-[#092C5D]/30 shrink-0" />
+                Alguém responde. Você para para atender.
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FFE344] border border-[#092C5D]/30 shrink-0" />
+                Outro pede mais informações. Você precisa entender o que ele procura.
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FFE344] border border-[#092C5D]/30 shrink-0" />
+                Um terceiro manda a conta de luz.
+              </p>
+              <p className="flex items-center gap-2 font-['Poppins'] font-semibold text-[#092C5D]">
+                <span className="w-2 h-2 rounded-full bg-[#092C5D] shrink-0" />E aquele que pediu
+                para chamar depois… ficou onde mesmo?
+              </p>
+            </div>
+
+            <div className="mt-6 pt-5 border-t border-[#D7E1EE] space-y-3 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55]">
+              <p>Agora coloca isso no meio das visitas, propostas e clientes que você já atende.</p>
+              <p className="font-['Poppins'] font-semibold text-[#092C5D]">
+                O desafio passa a ser dar andamento às conversas sem transformar seu dia em uma
+                maratona de tarefas repetidas.
+              </p>
+            </div>
+          </section>
+
+          {/* 5. Se você fizer tudo um por um */}
+          <section className="mt-8 sm:mt-10 bg-white rounded-2xl border border-[#D7E1EE] p-5 sm:p-7 shadow-sm">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[21px] sm:text-[25px] leading-[1.2]">
+              Se você fizer tudo um por um, sua agenda vai sentir.
+            </h2>
+
+            <div className="mt-4 space-y-3.5 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55]">
+              <p>
+                Além de iniciar os contatos, você precisa acompanhar quem respondeu, entender quem
+                tem interesse e reunir as informações necessárias para avançar.
+              </p>
+              <p className="italic text-[#53677D]">Tudo isso faz parte da venda.</p>
+              <p className="font-['Poppins'] font-semibold text-[#092C5D]">
+                Mas quanto tempo do seu dia vai para conversar com o cliente — e quanto vai para
+                procurar anotações, conferir mensagens e lembrar quem ficou esperando?
+              </p>
+              <p className="text-[#075BCC] font-['Poppins'] font-bold text-[17px]">
+                É nesse ponto que eu quero te ajudar a enxergar um caminho mais ágil.
+              </p>
+            </div>
+
+            <div className="mt-5 p-4 rounded-xl bg-[#F2F7FD] border border-[#D7E1EE] text-center">
+              <p className="font-['Poppins'] font-bold text-[#092C5D] text-[16px] sm:text-[17px]">
+                Você já garantiu os contatos. Vamos olhar para como trabalhar essa lista.
+              </p>
+            </div>
+          </section>
+
+          {/* 6. Caso dos R$19.490 com orçamento e conversa reais */}
+          <section className="mt-10 sm:mt-14">
+            <div className="text-center">
+              <span className="inline-block bg-[#092C5D] text-[#FFE344] font-['Poppins'] font-bold text-[11px] sm:text-[12px] uppercase tracking-wider px-3.5 py-1.5 rounded-full">
+                Caso real dos bastidores
+              </span>
+              <h2 className="mt-4 font-['Poppins'] font-bold text-[#092C5D] text-[23px] sm:text-[28px] leading-[1.2]">
+                Uma primeira mensagem. Uma conversa. <br className="hidden sm:block" />
+                Um projeto de <span className="marker-highlight text-[#092C5D]">R$19.490</span>.
+              </h2>
+            </div>
+
+            <div className="mt-5 space-y-3 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55] max-w-[560px] mx-auto">
+              <p>Esse cliente veio da lista.</p>
+              <p>
+                Eu iniciei o contato, qualifiquei o atendimento e conduzi a conversa até a venda.
+              </p>
+              <p className="font-['Poppins'] font-semibold text-[#092C5D]">
+                Entre a primeira mensagem e o fechamento, passaram menos de 24h.
+              </p>
+              <p>Na consultoria, vou abrir esse caso para você entender como a conversa avançou:</p>
+              <ul className="space-y-1.5 pl-4 border-l-2 border-[#075BCC]">
+                <li>• O que aconteceu depois da primeira resposta.</li>
+                <li>• Como o atendimento evoluiu.</li>
+                <li>• E o caminho até a proposta.</li>
+              </ul>
+              <p className="font-['Poppins'] font-bold text-[#075BCC] pt-1">
+                O valor chama atenção. Mas é o processo que a gente vai olhar junto.
+              </p>
+            </div>
+
             <div className="mt-6 rounded-2xl border border-[#D7E1EE] bg-white p-3 sm:p-4 shadow-sm">
               <img
                 src={IMAGES.provaOrcamentoWhatsapp}
@@ -271,292 +350,238 @@ function ThankYouPage() {
                 Orçamento e conversa reais do caso. Dados sensíveis ocultos.
               </p>
             </div>
-
-            <div className="mt-6 text-center">
-              <SalesButton text="QUERO AGENDAR MINHA CONSULTORIA" href="#agendar" size="large" />
-              <p className="mt-3 text-[13px] text-[#53677D]">
-                Gratuita e sem obrigação de contratar outro serviço.
-              </p>
-            </div>
           </section>
 
-          {/* ============================================================ */}
-          {/* 3. TIRINHA — do contato à proposta                            */}
-          {/* ============================================================ */}
+          {/* 7. O que você vai descobrir nessa conversa */}
           <section className="mt-12 sm:mt-16">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] leading-[1.2] text-center">
-              O contato é o começo da conversa.
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[23px] sm:text-[28px] leading-[1.2] text-center">
+              O que você vai descobrir nessa conversa
             </h2>
-            <div className="mt-6">
-              <ComicStrip />
-            </div>
-            <p className="mt-5 text-center text-[15px] sm:text-[16px] text-[#17324F] leading-[1.5] max-w-[440px] mx-auto">
-              Na consultoria, eu vou te mostrar essas etapas no caso dos{" "}
-              <span className="font-['Poppins'] font-bold text-[#092C5D]">R$19.490</span>.
-            </p>
-          </section>
-
-          {/* ============================================================ */}
-          {/* 4. O QUE A PESSOA LEVA — aplicação no seu comercial           */}
-          {/* ============================================================ */}
-          <section className="mt-12 sm:mt-16">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] leading-[1.2] text-center">
-              Vamos olhar para a sua operação também.
-            </h2>
-            <p className="mt-3 text-[16px] text-[#17324F] leading-[1.55] text-center max-w-[480px] mx-auto">
-              A ideia é você sair da conversa entendendo por onde começar e o que precisa organizar
-              para trabalhar sua lista.
-            </p>
 
             <div className="mt-7 space-y-4">
               {[
                 {
-                  icon: MessageSquare,
-                  title: "Sua primeira abordagem",
-                  text: "Vamos conversar sobre como apresentar sua oferta e começar o contato com quem ainda não conhece sua empresa.",
-                  img: bumpImages[0]?.image,
+                  icon: Clock,
+                  title: "Como começar sem passar o dia no primeiro punhado de contatos",
+                  desc: "Vamos olhar para o trabalho necessário para colocar sua lista em movimento e como ganhar agilidade nessa execução.",
                 },
                 {
                   icon: Filter,
-                  title: "Seu filtro de qualificação",
-                  text: "O que perguntar para entender o cenário do cliente e decidir qual deve ser o próximo passo.",
-                  img: bumpImages[1]?.image,
+                  title: "Como identificar quem pode avançar para um orçamento",
+                  desc: "Você vai entender como conduzir a qualificação e separar as conversas que precisam de mais informações daquelas que já podem seguir para uma proposta.",
                 },
                 {
-                  icon: ClipboardList,
-                  title: "Sua rotina de atendimento",
-                  text: "Quem chama, quem acompanha os retornos e como organizar as oportunidades para as conversas não ficarem esquecidas.",
-                  img: bumpImages[2]?.image,
+                  icon: MessageSquare,
+                  title: "Como acompanhar os retornos sem depender da memória",
+                  desc: "Porque “depois eu lembro de chamar” costuma disputar espaço com visita, instalação, orçamento e mais umas vinte coisas. Vamos conversar sobre como dar continuidade ao atendimento.",
                 },
-              ].map((card) => {
-                const Icon = card.icon;
+                {
+                  icon: FileText,
+                  title: "Como organizar suas primeiras 24h de prospecção",
+                  desc: "Vamos considerar sua estrutura, quem vai atender e o que precisa estar preparado para começar a buscar os primeiros pedidos de orçamento.",
+                },
+              ].map((item) => {
+                const Icon = item.icon;
                 return (
                   <div
-                    key={card.title}
-                    className="bg-white rounded-xl border border-[#D7E1EE] p-4 sm:p-5 flex gap-4"
+                    key={item.title}
+                    className="bg-white rounded-xl border border-[#D7E1EE] p-4 sm:p-5 flex gap-4 shadow-xs"
                   >
-                    {card.img && (
-                      <img
-                        src={card.img}
-                        alt=""
-                        aria-hidden="true"
-                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover border border-[#D7E1EE] shrink-0"
-                        loading="lazy"
-                      />
-                    )}
+                    <span className="w-10 h-10 rounded-lg bg-[#F2F7FD] flex items-center justify-center shrink-0 mt-0.5">
+                      <Icon className="w-5 h-5 text-[#075BCC]" strokeWidth={2.3} />
+                    </span>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="w-7 h-7 rounded-md bg-[#F2F7FD] flex items-center justify-center shrink-0">
-                          <Icon className="w-4 h-4 text-[#075BCC]" strokeWidth={2.5} />
-                        </span>
-                        <h3 className="font-['Poppins'] font-bold text-[#092C5D] text-[16px] sm:text-[17px] leading-tight">
-                          {card.title}
-                        </h3>
-                      </div>
-                      <p className="mt-2 text-[14px] sm:text-[15px] text-[#17324F] leading-[1.5]">
-                        {card.text}
+                      <h3 className="font-['Poppins'] font-bold text-[#092C5D] text-[16px] sm:text-[18px] leading-snug">
+                        {item.title}
+                      </h3>
+                      <p className="mt-1.5 text-[14px] sm:text-[15px] text-[#17324F] leading-[1.5]">
+                        {item.desc}
                       </p>
                     </div>
                   </div>
                 );
               })}
             </div>
-            <p className="mt-4 text-center text-[12px] text-[#53677D]">
-              As imagens ilustram os temas da consultoria.
-            </p>
+
+            <div className="mt-8 text-center">
+              <div className="inline-block mb-2 font-['Poppins'] font-extrabold text-[12px] sm:text-[13px] text-[#092C5D] bg-[#FFE344] px-3 py-1 rounded-full uppercase tracking-wider">
+                100% Gratuita
+              </div>
+              <div>
+                <SalesButton text="QUERO MINHA CONSULTORIA GRATUITA" href="#agendar" size="large" />
+              </div>
+            </div>
           </section>
 
-          {/* ============================================================ */}
-          {/* 5. PONTE PARA O SISTEMA COMERCIAL                             */}
-          {/* ============================================================ */}
-          <section className="mt-12 sm:mt-16">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] leading-[1.2] text-center">
-              E quando começar a chegar resposta?
+          {/* 8. A ideia é você terminar o dia sabendo o que avançou */}
+          <section className="mt-12 sm:mt-16 bg-white rounded-2xl border border-[#D7E1EE] p-5 sm:p-7 shadow-sm">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] leading-[1.2]">
+              A ideia é você terminar o dia sabendo o que avançou.
             </h2>
-            <div className="mt-4 space-y-3 text-[16px] text-[#17324F] leading-[1.55] text-left max-w-[520px] mx-auto">
+
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {[
+                "Quem respondeu.",
+                "Quem demonstrou interesse.",
+                "Quem precisa enviar mais informações.",
+                "Quem já pode receber uma proposta.",
+                "E quem precisa de um novo contato.",
+              ].map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-2.5 p-3 rounded-lg bg-[#F2F7FD] border border-[#D7E1EE]"
+                >
+                  <span className="w-5 h-5 rounded-full bg-[#075BCC] text-white text-[11px] font-bold flex items-center justify-center shrink-0">
+                    ✓
+                  </span>
+                  <span className="font-['Poppins'] font-semibold text-[#092C5D] text-[14px] sm:text-[15px]">
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 pt-5 border-t border-[#D7E1EE] space-y-3 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55]">
               <p>
-                Você vai precisar acompanhar quem respondeu, quem pediu orçamento e quem ficou de
-                retornar.
+                Imagine abrir seu atendimento e saber onde colocar sua atenção, sem precisar reler
+                todas as conversas desde o começo.
+              </p>
+              <p className="font-['Poppins'] font-bold text-[#075BCC]">
+                É essa clareza, junto com a agilidade na execução, que vamos buscar para a sua
+                operação.
+              </p>
+            </div>
+          </section>
+
+          {/* 9. “Mas hoje sou eu que faço tudo.” */}
+          <section className="mt-8 sm:mt-10 bg-white rounded-2xl border border-[#D7E1EE] p-5 sm:p-7 shadow-sm">
+            <span className="text-[#075BCC] font-['Poppins'] font-bold text-[13px] uppercase tracking-wider">
+              Para quem vende sozinho ou com equipe
+            </span>
+            <h2 className="mt-1 font-['Poppins'] font-bold text-[#092C5D] text-[21px] sm:text-[25px] leading-[1.2]">
+              “Mas hoje sou eu que faço tudo.”
+            </h2>
+
+            <div className="mt-4 space-y-3.5 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55]">
+              <p>Então precisamos considerar isso desde o começo.</p>
+              <p>
+                Sua rotina precisa caber entre os atendimentos, as visitas e as propostas que você
+                já tem para fazer.
               </p>
               <p>
-                Também vou te mostrar como a gente organiza essa operação: contatos novos,
-                mensagens, acompanhamento e oportunidades no mesmo lugar.
+                Se você trabalha sozinho, vamos olhar para como começar dentro dessa realidade. Se
+                tem vendedores, vamos entender como o trabalho é dividido e onde as conversas acabam
+                parando.
               </p>
               <p className="font-['Poppins'] font-semibold text-[#092C5D]">
-                Se fizer sentido para sua empresa, no final podemos conversar sobre a implantação
-                desse processo com você.
+                O objetivo é encontrar um próximo passo que faça sentido para o seu comercial.
               </p>
+              <div className="p-3.5 rounded-xl bg-[#FFE344]/25 border border-[#FFE344] text-[#092C5D] font-['Poppins'] font-medium text-[15px]">
+                Não precisa chegar à reunião com tudo organizado. Pode trazer justamente o que está
+                dando trabalho hoje.
+              </div>
             </div>
-
-            {/* Composição da operação conectada — 4 painéis ilustrativos */}
-            <div className="mt-7 grid grid-cols-2 gap-3">
-              {[
-                { icon: List, label: "Lista de contatos" },
-                { icon: MessageCircle, label: "Conversa no WhatsApp" },
-                { icon: LayoutGrid, label: "Quadro de oportunidades" },
-                { icon: Monitor, label: "Página de captação" },
-              ].map((p) => {
-                const Icon = p.icon;
-                return (
-                  <div
-                    key={p.label}
-                    className="bg-white rounded-xl border border-[#D7E1EE] p-4 flex flex-col items-center text-center gap-2"
-                  >
-                    <span className="w-9 h-9 rounded-lg bg-[#F2F7FD] flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-[#075BCC]" strokeWidth={2.2} />
-                    </span>
-                    <span className="font-['Poppins'] font-semibold text-[#092C5D] text-[13px] sm:text-[14px] leading-tight">
-                      {p.label}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-            <p className="mt-3 text-center text-[12px] text-[#53677D]">
-              Uma visão de como organizar o caminho do contato até a proposta. Conteúdo ilustrativo.
-            </p>
           </section>
 
-          {/* ============================================================ */}
-          {/* 6. AGENDAMENTO — conversão principal                          */}
-          {/* ============================================================ */}
-          <section ref={calendarRef} id="agendar" className="mt-12 sm:mt-16 scroll-mt-20">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[28px] leading-[1.2] text-center">
-              Vamos olhar para o seu comercial?
+          {/* 10. Por que esse convite aparece agora? */}
+          <section className="mt-8 sm:mt-10 bg-white rounded-2xl border border-[#D7E1EE] p-5 sm:p-7 shadow-sm text-left">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[21px] sm:text-[25px] leading-[1.2]">
+              Por que esse convite aparece agora?
             </h2>
-            <p className="mt-3 text-[16px] text-[#17324F] leading-[1.55] text-center max-w-[480px] mx-auto">
-              Escolha um horário para conhecer o caso dos R$19.490 e conversar sobre como trabalhar
-              sua lista.
-            </p>
 
-            {/* Área do calendário — placeholder marcado para conectar a integração */}
-            <div className="mt-6 rounded-2xl border-2 border-dashed border-[#D7E1EE] bg-white p-6 sm:p-8 text-center">
-              <span className="w-12 h-12 rounded-full bg-[#F2F7FD] flex items-center justify-center mx-auto">
-                <CalendarIcon className="w-6 h-6 text-[#075BCC]" strokeWidth={2} />
-              </span>
-              <p className="mt-3 font-['Poppins'] font-semibold text-[#092C5D] text-[16px]">
-                Calendário de agendamento
+            <div className="mt-4 space-y-3.5 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55]">
+              <p>Porque você acabou de garantir sua lista.</p>
+              <p>
+                Esse é um bom momento para decidir como vai trabalhar os contatos, acompanhar as
+                respostas e conduzir as oportunidades.
               </p>
-              <p className="mt-1.5 text-[14px] text-[#53677D] leading-[1.5] max-w-[360px] mx-auto">
-                O seletor de horários aparece aqui para você escolher um dia e uma hora para a
-                consultoria.
+              <p>
+                Antes de mergulhar na execução, você pode conhecer meu caso, esclarecer suas dúvidas
+                e enxergar como acelerar esse caminho.
+              </p>
+              <p className="font-['Poppins'] font-bold text-[#075BCC]">
+                A lista já está encaminhada. A consultoria é o convite para pensar no que vem
+                depois.
+              </p>
+            </div>
+          </section>
+
+          {/* 11. Calendário e Agendamento */}
+          <section ref={calendarRef} id="agendar" className="mt-12 sm:mt-16 scroll-mt-20">
+            <BookingSection buyerPhone={buyerPhone} />
+          </section>
+
+          {/* 12. FAQ */}
+          <ObrigadoFaq />
+
+          {/* 13. Fechamento e CTA final */}
+          <section className="mt-12 sm:mt-16 bg-white rounded-2xl border border-[#D7E1EE] p-6 sm:p-8 text-center shadow-sm">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] leading-[1.2]">
+              Seu próximo passo pode ser escolher um horário.
+            </h2>
+
+            <div className="mt-4 space-y-1.5 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.5] max-w-[460px] mx-auto">
+              <p>Você traz suas dúvidas.</p>
+              <p>
+                Eu abro o caso da venda e mostro o caminho para acelerar o trabalho com a lista.
+              </p>
+              <p className="font-['Poppins'] font-bold text-[#092C5D] pt-1">
+                A parte de virar fóssil pode ficar só na tirinha.
               </p>
             </div>
 
-            {/* Perguntas curtas de preparação — opcionais */}
-            <div className="mt-6 space-y-5">
-              <div>
-                <p className="font-['Poppins'] font-semibold text-[#092C5D] text-[16px]">
-                  Hoje, quem cuida das vendas?
-                </p>
-                <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {WHO_SELLS_OPTIONS.map((opt) => {
-                    const checked = whoSells === opt;
-                    return (
-                      <label
-                        key={opt}
-                        className={`flex items-center gap-2.5 rounded-lg border px-3.5 py-3 min-h-[52px] cursor-pointer transition-colors ${
-                          checked
-                            ? "border-[#075BCC] bg-[#F2F7FD]"
-                            : "border-[#D7E1EE] bg-white hover:border-[#075BCC]/50"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="whoSells"
-                          value={opt}
-                          checked={checked}
-                          onChange={() => setWhoSells(opt)}
-                          className="accent-[#075BCC] w-4 h-4 shrink-0"
-                        />
-                        <span className="text-[15px] text-[#17324F]">{opt}</span>
-                      </label>
-                    );
-                  })}
-                </div>
+            <div className="mt-6 flex flex-col items-center">
+              <div className="inline-block mb-2 font-['Poppins'] font-extrabold text-[12px] sm:text-[13px] text-[#092C5D] bg-[#FFE344] px-3 py-1 rounded-full uppercase tracking-wider">
+                100% Gratuita
               </div>
-
-              <div>
-                <p className="font-['Poppins'] font-semibold text-[#092C5D] text-[16px]">
-                  O que você mais quer resolver nessa conversa?
-                </p>
-                <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {WHAT_RESOLVE_OPTIONS.map((opt) => {
-                    const checked = whatResolve === opt;
-                    return (
-                      <label
-                        key={opt}
-                        className={`flex items-center gap-2.5 rounded-lg border px-3.5 py-3 min-h-[52px] cursor-pointer transition-colors ${
-                          checked
-                            ? "border-[#075BCC] bg-[#F2F7FD]"
-                            : "border-[#D7E1EE] bg-white hover:border-[#075BCC]/50"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="whatResolve"
-                          value={opt}
-                          checked={checked}
-                          onChange={() => setWhatResolve(opt)}
-                          className="accent-[#075BCC] w-4 h-4 shrink-0"
-                        />
-                        <span className="text-[15px] text-[#17324F]">{opt}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </div>
+              <SalesButton text="QUERO AGENDAR MINHA CONSULTORIA" href="#agendar" size="large" />
             </div>
-
-            {confirmState === "pending" ? (
-              <div className="mt-6 rounded-xl border border-[#D7E1EE] bg-white p-5 text-center">
-                <p className="font-['Poppins'] font-semibold text-[#092C5D] text-[16px]">
-                  O calendário está sendo configurado
-                </p>
-                <p className="mt-2 text-[14px] text-[#53677D] leading-[1.5]">
-                  Assim que o seletor de horários estiver disponível, você escolhe o melhor dia e
-                  hora por aqui. Sua lista será entregue normalmente pelo WhatsApp, mesmo sem o
-                  agendamento.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setConfirmState("idle")}
-                  className="mt-4 text-[14px] font-['Poppins'] font-semibold text-[#075BCC] underline"
-                >
-                  Voltar
-                </button>
-              </div>
-            ) : (
-              <div className="mt-6">
-                <SalesButton
-                  text="CONFIRMAR MINHA CONSULTORIA GRATUITA"
-                  onClick={() => setConfirmState("pending")}
-                  size="large"
-                />
-                <p className="mt-3 text-center text-[13px] text-[#53677D]">
-                  Sua lista será entregue normalmente pelo WhatsApp, mesmo se você não agendar.
-                </p>
-              </div>
-            )}
           </section>
         </div>
       </main>
 
       {/* Rodapé */}
-      <footer className="bg-[#092C5D] text-white/70 py-5 px-5 text-center text-[12px]">
+      <footer className="bg-[#092C5D] text-white/70 py-6 px-5 text-center text-[12px]">
         © {new Date().getFullYear()} Solar Leads. Entrega digital de contatos públicos organizados e
         enriquecidos para prospecção comercial.
       </footer>
 
-      {/* CTA fixo (mobile) — aparece após o primeiro convite, some com calendário visível */}
+      {/* CTA fixo (mobile) — “AGENDAR CONSULTORIA”, oculto quando o calendário estiver visível */}
       {showFixedCta && (
         <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#D7E1EE] px-5 py-3 shadow-[0_-6px_20px_-8px_rgba(9,44,93,0.2)]">
           <a
             href="#agendar"
             className="btn-sales rounded-[10px] w-full flex items-center justify-center font-['Poppins'] font-bold text-[16px] sm:text-[18px] min-h-[56px] px-4 py-3.5 text-center leading-tight"
           >
-            AGENDAR CONSULTORIA GRATUITA
+            AGENDAR CONSULTORIA
           </a>
+        </div>
+      )}
+
+      {/* Modal para ampliar a charge no celular */}
+      {chargeModalOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4"
+          onClick={() => setChargeModalOpen(false)}
+        >
+          <div
+            className="relative max-w-[900px] w-full bg-white rounded-2xl p-2 sm:p-3 overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setChargeModalOpen(false)}
+              className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-[#092C5D] text-white flex items-center justify-center shadow-md hover:bg-[#075BCC] transition-colors"
+              aria-label="Fechar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <img
+              src={IMAGES.chargeFossil}
+              alt="Charge do arqueólogo e do vendedor fossilizado ampliada"
+              className="w-full h-auto block rounded-xl max-h-[85vh] object-contain mx-auto"
+            />
+          </div>
         </div>
       )}
     </div>

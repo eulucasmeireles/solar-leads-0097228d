@@ -19,4 +19,6 @@ export const IMAGES = {
     "https://vibe.filesafe.space/1794701011824623469/attachments/67506e33-8090-412a-8bfa-c585c37ab361.png",
   provaOrcamentoWhatsapp:
     "https://vibe.filesafe.space/1794701011824623469/attachments/295121d4-5aa3-40ba-a8e1-b18c6b3344cb.png",
+  chargeFossil:
+    "https://vibe.filesafe.space/1794701011824623469/attachments/e3a1db54-840d-4e4c-9326-4306fa5cfd57.png",
 };
