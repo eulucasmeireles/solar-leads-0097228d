@@ -32,14 +32,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const scrollToOffer = (e?: React.MouseEvent) => {
-    if (e) e.preventDefault();
-    const el = document.getElementById("oferta-principal");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="min-h-screen bg-white text-[#17324F] font-['Open_Sans'] selection:bg-[#FFE344] selection:text-[#092C5D]">
       {/* ============================================================ */}
@@ -49,34 +41,34 @@ function Index() {
         aria-label="Informações do produto"
         className="w-full bg-[#092C5D] text-white py-2.5 px-4 text-center border-b border-[#043B81]"
       >
-        <div className="max-w-[960px] mx-auto flex items-center justify-center gap-2 text-xs sm:text-sm font-['Poppins'] font-semibold tracking-wider uppercase">
-          <span>500 CONTATOS ENRIQUECIDOS</span>
+        <div className="max-w-[960px] mx-auto flex items-center justify-center gap-2 text-[11px] sm:text-sm font-['Poppins'] font-semibold tracking-wider uppercase">
+          <span>500 Contatos Enriquecidos</span>
           <span className="text-[#FFE344]">•</span>
-          <span>NA CIDADE QUE VOCÊ ESCOLHER</span>
+          <span>Na cidade que você escolher</span>
         </div>
       </aside>
 
       {/* ============================================================ */}
-      {/* B. CABEÇALHO CENTRALIZADO                                    */}
+      {/* B. CABEÇALHO                                                 */}
       {/* ============================================================ */}
-      <header className="pt-6 pb-5 sm:pt-12 sm:pb-8 md:pt-14 px-5">
+      <header className="px-5 pt-7 pb-6 sm:pt-12 sm:pb-10 md:pt-14">
         <div className="max-w-[860px] mx-auto text-center">
-          <h1 className="font-['Poppins'] font-bold text-[#092C5D] text-[33px] sm:text-[42px] md:text-[52px] leading-[1.14] sm:leading-[1.12] tracking-tight">
+          <h1 className="font-['Poppins'] font-bold text-[#092C5D] text-[32px] sm:text-[44px] md:text-[54px] leading-[1.12] sm:leading-[1.1] tracking-tight">
             <span className="text-[#075BCC]">R$84 mil</span> nos meus primeiros 27 dias vendendo
             energia solar.
           </h1>
 
-          <div className="mt-2.5 sm:mt-4">
-            <span className="font-['Caveat'] text-[30px] sm:text-[38px] md:text-[44px] text-[#092C5D] font-bold marker-highlight leading-none">
+          <div className="mt-3 sm:mt-4">
+            <span className="font-['Caveat'] text-[30px] sm:text-[40px] md:text-[46px] text-[#092C5D] font-bold marker-highlight leading-none">
               Sem gastar com anúncio.
             </span>
           </div>
 
-          <p className="mt-4 sm:mt-5 text-[17px] sm:text-[20px] md:text-[21px] text-[#17324F] max-w-[680px] mx-auto leading-[1.5] sm:leading-[1.45] font-normal">
+          <p className="mt-5 sm:mt-6 text-[17px] sm:text-[20px] md:text-[21px] text-[#17324F] max-w-[640px] mx-auto leading-[1.55]">
             Todos esses clientes vieram de uma lista de contatos enriquecidos.
           </p>
 
-          <p className="mt-2.5 sm:mt-3.5 text-[16px] sm:text-[18px] md:text-[19px] text-[#53677D] max-w-[620px] mx-auto leading-[1.5]">
+          <p className="mt-2.5 sm:mt-3 text-[16px] sm:text-[18px] md:text-[19px] text-[#53677D] max-w-[600px] mx-auto leading-[1.5]">
             Agora você pode receber 500 contatos da cidade onde vende, com nome e WhatsApp
             verificado, por R$97.
           </p>
@@ -84,67 +76,32 @@ function Index() {
       </header>
 
       {/* ============================================================ */}
-      {/* C. PRIMEIRA SEÇÃO EM DUAS COLUNAS                            */}
-      {/* No mobile: Oferta primeiro (para ter CTA cedo), depois dinossauro */}
-      {/* No desktop: Coluna esquerda (dinossauro + conversa), Coluna direita (oferta) */}
+      {/* C. PRIMEIRA SEÇÃO — OFERTA + DINOSSAURO                      */}
+      {/* Mobile-first: oferta primeiro, dinossauro depois            */}
       {/* ============================================================ */}
-      <section className="px-5 pb-10 pt-1 sm:pb-16 sm:pt-2">
+      <section className="px-5 pb-10 sm:pb-16">
         <div className="max-w-[960px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-11 items-start">
-            {/* COLUNA ESQUERDA (no desktop) / SEGUNDA no mobile: Dinossauro e conversa */}
-            <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col items-center lg:items-start text-left">
-              {/* Ilustração adaptada obrigatória */}
-              <div className="w-full max-w-[260px] sm:max-w-[330px] lg:max-w-[370px] mx-auto lg:mx-0">
-                <img
-                  src={IMAGES.dinossauroTrafegoPago}
-                  alt="Dinossauro identificado como Tráfego Pago sob um meteoro com a frase Extinção iminente."
-                  className="w-full h-auto object-contain select-none drop-shadow-sm"
-                  loading="eager"
-                  width="370"
-                  height="240"
-                />
-              </div>
-
-              {/* Texto de conversa sob o dinossauro */}
-              <div className="mt-6 sm:mt-7 space-y-3.5 text-[17px] sm:text-[18px] leading-[1.6] text-[#17324F]">
-                <p className="font-['Poppins'] font-bold text-[#092C5D] text-[18px] sm:text-[19px]">
-                  Me fala: com quem seu comercial vai conversar amanhã?
-                </p>
-                <p>
-                  Se a resposta depende de aparecer uma indicação ou de alguém chamar pelo anúncio,
-                  você conhece essa espera.
-                </p>
-                <p>
-                  Outdoor, rádio, Instagram, Google… você divulga e espera o pedido de orçamento
-                  chegar.
-                </p>
-                <p className="font-semibold text-[#092C5D]">
-                  Com uma lista, você já tem nomes e números pra trabalhar. Pode abrir novas
-                  conversas junto com os canais que usa hoje.
-                </p>
-              </div>
-            </div>
-
-            {/* COLUNA DIREITA (no desktop) / PRIMEIRA no mobile: Apresentação da oferta */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-11 items-start">
+            {/* OFERTA — primeira no mobile, coluna direita no desktop */}
             <div
               id="oferta-principal"
-              className="lg:col-span-7 order-1 lg:order-2 bg-white rounded-xl border border-[#D7E1EE] p-4 sm:p-7 shadow-[0_10px_30px_-10px_rgba(9,44,93,0.12)] scroll-mt-6"
+              className="lg:col-span-7 order-1 lg:order-2 bg-white rounded-xl border border-[#D7E1EE] p-5 sm:p-7 shadow-[0_10px_30px_-10px_rgba(9,44,93,0.12)] scroll-mt-6"
             >
-              {/* Título e campos em HTML */}
+              {/* Título e campos */}
               <div className="border-b border-[#D7E1EE] pb-4 mb-5">
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-bold text-xs uppercase tracking-wider mb-2">
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-bold text-[11px] sm:text-xs uppercase tracking-wider mb-2.5">
                   Entrega direta no WhatsApp
                 </div>
                 <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[28px] md:text-[30px] leading-[1.2]">
                   500 contatos enriquecidos da sua cidade
                 </h2>
-                <p className="mt-1 text-[15px] sm:text-[16px] font-['Poppins'] font-semibold text-[#075BCC]">
+                <p className="mt-1.5 text-[15px] sm:text-[16px] font-['Poppins'] font-semibold text-[#075BCC]">
                   Nome · WhatsApp verificado · Cidade
                 </p>
               </div>
 
-              {/* Imagem 1: Composição para a oferta (Tela de preparação + PDF) */}
-              <div className="w-full rounded-lg overflow-hidden border border-[#D7E1EE]/70 bg-[#F2F7FD]/40 mb-5">
+              {/* Imagem 1: Composição para a oferta */}
+              <div className="w-full rounded-lg overflow-hidden border border-[#D7E1EE] bg-[#F2F7FD]/40 mb-5">
                 <img
                   src={IMAGES.produtoOferta}
                   alt="Montagem ilustrativa da preparação dos contatos no Solar Leads e do PDF com 500 contatos enriquecidos."
@@ -171,10 +128,10 @@ function Index() {
                   Valor único
                 </div>
                 <div className="flex items-baseline justify-center gap-1.5 my-1">
-                  <span className="font-['Poppins'] font-extrabold text-[#092C5D] text-[54px] sm:text-[58px] md:text-[64px] leading-none">
+                  <span className="font-['Poppins'] font-extrabold text-[#092C5D] text-[52px] sm:text-[60px] md:text-[66px] leading-none">
                     R$97
                   </span>
-                  <span className="font-['Poppins'] text-[15px] sm:text-[18px] text-[#53677D] font-medium">
+                  <span className="font-['Poppins'] text-[14px] sm:text-[18px] text-[#53677D] font-medium">
                     pela lista completa
                   </span>
                 </div>
@@ -191,7 +148,7 @@ function Index() {
               />
 
               {/* Badges de segurança e pós-compra */}
-              <div className="mt-4 pt-4 border-t border-[#D7E1EE] flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs sm:text-[13px] text-[#53677D]">
+              <div className="mt-4 pt-4 border-t border-[#D7E1EE] flex flex-col sm:flex-row items-center justify-between gap-2.5 text-[13px] text-[#53677D]">
                 <span className="inline-flex items-center gap-1.5 font-medium">
                   <FileText className="w-4 h-4 text-[#075BCC]" />
                   PDF direto no WhatsApp
@@ -209,6 +166,40 @@ function Index() {
                 Entrega em até 2h após o pagamento confirmado e a cidade informada pelo WhatsApp.
               </p>
             </div>
+
+            {/* DINOSSAURO + CONVERSA — segunda no mobile, coluna esquerda no desktop */}
+            <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col items-center lg:items-start text-center lg:text-left">
+              {/* Ilustração adaptada obrigatória */}
+              <div className="w-full max-w-[260px] sm:max-w-[330px] lg:max-w-[370px] mx-auto lg:mx-0">
+                <img
+                  src={IMAGES.dinossauroTrafegoPago}
+                  alt="Dinossauro identificado como Tráfego Pago sob um meteoro com a frase Extinção iminente."
+                  className="w-full h-auto object-contain select-none drop-shadow-sm"
+                  loading="lazy"
+                  width="370"
+                  height="240"
+                />
+              </div>
+
+              {/* Texto de conversa sob o dinossauro */}
+              <div className="mt-6 sm:mt-7 space-y-3.5 text-[17px] sm:text-[18px] leading-[1.6] text-[#17324F] max-w-[420px] lg:max-w-none">
+                <p className="font-['Poppins'] font-bold text-[#092C5D] text-[18px] sm:text-[20px]">
+                  Me fala: com quem seu comercial vai conversar amanhã?
+                </p>
+                <p>
+                  Se a resposta depende de aparecer uma indicação ou de alguém chamar pelo anúncio,
+                  você conhece essa espera.
+                </p>
+                <p>
+                  Outdoor, rádio, Instagram, Google… você divulga e espera o pedido de orçamento
+                  chegar.
+                </p>
+                <p className="font-semibold text-[#092C5D]">
+                  Com uma lista, você já tem nomes e números pra trabalhar. Pode abrir novas
+                  conversas junto com os canais que usa hoje.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -216,13 +207,13 @@ function Index() {
       {/* ============================================================ */}
       {/* D. CASO REAL (R$19.800)                                      */}
       {/* ============================================================ */}
-      <section className="bg-white border-t border-b border-[#D7E1EE] py-9 sm:py-16 px-5">
+      <section className="bg-white border-t border-b border-[#D7E1EE] py-10 sm:py-16 px-5">
         <div className="max-w-[760px] mx-auto">
-          <div className="text-center mb-6 sm:mb-10">
-            <span className="inline-block px-3 py-1 bg-[#F2F7FD] border border-[#D7E1EE] text-[#075BCC] font-['Poppins'] font-bold text-xs uppercase tracking-wider rounded mb-3">
+          <div className="text-center mb-7 sm:mb-10">
+            <span className="inline-block px-3 py-1 bg-[#F2F7FD] border border-[#D7E1EE] text-[#075BCC] font-['Poppins'] font-bold text-[11px] sm:text-xs uppercase tracking-wider rounded mb-3">
               Caso Real de Prospecção
             </span>
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] md:text-[38px] leading-[1.2]">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] md:text-[38px] leading-[1.2]">
               Esse projeto de <span className="text-[#075BCC]">R$19.800</span> começou com um
               contato da lista.
             </h2>
@@ -252,17 +243,15 @@ function Index() {
               </p>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ============================================================ */}
       {/* E. ENRIQUECIMENTO                                            */}
-      {/* Faixa azul muito clara + 3 cartões alinhados                 */}
       {/* ============================================================ */}
-      <section className="bg-[#F2F7FD] py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-[#F2F7FD] py-10 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[960px] mx-auto">
-          <div className="max-w-[720px] mx-auto text-center mb-6 sm:mb-10">
+          <div className="max-w-[720px] mx-auto text-center mb-7 sm:mb-10">
             <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[25px] sm:text-[32px] md:text-[36px] leading-[1.2]">
               Você já se perguntou de onde o call center consegue seu contato?
             </h2>
@@ -281,7 +270,9 @@ function Index() {
             {/* Cartão 01 */}
             <div className="bg-white rounded-xl border border-[#D7E1EE] overflow-hidden shadow-xs flex flex-col">
               <div className="bg-[#092C5D] text-white px-5 py-3.5 flex items-center justify-between">
-                <span className="font-['Poppins'] font-bold text-[18px]">Dados cruzados</span>
+                <span className="font-['Poppins'] font-bold text-[17px] sm:text-[18px]">
+                  Dados cruzados
+                </span>
                 <span className="font-['Poppins'] font-extrabold text-[#FFE344] text-[22px]">
                   01
                 </span>
@@ -297,7 +288,9 @@ function Index() {
             {/* Cartão 02 */}
             <div className="bg-white rounded-xl border border-[#D7E1EE] overflow-hidden shadow-xs flex flex-col">
               <div className="bg-[#092C5D] text-white px-5 py-3.5 flex items-center justify-between">
-                <span className="font-['Poppins'] font-bold text-[18px]">WhatsApp conferido</span>
+                <span className="font-['Poppins'] font-bold text-[17px] sm:text-[18px]">
+                  WhatsApp conferido
+                </span>
                 <span className="font-['Poppins'] font-extrabold text-[#FFE344] text-[22px]">
                   02
                 </span>
@@ -310,7 +303,9 @@ function Index() {
             {/* Cartão 03 */}
             <div className="bg-white rounded-xl border border-[#D7E1EE] overflow-hidden shadow-xs flex flex-col">
               <div className="bg-[#092C5D] text-white px-5 py-3.5 flex items-center justify-between">
-                <span className="font-['Poppins'] font-bold text-[18px]">Sua cidade</span>
+                <span className="font-['Poppins'] font-bold text-[17px] sm:text-[18px]">
+                  Sua cidade
+                </span>
                 <span className="font-['Poppins'] font-extrabold text-[#FFE344] text-[22px]">
                   03
                 </span>
@@ -334,12 +329,11 @@ function Index() {
 
       {/* ============================================================ */}
       {/* F. PRODUTO E VALOR                                           */}
-      {/* Seção branca com a imagem produto-lista-pdf.png              */}
       {/* ============================================================ */}
-      <section className="bg-white py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-white py-10 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-center max-w-[760px] mx-auto mb-6 sm:mb-10">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] md:text-[38px] leading-[1.2]">
+          <div className="text-center max-w-[760px] mx-auto mb-7 sm:mb-10">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] md:text-[38px] leading-[1.2]">
               Você escolhe a cidade. A gente entrega os 500 contatos.
             </h2>
             <p className="mt-3 text-[17px] sm:text-[18px] text-[#17324F] leading-[1.6]">
@@ -374,22 +368,22 @@ function Index() {
               </p>
 
               <ul className="space-y-2.5 text-[17px] sm:text-[18px] text-[#17324F]">
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5]" />
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5] mt-0.5" />
                   <span>
                     <strong>500 contatos enriquecidos.</strong>
                   </span>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5]" />
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5] mt-0.5" />
                   <span>Nome da pessoa.</span>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5]" />
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5] mt-0.5" />
                   <span>WhatsApp verificado antes da entrega.</span>
                 </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5]" />
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5] mt-0.5" />
                   <span>Cidade de cada contato.</span>
                 </li>
               </ul>
@@ -414,7 +408,7 @@ function Index() {
           </div>
 
           {/* Moldura tracejada azul de 2px com Botão Grande */}
-          <div className="max-w-[760px] mx-auto dashed-offer-frame rounded-2xl p-5 sm:p-8 text-center my-7 sm:my-8 shadow-sm">
+          <div className="max-w-[760px] mx-auto dashed-offer-frame rounded-2xl p-6 sm:p-8 text-center my-7 sm:my-8 shadow-sm">
             <h3 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] mb-2">
               Garanta sua lista completa de 500 contatos
             </h3>
@@ -443,12 +437,11 @@ function Index() {
 
       {/* ============================================================ */}
       {/* G. RECEBIMENTO EM TRÊS PASSOS                                */}
-      {/* Fundo azul muito claro, 3 linhas brancas empilhadas          */}
       {/* ============================================================ */}
-      <section className="bg-[#F2F7FD] py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-[#F2F7FD] py-10 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[820px] mx-auto">
-          <div className="text-center mb-6 sm:mb-10">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] md:text-[38px] leading-[1.2]">
+          <div className="text-center mb-7 sm:mb-10">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] md:text-[38px] leading-[1.2]">
               É só seguir 3 passos.
             </h2>
             <p className="mt-2 text-[16px] sm:text-[18px] text-[#53677D]">
@@ -510,9 +503,8 @@ function Index() {
 
       {/* ============================================================ */}
       {/* H. GARANTIA E FECHAMENTO                                     */}
-      {/* Selo tipográfico 30 dias simples                             */}
       {/* ============================================================ */}
-      <section className="bg-white py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-white py-10 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[760px] mx-auto text-center">
           {/* Selo tipográfico 30 dias */}
           <div className="inline-flex flex-col items-center justify-center border-2 border-[#075BCC] bg-[#F2F7FD] rounded-full w-28 h-28 sm:w-32 sm:h-32 mb-6 p-2 shadow-xs">
@@ -527,7 +519,7 @@ function Index() {
             </span>
           </div>
 
-          <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] leading-[1.2]">
+          <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] leading-[1.2]">
             Sua compra tem 30 dias de garantia.
           </h2>
 
@@ -550,12 +542,11 @@ function Index() {
 
       {/* ============================================================ */}
       {/* I. PERGUNTAS FREQUENTES                                      */}
-      {/* Acordeão em fundo branco + CTA final                         */}
       {/* ============================================================ */}
-      <section className="bg-white py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-white py-10 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[760px] mx-auto">
-          <div className="text-center mb-6 sm:mb-10">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] leading-[1.2]">
+          <div className="text-center mb-7 sm:mb-10">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] leading-[1.2]">
               Perguntas frequentes
             </h2>
             <p className="mt-2 text-[15px] sm:text-[16px] text-[#53677D]">
@@ -574,9 +565,9 @@ function Index() {
       {/* ============================================================ */}
       {/* J. ÚLTIMA CHAMADA                                            */}
       {/* ============================================================ */}
-      <section className="bg-[#092C5D] text-white py-9 sm:py-16 px-5">
+      <section className="bg-[#092C5D] text-white py-10 sm:py-16 px-5">
         <div className="max-w-[760px] mx-auto text-center">
-          <h2 className="font-['Poppins'] font-bold text-white text-[27px] sm:text-[36px] md:text-[40px] leading-[1.15]">
+          <h2 className="font-['Poppins'] font-bold text-white text-[26px] sm:text-[36px] md:text-[40px] leading-[1.15]">
             Com quem seu comercial vai conversar amanhã?
           </h2>
 

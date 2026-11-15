@@ -56,7 +56,7 @@ export function FaqAccordion() {
             <button
               type="button"
               onClick={() => toggle(index)}
-              className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 font-['Poppins'] font-semibold text-[17px] sm:text-[18px] text-[#092C5D] hover:bg-[#F2F7FD]/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#075BCC]"
+              className="w-full px-4 sm:px-5 py-3.5 sm:py-4 text-left flex items-center justify-between gap-3 font-['Poppins'] font-semibold text-[16px] sm:text-[18px] text-[#092C5D] hover:bg-[#F2F7FD]/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#075BCC]"
               aria-expanded={isOpen}
             >
               <span>{faq.question}</span>
@@ -67,7 +67,7 @@ export function FaqAccordion() {
               />
             </button>
             {isOpen && (
-              <div className="px-5 pb-5 pt-1 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.6] border-t border-[#D7E1EE]/50 bg-white">
+              <div className="px-4 sm:px-5 pb-4 pt-1 text-[15px] sm:text-[17px] text-[#17324F] leading-[1.6] border-t border-[#D7E1EE]/50 bg-white">
                 <p>{faq.answer}</p>
               </div>
             )}
