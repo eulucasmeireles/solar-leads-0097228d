@@ -386,20 +386,13 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
                   )}
                 </button>
                 {!selectedSlot && (
-                  <p className="mt-3 text-center text-[14px] text-[#53677D]">
-                    Selecione um dia e um horário acima para continuar.
+                  <p className="mt-2.5 text-center text-[14px] text-[#53677D]">
+                    Escolha um dia e horário acima para continuar.
                   </p>
                 )}
-                {error && <p className="mt-3 text-center text-[14px] text-[#b91c1c]">{error}</p>}
-                <p className="mt-3 text-center text-[13px] text-[#53677D] leading-[1.5]">
-                  Você recebe a confirmação e os detalhes pelo WhatsApp.
-                </p>
-                <p className="mt-1 text-center text-[12px] text-[#53677D]">
-                  Sua lista será entregue normalmente, mesmo se você não agendar.
-                </p>
-                <p className="mt-2 text-center text-[13px] text-[#53677D] leading-[1.5] max-w-[460px] mx-auto">
-                  As 24h são o horizonte do plano de execução. Os resultados dependem da preparação,
-                  do atendimento e das respostas dos contatos.
+                {error && <p className="mt-2.5 text-center text-[14px] text-[#b91c1c]">{error}</p>}
+                <p className="mt-2.5 text-center text-[13px] text-[#53677D] leading-[1.5]">
+                  Confirmação pelo WhatsApp · A lista é entregue mesmo sem agendar.
                 </p>
               </div>
             </>
