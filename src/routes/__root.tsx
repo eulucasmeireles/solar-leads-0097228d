@@ -7,7 +7,8 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { useHydrated } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
 import { reportVibeError } from "../lib/vibe-error-reporting";
@@ -136,11 +137,28 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const hydrated = useHydrated();
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      {hydrated && <ChatWidgetMount />}
     </QueryClientProvider>
   );
+}
+
+function ChatWidgetMount() {
+  // Lazy-load the chat widget only on the client to keep it out of SSR.
+  const [Comp, setComp] = useState<ReactNode>(null);
+  useEffect(() => {
+    let active = true;
+    import("../components/solar/ChatWidget").then((mod) => {
+      if (active) setComp(<mod.ChatWidget />);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+  return <>{Comp}</>;
 }
