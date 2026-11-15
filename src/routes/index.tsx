@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { CHECKOUT_URL, IMAGES } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
 import { FaqAccordion } from "@/components/solar/FaqAccordion";
@@ -34,7 +33,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-
   return (
     <div className="min-h-screen bg-white text-[#17324F] font-['Open_Sans'] selection:bg-[#FFE344] selection:text-[#092C5D]">
       {/* ============================================================ */}
@@ -108,12 +106,7 @@ function Index() {
 
           {/* Botão */}
           <div className="mt-6">
-            <SalesButton
-              text="QUERO MINHA LISTA POR R$97"
-              href={CHECKOUT_URL}
-              onClick={handleCheckoutClick}
-              size="large"
-            />
+            <SalesButton text="QUERO MINHA LISTA POR R$97" href={CHECKOUT_URL} size="large" />
           </div>
 
           {/* Garantia curta */}
@@ -330,12 +323,7 @@ function Index() {
 
           {/* Botão dentro de moldura tracejada */}
           <div className="mt-8 dashed-offer-frame rounded-2xl p-6 sm:p-7 text-center">
-            <SalesButton
-              text="QUERO MINHA LISTA POR R$97"
-              href={CHECKOUT_URL}
-              onClick={handleCheckoutClick}
-              size="large"
-            />
+            <SalesButton text="QUERO MINHA LISTA POR R$97" href={CHECKOUT_URL} size="large" />
           </div>
 
           {/* Uso comercial */}
@@ -435,12 +423,7 @@ function Index() {
           </div>
 
           <div className="mt-8">
-            <SalesButton
-              text="QUERO RECEBER MEUS 500 CONTATOS"
-              href={CHECKOUT_URL}
-              onClick={handleCheckoutClick}
-              size="large"
-            />
+            <SalesButton text="QUERO RECEBER MEUS 500 CONTATOS" href={CHECKOUT_URL} size="large" />
           </div>
         </div>
       </section>
@@ -472,16 +455,6 @@ function Index() {
           </p>
         </div>
       </footer>
-
-      {/* Modal de captura de lead antes do checkout */}
-      <LeadCaptureModal
-        open={leadModalOpen}
-        onClose={() => setLeadModalOpen(false)}
-        onSuccess={() => {
-          setLeadModalOpen(false);
-          window.location.href = CHECKOUT_URL;
-        }}
-      />
     </div>
   );
 }
