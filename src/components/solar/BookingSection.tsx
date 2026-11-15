@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { CheckCircle2, Loader2, User, Phone, Mail } from "lucide-react";
+import { CheckCircle2, Loader2, User, Phone, Mail, Clock, CalendarDays } from "lucide-react";
 import {
   CALENDAR_ID,
   LOCATION_ID,
@@ -315,53 +315,107 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
             </div>
           ) : (
             <>
-              {/* Seleção de dia */}
+              {/* Passo 1 — Escolha o dia */}
               <div>
-                <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[15px] mb-2">
-                  Escolha o dia
-                </label>
-                <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 snap-x">
-                  {calendarDays.map((day) => (
-                    <button
-                      key={day.dateISO}
-                      type="button"
-                      onClick={() => handleSelectDay(day)}
-                      className={`shrink-0 snap-start flex flex-col items-center justify-center w-[60px] py-2.5 rounded-lg border transition-all ${
-                        selectedDay?.dateISO === day.dateISO
-                          ? "bg-[#092C5D] text-white border-[#092C5D]"
-                          : "bg-[#F2F7FD] text-[#092C5D] border-[#D7E1EE] hover:border-[#075BCC]"
-                      }`}
-                    >
-                      <span className="text-[11px] font-medium opacity-80">{day.label}</span>
-                      <span className="text-[18px] font-['Poppins'] font-bold leading-tight">
-                        {day.dayNum}
-                      </span>
-                    </button>
-                  ))}
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="w-6 h-6 rounded-full bg-[#092C5D] text-white text-[12px] font-['Poppins'] font-bold flex items-center justify-center">
+                    1
+                  </span>
+                  <label className="font-['Poppins'] font-semibold text-[#092C5D] text-[15px]">
+                    Escolha o dia
+                  </label>
+                </div>
+                <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-1 px-1 snap-x scroll-smooth">
+                  {calendarDays.map((day) => {
+                    const dateObj = new Date(day.dateISO + "T00:00:00");
+                    const monthShort = (MONTHS_PT[dateObj.getMonth()] ?? "").slice(0, 3);
+                    const isSelected = selectedDay?.dateISO === day.dateISO;
+                    return (
+                      <button
+                        key={day.dateISO}
+                        type="button"
+                        onClick={() => handleSelectDay(day)}
+                        className={`shrink-0 snap-start w-[68px] rounded-xl border-2 transition-all duration-150 overflow-hidden ${
+                          isSelected
+                            ? "bg-[#092C5D] text-white border-[#092C5D] shadow-md scale-[1.04]"
+                            : "bg-white text-[#092C5D] border-[#D7E1EE] hover:border-[#075BCC] hover:-translate-y-0.5"
+                        }`}
+                      >
+                        {isSelected && <div className="h-1 bg-[#FFE344]" />}
+                        <div className="flex flex-col items-center justify-center py-2.5">
+                          <span
+                            className={`text-[11px] font-medium uppercase tracking-wide ${
+                              isSelected ? "text-white/70" : "text-[#53677D]"
+                            }`}
+                          >
+                            {day.label}
+                          </span>
+                          <span className="text-[22px] font-['Poppins'] font-bold leading-tight mt-0.5">
+                            {day.dayNum}
+                          </span>
+                          <span
+                            className={`text-[10px] font-medium ${
+                              isSelected ? "text-white/60" : "text-[#53677D]"
+                            }`}
+                          >
+                            {monthShort}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Seleção de horário */}
+              {/* Passo 2 — Escolha o horário */}
               {selectedDay && (
-                <div className="transition-all duration-150">
-                  <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[15px] mb-2">
-                    Escolha o horário
-                  </label>
-                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                    {selectedDay.slots.map((slot) => (
-                      <button
-                        key={slot}
-                        type="button"
-                        onClick={() => handleSelectSlot(slot)}
-                        className={`py-2.5 px-2 rounded-lg text-[15px] font-['Poppins'] font-medium border transition-all ${
-                          selectedSlot === slot
-                            ? "bg-[#075BCC] text-white border-[#075BCC] font-bold"
-                            : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
-                        }`}
-                      >
-                        {formatSlotTime(slot)}
-                      </button>
-                    ))}
+                <div className="transition-all duration-200">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span
+                      className={`w-6 h-6 rounded-full text-[12px] font-['Poppins'] font-bold flex items-center justify-center transition-colors ${
+                        selectedSlot ? "bg-[#075BCC] text-white" : "bg-[#092C5D] text-white"
+                      }`}
+                    >
+                      2
+                    </span>
+                    <label className="font-['Poppins'] font-semibold text-[#092C5D] text-[15px]">
+                      Escolha o horário
+                    </label>
+                  </div>
+
+                  {/* Resumo do dia selecionado */}
+                  <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#F2F7FD] border border-[#D7E1EE] px-3.5 py-1.5">
+                    <CalendarDays className="w-4 h-4 text-[#075BCC]" strokeWidth={2.2} />
+                    <span className="text-[13px] font-['Poppins'] font-semibold text-[#092C5D]">
+                      {(() => {
+                        const { weekday, date } = formatFullDate(selectedDay.slots[0] ?? "");
+                        return `${weekday}, ${date}`;
+                      })()}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {selectedDay.slots.map((slot) => {
+                      const isSelected = selectedSlot === slot;
+                      return (
+                        <button
+                          key={slot}
+                          type="button"
+                          onClick={() => handleSelectSlot(slot)}
+                          className={`inline-flex items-center gap-1.5 py-2.5 px-4 rounded-full text-[15px] font-['Poppins'] font-semibold border-2 transition-all duration-150 ${
+                            isSelected
+                              ? "bg-[#075BCC] text-white border-[#075BCC] shadow-md scale-[1.04]"
+                              : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC] hover:-translate-y-0.5"
+                          }`}
+                        >
+                          <Clock
+                            className={`w-4 h-4 ${isSelected ? "text-[#FFE344]" : "text-[#075BCC]"}`}
+                            strokeWidth={2.2}
+                          />
+                          {formatSlotTime(slot)}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
