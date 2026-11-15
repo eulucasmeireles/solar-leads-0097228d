@@ -111,27 +111,10 @@ function ThankYouPage() {
         </div>
       </header>
 
-      <main className="px-5 pt-5 pb-28 sm:pb-32">
+      <main className="px-5 pt-8 pb-28 sm:pb-32">
         <div className="max-w-[720px] mx-auto">
-          {/* A. Confirmação compacta */}
-          <section className="text-center">
-            <p className="font-['Poppins'] font-bold text-[#092C5D] text-[17px] sm:text-[18px] leading-snug">
-              Compra confirmada. Agora é pelo WhatsApp.
-            </p>
-            <p className="mt-2 text-[15px] sm:text-[16px] text-[#53677D] leading-[1.5] max-w-[520px] mx-auto">
-              Vamos confirmar sua cidade e enviar a lista na mesma conversa. A entrega acontece em
-              até 2h após a confirmação do pagamento e da cidade.
-            </p>
-            <a
-              href="#agendar"
-              className="inline-block mt-2 text-[14px] font-['Poppins'] font-semibold text-[#075BCC] hover:text-[#092C5D] underline underline-offset-2 transition-colors"
-            >
-              Acompanhar meu pedido
-            </a>
-          </section>
-
           {/* B. Convite + headline + charge */}
-          <section className="mt-10 sm:mt-12 text-center">
+          <section className="text-center">
             <span className="inline-block bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-bold text-[11px] sm:text-[12px] uppercase tracking-wider px-3.5 py-1.5 rounded-full">
               Convite liberado com sua compra
             </span>
