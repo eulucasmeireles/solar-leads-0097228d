@@ -396,9 +396,7 @@ export function ReviewScreen({
               <p>
                 * <strong>Condições de reembolso e termos de uso:</strong> O estorno integral de
                 R$97 é garantido em até 30 dias após a compra, desde que a lista de contatos
-                enriquecidos ainda não tenha sido gerada e enviada para a cidade escolhida. Uma vez
-                processada a extração e entregue o arquivo em PDF com os dados enriquecidos, o
-                serviço é considerado prestado e a garantia de cancelamento perde a validade.
+                enriquecidos ainda não tenha sido gerada e enviada para a cidade escolhida.
               </p>
             </div>
 
