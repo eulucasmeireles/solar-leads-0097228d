@@ -47,7 +47,7 @@ function Index() {
         <div className="max-w-[860px] mx-auto text-center">
           <h1 className="font-['Poppins'] font-bold text-[#092C5D] text-[30px] sm:text-[44px] md:text-[54px] leading-[1.12] sm:leading-[1.1] tracking-tight">
             <span className="text-[#075BCC]">R$84 mil</span> nos meus primeiros 27 dias vendendo
-            energia solar.
+            usinas de energia solar.
           </h1>
 
           <div className="mt-4 sm:mt-5">
