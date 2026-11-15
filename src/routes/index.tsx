@@ -3,7 +3,7 @@ import { CHECKOUT_URL, IMAGES } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
 import { FaqAccordion } from "@/components/solar/FaqAccordion";
 import { TopBarCarousel } from "@/components/solar/TopBarCarousel";
-import { CheckCircle2, Clock } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -417,8 +417,7 @@ function Index() {
             <SalesButton text="QUERO RECEBER MEUS 500 CONTATOS" href={CHECKOUT_URL} size="large" />
           </div>
 
-          <p className="mt-4 inline-flex items-center justify-center gap-1.5 text-[13px] sm:text-[14px] text-[#53677D]">
-            <Clock className="w-3.5 h-3.5 text-[#075BCC]" />
+          <p className="mt-4 text-center text-[13px] sm:text-[14px] text-[#53677D] leading-[1.5]">
             Até 2h após pagamento confirmado e cidade informada pelo WhatsApp
           </p>
         </div>
