@@ -5,9 +5,9 @@
 export const CHECKOUT_URL = "https://pay.hotmart.com/checkout?prod=solar-leads-500";
 
 export const IMAGES = {
-  // Imagem 1: Composição para a oferta (Tela de preparação + PDF em destaque)
+  // Imagem 1: Composição para a oferta da primeira dobra (Preparação + PDF)
   produtoOferta:
-    "https://vibe.filesafe.space/1794701011824623469/attachments/d3408770-eefa-415f-b317-644160c93acc.png",
+    "https://vibe.filesafe.space/1794701011824623469/attachments/ac79ec52-0a70-4243-8757-7e9a05803e52.png",
   // Imagem 2: Detalhe do PDF (Mockup das folhas do PDF para produto e valor)
   produtoListaPdf:
     "https://vibe.filesafe.space/1794701011824623469/attachments/67c1f6d1-cc17-4abb-8ee7-6d69135b2693.png",

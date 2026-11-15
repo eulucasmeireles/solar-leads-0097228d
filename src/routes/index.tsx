@@ -24,9 +24,9 @@ export const Route = createFileRoute("/")({
           "Receba 500 contatos enriquecidos da sua cidade com nome e WhatsApp verificado em PDF por R$97.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: IMAGES.produtoListaPdf },
+      { property: "og:image", content: IMAGES.produtoOferta },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: IMAGES.produtoListaPdf },
+      { name: "twitter:image", content: IMAGES.produtoOferta },
     ],
   }),
   component: Index,
@@ -77,21 +77,15 @@ function Index() {
             Nome, WhatsApp verificado e cidade.
           </p>
 
-          {/* Imagem do produto — só PDF no mobile, composição no desktop */}
-          <div className="mt-5 w-full rounded-lg overflow-hidden border border-[#D7E1EE] bg-[#F2F7FD]/40">
-            <img
-              src={IMAGES.produtoListaPdf}
-              alt="Mockup do PDF com 500 contatos enriquecidos, organizado por nome, WhatsApp e cidade, com dados ilustrativos."
-              className="w-full h-auto block sm:hidden"
-              loading="eager"
-              width="540"
-              height="360"
-            />
+          {/* Imagem do produto da primeira dobra — otimizada com aspect-ratio e carregamento prioritário */}
+          <div className="mt-5 w-full rounded-lg overflow-hidden border border-[#D7E1EE] bg-[#F2F7FD]/40 aspect-[3/2] flex items-center justify-center">
             <img
               src={IMAGES.produtoOferta}
               alt="Montagem ilustrativa da preparação dos contatos no Solar Leads e do PDF com 500 contatos enriquecidos."
-              className="hidden w-full h-auto block sm:block"
+              className="w-full h-full object-cover object-center"
               loading="eager"
+              fetchPriority="high"
+              decoding="async"
               width="640"
               height="426"
             />

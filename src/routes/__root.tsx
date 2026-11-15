@@ -96,6 +96,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         crossOrigin: "anonymous",
       },
       {
+        rel: "preconnect",
+        href: "https://vibe.filesafe.space",
+      },
+      {
+        rel: "preload",
+        as: "image",
+        href: "https://vibe.filesafe.space/1794701011824623469/attachments/ac79ec52-0a70-4243-8757-7e9a05803e52.png",
+      },
+      {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Open+Sans:wght@400;600;700&family=Poppins:wght@500;600;700;800&display=swap",
       },
