@@ -8,6 +8,7 @@ import { PaymentCheckoutBlock } from "@/integrations/payments";
 import { BASE_PRICE, formatBRL, formatBRLcents } from "@/lib/checkout-config";
 import { ReviewOverlay, StepBadge, WhatsAppIcon } from "@/components/solar/CheckoutOverlay";
 import type { BumpLite, ExtraLite } from "@/components/solar/CheckoutOverlay";
+import { trackLeadCapture } from "@/lib/lead-tracking";
 
 export interface CheckoutScreenProps {
   selectionKey: string;
@@ -162,7 +163,24 @@ export function CheckoutScreen({
               key={selectionKey}
               layout="two-step"
               fields={{ phone: "required", address: "hidden" }}
-              onSuccess={() => navigate({ to: "/obrigado" })}
+              onSuccess={(order) => {
+                // Alimenta o CRM com os dados do comprador (fire-and-forget)
+                const buyer = order.buyer;
+                if (buyer) {
+                  const parts = buyer.name.trim().split(/\s+/);
+                  try {
+                    trackLeadCapture({
+                      firstName: parts[0] ?? buyer.name,
+                      lastName: parts.slice(1).join(" ") || parts[0] || buyer.name,
+                      email: buyer.email,
+                      phone: buyer.phone ?? "",
+                    });
+                  } catch {
+                    /* não bloqueia a navegação */
+                  }
+                }
+                navigate({ to: "/obrigado" });
+              }}
             />
           </div>
 

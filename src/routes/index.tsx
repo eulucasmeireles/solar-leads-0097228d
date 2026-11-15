@@ -4,7 +4,6 @@ import { CHECKOUT_URL, IMAGES } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
 import { FaqAccordion } from "@/components/solar/FaqAccordion";
 import { TopBarCarousel } from "@/components/solar/TopBarCarousel";
-import { LeadCaptureModal } from "@/components/solar/LeadCaptureModal";
 import { CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -35,14 +34,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [leadModalOpen, setLeadModalOpen] = useState(false);
-
-  // Intercepta o clique no CTA de compra: abre o modal de captura em vez de
-  // ir direto ao checkout. Após o envio dos dados ao CRM, segue para o checkout.
-  const handleCheckoutClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setLeadModalOpen(true);
-  };
 
   return (
     <div className="min-h-screen bg-white text-[#17324F] font-['Open_Sans'] selection:bg-[#FFE344] selection:text-[#092C5D]">
