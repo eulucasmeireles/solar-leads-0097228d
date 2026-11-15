@@ -74,12 +74,26 @@ function formatFullDate(isoSlot: string): { weekday: string; date: string } {
 function pickSlots(slots: string[]): string[] {
   const morning: string[] = [];
   const afternoon: string[] = [];
+  const evening: string[] = [];
   for (const slot of slots) {
     const h = new Date(slot).getHours();
     if (h < 12) morning.push(slot);
-    else afternoon.push(slot);
+    else if (h < 18) afternoon.push(slot);
+    else evening.push(slot);
   }
-  return [...morning.slice(0, 2), ...afternoon.slice(0, 2)];
+
+  // Espalha os horários dentro de cada período para não ficarem próximos.
+  const spread = (arr: string[], count: number): string[] => {
+    if (arr.length <= count) return arr;
+    const out: string[] = [];
+    const step = (arr.length - 1) / (count - 1);
+    for (let i = 0; i < count; i++) {
+      out.push(arr[Math.round(i * step)] ?? arr[arr.length - 1]!);
+    }
+    return out;
+  };
+
+  return [...spread(morning, 2), ...spread(afternoon, 2), ...spread(evening, 2)];
 }
 
 function buildCalendarDays(freeSlots: FreeSlotsResponse): DaySlot[] {
@@ -358,7 +372,7 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
                   <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[15px] mb-2">
                     Escolha o horário
                   </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {selectedDay.slots.map((slot) => (
                       <button
                         key={slot}
