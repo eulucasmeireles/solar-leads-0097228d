@@ -1,10 +1,8 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, User, Phone, Mail } from "lucide-react";
 import {
   CALENDAR_ID,
   LOCATION_ID,
-  CF_QUEM_CUIDA,
-  CF_O_QUE_RESOLVER,
   fetchCalendarFreeSlots,
   submitCalendarBooking,
   splitName,
@@ -96,22 +94,19 @@ function buildCalendarDays(freeSlots: FreeSlotsResponse): DaySlot[] {
   return days;
 }
 
-const QUEM_CUIDA_OPTIONS = [
-  "Eu mesmo",
-  "Eu e mais uma pessoa",
-  "Tenho uma equipe",
-  "Ainda estou organizando",
-];
-
-const O_QUE_RESOLVER_OPTIONS = [
-  "Saber como começar o contato",
-  "Qualificar melhor",
-  "Acompanhar os retornos",
-  "Organizar o processo inteiro",
-];
-
-const inputClasses =
-  "w-full min-h-[48px] px-3 py-2.5 rounded-lg border border-[#D7E1EE] text-[16px] text-[#17324F] outline-none focus:border-[#075BCC] focus:ring-1 focus:ring-[#075BCC]/30 transition-colors";
+function maskPhone(phone: string): string {
+  if (!phone) return "";
+  // Remove tudo que não é dígito
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length <= 2) return `(${digits}`;
+  if (digits.length <= 11) {
+    if (digits.length <= 10) {
+      return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}${digits.length > 6 ? "-" + digits.slice(6) : ""}`;
+    }
+    return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+  }
+  return phone;
+}
 
 export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSectionProps) {
   const [loading, setLoading] = useState(true);
@@ -120,13 +115,6 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
   const [calendarDays, setCalendarDays] = useState<DaySlot[]>([]);
   const [selectedDay, setSelectedDay] = useState<DaySlot | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-
-  // Form fields
-  const [name, setName] = useState(buyerName ?? "");
-  const [email, setEmail] = useState(buyerEmail ?? "");
-  const [phone, setPhone] = useState(buyerPhone ?? "");
-  const [quemCuida, setQuemCuida] = useState<string | null>(null);
-  const [oQueResolver, setOQueResolver] = useState<string | null>(null);
 
   const [submitting, setSubmitting] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
@@ -171,15 +159,12 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
     setSelectedSlot(slot);
   };
 
-  const canSubmit = !!(
-    name.trim() &&
-    email.trim() &&
-    phone.trim() &&
-    selectedSlot &&
-    quemCuida &&
-    oQueResolver &&
-    !submitting
-  );
+  // Buyer data already collected at checkout — use directly
+  const name = buyerName ?? "";
+  const email = buyerEmail ?? "";
+  const phone = buyerPhone ?? "";
+
+  const canSubmit = !!(name.trim() && email.trim() && phone.trim() && selectedSlot && !submitting);
 
   const handleSubmit = async () => {
     if (!canSubmit || !selectedSlot) return;
@@ -195,10 +180,7 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
         email,
         phone,
         selectedSlot,
-        customFields: [
-          { id: CF_QUEM_CUIDA, field_value: quemCuida ?? "" },
-          { id: CF_O_QUE_RESOLVER, field_value: oQueResolver ?? "" },
-        ],
+        customFields: [],
       });
       setConfirmedSlot(selectedSlot);
       setBookingConfirmed(true);
@@ -226,11 +208,38 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
         <h2 className="mt-3 font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[30px] leading-[1.2] [text-wrap:balance]">
           Vamos olhar para as suas próximas 24h?
         </h2>
-        <p className="mt-3 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55] max-w-[520px] mx-auto">
+        <p className="mt-3 text-[16px] sm:text-[17px] text-[#53677D] leading-[1.55] max-w-[520px] mx-auto">
           Escolha um horário para conhecer o caso dos R$19.490 e conversar sobre como acelerar o
           trabalho com sua lista.
         </p>
       </div>
+
+      {/* Mostra os dados que já temos do comprador */}
+      {(name || phone || email) && (
+        <div className="mt-6 rounded-xl bg-[#F2F7FD] border border-[#D7E1EE] p-4 space-y-2">
+          <p className="text-[13px] font-['Poppins'] font-semibold text-[#092C5D] uppercase tracking-wider">
+            Seus dados
+          </p>
+          {name && (
+            <div className="flex items-center gap-2.5 text-[15px] text-[#17324F]">
+              <User className="w-4 h-4 text-[#075BCC] shrink-0" strokeWidth={2.2} />
+              <span className="font-medium">{name}</span>
+            </div>
+          )}
+          {phone && (
+            <div className="flex items-center gap-2.5 text-[15px] text-[#17324F]">
+              <Phone className="w-4 h-4 text-[#075BCC] shrink-0" strokeWidth={2.2} />
+              <span className="font-medium">{maskPhone(phone)}</span>
+            </div>
+          )}
+          {email && (
+            <div className="flex items-center gap-2.5 text-[15px] text-[#17324F]">
+              <Mail className="w-4 h-4 text-[#075BCC] shrink-0" strokeWidth={2.2} />
+              <span className="font-medium break-all">{email}</span>
+            </div>
+          )}
+        </div>
+      )}
 
       {bookingConfirmed && confirmedDateInfo ? (
         /* Confirmação */
@@ -247,7 +256,7 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
           <p className="mt-1 text-[13px] text-[#53677D]">Horário de {confirmedDateInfo.tz}</p>
           <p className="mt-3 text-[15px] sm:text-[16px] text-[#17324F] leading-[1.5] max-w-[440px] mx-auto">
             Você recebe a confirmação e os detalhes pelo WhatsApp
-            {buyerPhone ? ` no número ${buyerPhone}` : ""}.
+            {phone ? ` no número ${maskPhone(phone)}` : ""}.
           </p>
           <p className="mt-2 text-[13px] text-[#53677D]">
             Sua lista será entregue normalmente, mesmo se você não agendasse.
@@ -274,7 +283,7 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
           </div>
         </div>
       ) : (
-        <div className="mt-7 space-y-6">
+        <div className="mt-6 space-y-5">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-10 text-[#53677D] gap-3">
               <Loader2 className="w-7 h-7 animate-spin text-[#075BCC]" />
@@ -306,7 +315,6 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
             </div>
           ) : (
             <>
-              {/* === ETAPA ÚNICA: dia + horário + dados === */}
               {/* Seleção de dia */}
               <div>
                 <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[15px] mb-2">
@@ -357,105 +365,6 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
                   </div>
                 </div>
               )}
-
-              {/* Formulário de dados — sempre visível */}
-              <div className="space-y-4 pt-2 border-t border-[#D7E1EE]">
-                <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[15px] pt-4">
-                  Seus dados
-                </label>
-
-                <div>
-                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1">
-                    Nome completo
-                  </label>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Seu nome"
-                    autoComplete="name"
-                    className={inputClasses}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1">
-                    WhatsApp com DDD
-                    <span className="block text-[13px] font-normal text-[#53677D]">
-                      Vamos confirmar sua cidade e enviar sua lista por aqui.
-                    </span>
-                  </label>
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="(11) 99999-9999"
-                    autoComplete="tel"
-                    className={inputClasses}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1">
-                    E-mail
-                    <span className="block text-[13px] font-normal text-[#53677D]">
-                      Para receber o comprovante da compra.
-                    </span>
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="seu@email.com"
-                    autoComplete="email"
-                    className={inputClasses}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1.5">
-                    Hoje, quem cuida das vendas?
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {QUEM_CUIDA_OPTIONS.map((opt) => (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() => setQuemCuida(opt)}
-                        className={`min-h-[48px] px-3 py-2 rounded-lg text-[14px] font-['Poppins'] font-semibold border transition-all text-center ${
-                          quemCuida === opt
-                            ? "bg-[#075BCC]/10 text-[#075BCC] border-[#075BCC]"
-                            : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1.5">
-                    O que você mais quer resolver nessa conversa?
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {O_QUE_RESOLVER_OPTIONS.map((opt) => (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() => setOQueResolver(opt)}
-                        className={`min-h-[48px] px-3 py-2 rounded-lg text-[14px] font-['Poppins'] font-semibold border transition-all text-center ${
-                          oQueResolver === opt
-                            ? "bg-[#075BCC]/10 text-[#075BCC] border-[#075BCC]"
-                            : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
 
               {/* Botão de confirmação */}
               <div className="pt-2">
