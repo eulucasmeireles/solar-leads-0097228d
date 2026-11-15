@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 interface FaqItem {
@@ -38,25 +38,22 @@ const FAQS: FaqItem[] = [
 ];
 
 export function FaqAccordion() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <div className="space-y-2.5 sm:space-y-3 w-full">
+    <div className="w-full">
       {FAQS.map((faq, index) => {
         const isOpen = openIndex === index;
         return (
-          <div
-            key={index}
-            className="border border-[#D7E1EE] rounded-lg bg-white overflow-hidden transition-colors"
-          >
+          <div key={index} className="border-b border-[#D7E1EE] first:border-t">
             <button
               type="button"
               onClick={() => toggle(index)}
-              className="w-full px-4 sm:px-5 py-3.5 sm:py-4 text-left flex items-center justify-between gap-3 font-['Poppins'] font-semibold text-[16px] sm:text-[18px] text-[#092C5D] hover:bg-[#F2F7FD]/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#075BCC]"
+              className="w-full py-4 text-left flex items-center justify-between gap-3 font-['Poppins'] font-semibold text-[16px] sm:text-[18px] text-[#092C5D] hover:text-[#075BCC] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#075BCC] rounded"
               aria-expanded={isOpen}
             >
               <span>{faq.question}</span>
@@ -67,7 +64,7 @@ export function FaqAccordion() {
               />
             </button>
             {isOpen && (
-              <div className="px-4 sm:px-5 pb-4 pt-1 text-[15px] sm:text-[17px] text-[#17324F] leading-[1.6] border-t border-[#D7E1EE]/50 bg-white">
+              <div className="pb-4 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55]">
                 <p>{faq.answer}</p>
               </div>
             )}
