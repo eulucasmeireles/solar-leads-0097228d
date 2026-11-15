@@ -176,44 +176,24 @@ html {
 
 /*
  * Layout do PaymentCheckoutBlock (bloco selado)
- * No desktop, o bloco selado tenta dividir em 2 colunas (formulário e aside de resumo).
- * Como ocultamos o aside interno com os seletores abaixo, forçamos o grid/main
- * do bloco a ocupar 100% da largura, evitando que os campos de cartão fiquem
- * comprimidos em uma coluna estreita de ~280px na esquerda da tela.
+ * No desktop, o bloco selado divide em 2 colunas (formulário + resumo).
+ * Ocultamos apenas o resumo lateral duplicado e forçamos o grid em coluna
+ * única, SEM alterar o display dos containers internos — assim o formulário
+ * de pagamento ocupa toda a largura sem quebrar o layout do bloco selado.
  */
-.checkout-host-clean,
-.checkout-host-clean * {
-  box-sizing: border-box;
-}
-
-.checkout-host-clean .ghl-payment-checkout,
-.checkout-host-clean [class*="payment-checkout"] {
+.checkout-host-clean .ghl-payment-checkout {
   width: 100% !important;
   max-width: 100% !important;
 }
 
-.checkout-host-clean [class*="payment-checkout__grid"],
-.checkout-host-clean [class*="payment-checkout__layout"],
-.checkout-host-clean [class*="payment-checkout__container"],
-.checkout-host-clean [class*="payment-checkout__row"],
-.checkout-host-clean [class*="payment-checkout__body"],
-.checkout-host-clean [class*="payment-checkout__content"] {
-  display: block !important;
-  width: 100% !important;
+/* Grid de coluna única: o formulário ocupa toda a largura disponível */
+.checkout-host-clean .ghl-payment-checkout__grid,
+.checkout-host-clean [class*="payment-checkout__grid"] {
   grid-template-columns: 1fr !important;
 }
 
-.checkout-host-clean [class*="payment-checkout__main"],
-.checkout-host-clean [class*="payment-checkout__form"],
-.checkout-host-clean [class*="payment-checkout__fields"],
-.checkout-host-clean [class*="payment-checkout__step"],
-.checkout-host-clean [class*="payment-checkout__card"] {
-  width: 100% !important;
-  max-width: 100% !important;
-  flex: 1 1 100% !important;
-}
-
-/* Oculta a barra lateral duplicada de resumo em inglês e seletores de quantidade/cupom */
+/* Oculta apenas a barra lateral de resumo duplicada, seletor de quantidade,
+   cupom, lista de produtos e placeholder "Sem imagem" — em inglês. */
 .checkout-host-clean .ghl-payment-checkout__aside,
 .checkout-host-clean [class*="payment-checkout__aside"],
 .checkout-host-clean [class*="payment-checkout__sidebar"],
