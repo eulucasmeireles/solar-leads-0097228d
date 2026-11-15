@@ -2,7 +2,7 @@
  * Constantes da Landing Page Solar Leads
  * Variável de checkout centralizada conforme requisitos
  */
-export const CHECKOUT_URL = "https://pay.hotmart.com/checkout?prod=solar-leads-500";
+export const CHECKOUT_URL = "/checkout";
 
 export const IMAGES = {
   // Imagem 1: Composição para a oferta da primeira dobra (Preparação + PDF)
