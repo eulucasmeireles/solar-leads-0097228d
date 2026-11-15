@@ -43,7 +43,7 @@ const ORDER_BUMPS: OrderBumpConfig[] = [
     description:
       "Filtro de qualificação com 5 perguntas para separar quem está pronto para comprar.",
     price: 27,
-    searchName: "5 perguntas",
+    searchName: "identifique",
     image:
       "https://vibe.filesafe.space/1794701011824623469/attachments/43cee2f8-289c-4313-a108-61e8e001f78f.png",
   },
