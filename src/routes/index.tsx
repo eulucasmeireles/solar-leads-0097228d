@@ -59,24 +59,24 @@ function Index() {
       {/* ============================================================ */}
       {/* B. CABEÇALHO CENTRALIZADO                                    */}
       {/* ============================================================ */}
-      <header className="pt-8 sm:pt-12 md:pt-14 pb-6 sm:pb-8 px-5">
+      <header className="pt-6 pb-5 sm:pt-12 sm:pb-8 md:pt-14 px-5">
         <div className="max-w-[860px] mx-auto text-center">
-          <h1 className="font-['Poppins'] font-bold text-[#092C5D] text-[32px] sm:text-[42px] md:text-[52px] leading-[1.12] tracking-tight">
+          <h1 className="font-['Poppins'] font-bold text-[#092C5D] text-[33px] sm:text-[42px] md:text-[52px] leading-[1.14] sm:leading-[1.12] tracking-tight">
             <span className="text-[#075BCC]">R$84 mil</span> nos meus primeiros 27 dias vendendo
             energia solar.
           </h1>
 
-          <div className="mt-3 sm:mt-4">
+          <div className="mt-2.5 sm:mt-4">
             <span className="font-['Caveat'] text-[30px] sm:text-[38px] md:text-[44px] text-[#092C5D] font-bold marker-highlight leading-none">
               Sem gastar com anúncio.
             </span>
           </div>
 
-          <p className="mt-4 sm:mt-5 text-[18px] sm:text-[20px] md:text-[21px] text-[#17324F] max-w-[680px] mx-auto leading-[1.45] font-normal">
+          <p className="mt-4 sm:mt-5 text-[17px] sm:text-[20px] md:text-[21px] text-[#17324F] max-w-[680px] mx-auto leading-[1.5] sm:leading-[1.45] font-normal">
             Todos esses clientes vieram de uma lista de contatos enriquecidos.
           </p>
 
-          <p className="mt-3 sm:mt-3.5 text-[16px] sm:text-[18px] md:text-[19px] text-[#53677D] max-w-[620px] mx-auto leading-[1.5]">
+          <p className="mt-2.5 sm:mt-3.5 text-[16px] sm:text-[18px] md:text-[19px] text-[#53677D] max-w-[620px] mx-auto leading-[1.5]">
             Agora você pode receber 500 contatos da cidade onde vende, com nome e WhatsApp
             verificado, por R$97.
           </p>
@@ -88,13 +88,13 @@ function Index() {
       {/* No mobile: Oferta primeiro (para ter CTA cedo), depois dinossauro */}
       {/* No desktop: Coluna esquerda (dinossauro + conversa), Coluna direita (oferta) */}
       {/* ============================================================ */}
-      <section className="px-5 pb-12 sm:pb-16 pt-2">
+      <section className="px-5 pb-10 pt-1 sm:pb-16 sm:pt-2">
         <div className="max-w-[960px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-11 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-11 items-start">
             {/* COLUNA ESQUERDA (no desktop) / SEGUNDA no mobile: Dinossauro e conversa */}
             <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col items-center lg:items-start text-left">
               {/* Ilustração adaptada obrigatória */}
-              <div className="w-full max-w-[370px] mx-auto lg:mx-0">
+              <div className="w-full max-w-[260px] sm:max-w-[330px] lg:max-w-[370px] mx-auto lg:mx-0">
                 <img
                   src={IMAGES.dinossauroTrafegoPago}
                   alt="Dinossauro identificado como Tráfego Pago sob um meteoro com a frase Extinção iminente."
@@ -128,7 +128,7 @@ function Index() {
             {/* COLUNA DIREITA (no desktop) / PRIMEIRA no mobile: Apresentação da oferta */}
             <div
               id="oferta-principal"
-              className="lg:col-span-7 order-1 lg:order-2 bg-white rounded-xl border border-[#D7E1EE] p-5 sm:p-7 shadow-[0_10px_30px_-10px_rgba(9,44,93,0.12)] scroll-mt-6"
+              className="lg:col-span-7 order-1 lg:order-2 bg-white rounded-xl border border-[#D7E1EE] p-4 sm:p-7 shadow-[0_10px_30px_-10px_rgba(9,44,93,0.12)] scroll-mt-6"
             >
               {/* Título e campos em HTML */}
               <div className="border-b border-[#D7E1EE] pb-4 mb-5">
@@ -144,7 +144,7 @@ function Index() {
               </div>
 
               {/* Imagem 1: Composição para a oferta (Tela de preparação + PDF) */}
-              <div className="w-full rounded-lg overflow-hidden border border-[#D7E1EE]/70 bg-[#F2F7FD]/40 mb-4">
+              <div className="w-full rounded-lg overflow-hidden border border-[#D7E1EE]/70 bg-[#F2F7FD]/40 mb-5">
                 <img
                   src={IMAGES.produtoOferta}
                   alt="Montagem ilustrativa da preparação dos contatos no Solar Leads e do PDF com 500 contatos enriquecidos."
@@ -154,11 +154,6 @@ function Index() {
                   height="426"
                 />
               </div>
-
-              {/* Texto de apoio e legenda discreta */}
-              <p className="text-[12px] sm:text-[13px] text-[#53677D] text-center italic mb-4">
-                Demonstração do formato da lista. Dados ilustrativos.
-              </p>
 
               <div className="space-y-2 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55] mb-5">
                 <p className="font-['Poppins'] font-semibold text-[#092C5D]">
@@ -172,14 +167,14 @@ function Index() {
 
               {/* Bloco de Preço */}
               <div className="bg-[#F2F7FD] rounded-lg p-4 sm:p-5 border border-[#D7E1EE] mb-5 text-center">
-                <div className="text-[14px] sm:text-[15px] font-['Poppins'] font-semibold uppercase text-[#53677D] tracking-wide">
+                <div className="text-[13px] sm:text-[15px] font-['Poppins'] font-semibold uppercase text-[#53677D] tracking-wide">
                   Valor único
                 </div>
                 <div className="flex items-baseline justify-center gap-1.5 my-1">
-                  <span className="font-['Poppins'] font-extrabold text-[#092C5D] text-[48px] sm:text-[58px] leading-none">
+                  <span className="font-['Poppins'] font-extrabold text-[#092C5D] text-[54px] sm:text-[58px] md:text-[64px] leading-none">
                     R$97
                   </span>
-                  <span className="font-['Poppins'] text-[16px] sm:text-[18px] text-[#53677D] font-medium">
+                  <span className="font-['Poppins'] text-[15px] sm:text-[18px] text-[#53677D] font-medium">
                     pela lista completa
                   </span>
                 </div>
@@ -221,13 +216,13 @@ function Index() {
       {/* ============================================================ */}
       {/* D. CASO REAL (R$19.800)                                      */}
       {/* ============================================================ */}
-      <section className="bg-white border-t border-b border-[#D7E1EE] py-12 sm:py-16 px-5">
+      <section className="bg-white border-t border-b border-[#D7E1EE] py-9 sm:py-16 px-5">
         <div className="max-w-[760px] mx-auto">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-10">
             <span className="inline-block px-3 py-1 bg-[#F2F7FD] border border-[#D7E1EE] text-[#075BCC] font-['Poppins'] font-bold text-xs uppercase tracking-wider rounded mb-3">
               Caso Real de Prospecção
             </span>
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] md:text-[38px] leading-[1.2]">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] md:text-[38px] leading-[1.2]">
               Esse projeto de <span className="text-[#075BCC]">R$19.800</span> começou com um
               contato da lista.
             </h2>
@@ -258,10 +253,6 @@ function Index() {
             </div>
           </div>
 
-          <p className="mt-3 text-center text-[12px] sm:text-[13px] text-[#53677D] italic">
-            Legenda dos registros: Resultado pessoal. Os valores apresentados são faturamento, não
-            lucro.
-          </p>
         </div>
       </section>
 
@@ -269,9 +260,9 @@ function Index() {
       {/* E. ENRIQUECIMENTO                                            */}
       {/* Faixa azul muito clara + 3 cartões alinhados                 */}
       {/* ============================================================ */}
-      <section className="bg-[#F2F7FD] py-12 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-[#F2F7FD] py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[960px] mx-auto">
-          <div className="max-w-[720px] mx-auto text-center mb-10">
+          <div className="max-w-[720px] mx-auto text-center mb-6 sm:mb-10">
             <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[25px] sm:text-[32px] md:text-[36px] leading-[1.2]">
               Você já se perguntou de onde o call center consegue seu contato?
             </h2>
@@ -286,7 +277,7 @@ function Index() {
           </div>
 
           {/* 3 Cartões de Enriquecimento */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
             {/* Cartão 01 */}
             <div className="bg-white rounded-xl border border-[#D7E1EE] overflow-hidden shadow-xs flex flex-col">
               <div className="bg-[#092C5D] text-white px-5 py-3.5 flex items-center justify-between">
@@ -345,10 +336,10 @@ function Index() {
       {/* F. PRODUTO E VALOR                                           */}
       {/* Seção branca com a imagem produto-lista-pdf.png              */}
       {/* ============================================================ */}
-      <section className="bg-white py-12 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-white py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[960px] mx-auto">
-          <div className="text-center max-w-[760px] mx-auto mb-10">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] md:text-[38px] leading-[1.2]">
+          <div className="text-center max-w-[760px] mx-auto mb-6 sm:mb-10">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] md:text-[38px] leading-[1.2]">
               Você escolhe a cidade. A gente entrega os 500 contatos.
             </h2>
             <p className="mt-3 text-[17px] sm:text-[18px] text-[#17324F] leading-[1.6]">
@@ -361,7 +352,7 @@ function Index() {
           </div>
 
           {/* Grid Lado a Lado: Imagem do PDF e Detalhes da Entrega */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-10 items-center mb-8 sm:mb-10">
             {/* Imagem 2: Detalhe do PDF */}
             <div className="lg:col-span-6 flex flex-col items-center">
               <div className="w-full rounded-xl overflow-hidden border border-[#D7E1EE] shadow-sm bg-[#F2F7FD]/30">
@@ -374,9 +365,6 @@ function Index() {
                   height="360"
                 />
               </div>
-              <p className="mt-2 text-[12px] sm:text-[13px] text-[#53677D] text-center italic">
-                Demonstração do formato da lista. Dados ilustrativos.
-              </p>
             </div>
 
             {/* Conteúdo da entrega */}
@@ -426,7 +414,7 @@ function Index() {
           </div>
 
           {/* Moldura tracejada azul de 2px com Botão Grande */}
-          <div className="max-w-[760px] mx-auto dashed-offer-frame rounded-2xl p-6 sm:p-8 text-center my-8 shadow-sm">
+          <div className="max-w-[760px] mx-auto dashed-offer-frame rounded-2xl p-5 sm:p-8 text-center my-7 sm:my-8 shadow-sm">
             <h3 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] mb-2">
               Garanta sua lista completa de 500 contatos
             </h3>
@@ -457,10 +445,10 @@ function Index() {
       {/* G. RECEBIMENTO EM TRÊS PASSOS                                */}
       {/* Fundo azul muito claro, 3 linhas brancas empilhadas          */}
       {/* ============================================================ */}
-      <section className="bg-[#F2F7FD] py-12 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-[#F2F7FD] py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[820px] mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] md:text-[38px] leading-[1.2]">
+          <div className="text-center mb-6 sm:mb-10">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] md:text-[38px] leading-[1.2]">
               É só seguir 3 passos.
             </h2>
             <p className="mt-2 text-[16px] sm:text-[18px] text-[#53677D]">
@@ -468,9 +456,9 @@ function Index() {
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {/* PASSO 1 */}
-            <div className="bg-white rounded-xl p-5 sm:p-6 border border-[#D7E1EE] shadow-xs flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+            <div className="bg-white rounded-xl p-4 sm:p-6 border border-[#D7E1EE] shadow-xs flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
               <span className="shrink-0 bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-extrabold text-sm sm:text-base px-3.5 py-1.5 rounded-md uppercase tracking-wider">
                 PASSO 1
               </span>
@@ -485,7 +473,7 @@ function Index() {
             </div>
 
             {/* PASSO 2 */}
-            <div className="bg-white rounded-xl p-5 sm:p-6 border border-[#D7E1EE] shadow-xs flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+            <div className="bg-white rounded-xl p-4 sm:p-6 border border-[#D7E1EE] shadow-xs flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
               <span className="shrink-0 bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-extrabold text-sm sm:text-base px-3.5 py-1.5 rounded-md uppercase tracking-wider">
                 PASSO 2
               </span>
@@ -502,7 +490,7 @@ function Index() {
             </div>
 
             {/* PASSO 3 */}
-            <div className="bg-white rounded-xl p-5 sm:p-6 border border-[#D7E1EE] shadow-xs flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+            <div className="bg-white rounded-xl p-4 sm:p-6 border border-[#D7E1EE] shadow-xs flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
               <span className="shrink-0 bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-extrabold text-sm sm:text-base px-3.5 py-1.5 rounded-md uppercase tracking-wider">
                 PASSO 3
               </span>
@@ -524,7 +512,7 @@ function Index() {
       {/* H. GARANTIA E FECHAMENTO                                     */}
       {/* Selo tipográfico 30 dias simples                             */}
       {/* ============================================================ */}
-      <section className="bg-white py-12 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-white py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[760px] mx-auto text-center">
           {/* Selo tipográfico 30 dias */}
           <div className="inline-flex flex-col items-center justify-center border-2 border-[#075BCC] bg-[#F2F7FD] rounded-full w-28 h-28 sm:w-32 sm:h-32 mb-6 p-2 shadow-xs">
@@ -539,7 +527,7 @@ function Index() {
             </span>
           </div>
 
-          <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] leading-[1.2]">
+          <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] leading-[1.2]">
             Sua compra tem 30 dias de garantia.
           </h2>
 
@@ -564,10 +552,10 @@ function Index() {
       {/* I. PERGUNTAS FREQUENTES                                      */}
       {/* Acordeão em fundo branco + CTA final                         */}
       {/* ============================================================ */}
-      <section className="bg-white py-12 sm:py-16 px-5 border-b border-[#D7E1EE]">
+      <section className="bg-white py-9 sm:py-16 px-5 border-b border-[#D7E1EE]">
         <div className="max-w-[760px] mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] leading-[1.2]">
+          <div className="text-center mb-6 sm:mb-10">
+            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[27px] sm:text-[34px] leading-[1.2]">
               Perguntas frequentes
             </h2>
             <p className="mt-2 text-[15px] sm:text-[16px] text-[#53677D]">
@@ -577,7 +565,7 @@ function Index() {
 
           <FaqAccordion />
 
-          <div className="mt-10 pt-4 text-center">
+          <div className="mt-8 sm:mt-10 pt-4 text-center">
             <SalesButton text="QUERO MINHA LISTA POR R$97" href={CHECKOUT_URL} />
           </div>
         </div>
@@ -586,17 +574,17 @@ function Index() {
       {/* ============================================================ */}
       {/* J. ÚLTIMA CHAMADA                                            */}
       {/* ============================================================ */}
-      <section className="bg-[#092C5D] text-white py-12 sm:py-16 px-5">
+      <section className="bg-[#092C5D] text-white py-9 sm:py-16 px-5">
         <div className="max-w-[760px] mx-auto text-center">
-          <h2 className="font-['Poppins'] font-bold text-white text-[28px] sm:text-[36px] md:text-[40px] leading-[1.15]">
+          <h2 className="font-['Poppins'] font-bold text-white text-[27px] sm:text-[36px] md:text-[40px] leading-[1.15]">
             Com quem seu comercial vai conversar amanhã?
           </h2>
 
-          <p className="mt-4 text-[18px] sm:text-[20px] text-white/90 max-w-[620px] mx-auto leading-[1.5]">
+          <p className="mt-3 sm:mt-4 text-[17px] sm:text-[20px] text-white/90 max-w-[620px] mx-auto leading-[1.5]">
             Peça seus 500 contatos enriquecidos por R$97 e escolha a cidade onde quer vender.
           </p>
 
-          <div className="mt-8 max-w-[620px] mx-auto">
+          <div className="mt-7 sm:mt-8 max-w-[620px] mx-auto">
             <SalesButton
               text="QUERO OS CONTATOS DA MINHA CIDADE"
               href={CHECKOUT_URL}
@@ -617,7 +605,7 @@ function Index() {
       {/* ============================================================ */}
       {/* RODAPÉ DISCRETO                                              */}
       {/* ============================================================ */}
-      <footer className="bg-[#043B81] text-white/80 py-6 px-5 text-center text-xs">
+      <footer className="bg-[#043B81] text-white/80 py-5 sm:py-6 px-5 text-center text-xs">
         <div className="max-w-[960px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>© {new Date().getFullYear()} Solar Leads. Todos os direitos reservados.</p>
           <p className="text-white/60">

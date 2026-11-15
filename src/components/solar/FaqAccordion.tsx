@@ -45,7 +45,7 @@ export function FaqAccordion() {
   };
 
   return (
-    <div className="space-y-3 w-full">
+    <div className="space-y-2.5 sm:space-y-3 w-full">
       {FAQS.map((faq, index) => {
         const isOpen = openIndex === index;
         return (
