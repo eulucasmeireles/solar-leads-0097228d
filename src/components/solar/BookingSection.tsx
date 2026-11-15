@@ -391,9 +391,6 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
                   </p>
                 )}
                 {error && <p className="mt-2.5 text-center text-[14px] text-[#b91c1c]">{error}</p>}
-                <p className="mt-2.5 text-center text-[13px] text-[#53677D] leading-[1.5]">
-                  Confirmação pelo WhatsApp · A lista é entregue mesmo sem agendar.
-                </p>
               </div>
             </>
           )}
