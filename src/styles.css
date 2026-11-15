@@ -174,15 +174,32 @@ html {
   background-color: #ffffff;
 }
 
-/* 
- * Oculta o resumo duplicado interno do PaymentCheckoutBlock (Order summary / Cupom / Seletor de Qtd),
- * já que a página de revisão e o cabeçalho do checkout já mostram o resumo completo em português
- * com os adicionais selecionados, sem permitir alterar quantidade (produto digital único).
+/*
+ * Oculta o resumo duplicado interno do PaymentCheckoutBlock (sidebar "Order summary",
+ * seletor de quantidade, cupom, lista de produtos e placeholder "Sem imagem").
+ * A página de revisão e o cabeçalho do checkout já mostram o resumo completo em
+ * português, com os adicionais selecionados e sem permitir alterar quantidade
+ * (produto digital único). Seletores reais do bloco selado (BEM ghl-payment-checkout__*).
  */
-.checkout-host-clean [data-testid="order-summary"],
-.checkout-host-clean .order-summary,
-.checkout-host-clean [class*="order-summary"],
-.checkout-host-clean [class*="OrderSummary"],
-.checkout-host-clean [class*="orderSummary"] {
+.checkout-host-clean .ghl-payment-checkout__aside {
+  display: none !important;
+}
+.checkout-host-clean .ghl-payment-checkout__summary-list,
+.checkout-host-clean .ghl-payment-checkout__summary-row,
+.checkout-host-clean .ghl-payment-checkout__summary-line,
+.checkout-host-clean .ghl-payment-checkout__summary-total,
+.checkout-host-clean .ghl-payment-checkout__products,
+.checkout-host-clean .ghl-payment-checkout__product-item,
+.checkout-host-clean .ghl-payment-checkout__product-row,
+.checkout-host-clean .ghl-payment-checkout__qty,
+.checkout-host-clean .ghl-payment-checkout__remove,
+.checkout-host-clean .ghl-payment-checkout__line-edit,
+.checkout-host-clean .ghl-payment-checkout__thumb,
+.checkout-host-clean .ghl-payment-checkout__thumb-placeholder,
+.checkout-host-clean .ghl-payment-checkout__coupon,
+.checkout-host-clean .ghl-payment-checkout__coupon-row,
+.checkout-host-clean .ghl-payment-checkout__coupon-btn,
+.checkout-host-clean .ghl-payment-checkout__coupon-note,
+.checkout-host-clean .ghl-payment-checkout__coupon-error {
   display: none !important;
 }
