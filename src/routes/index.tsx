@@ -174,6 +174,26 @@ function Index() {
             da lista.
           </h2>
 
+          {/* Prova social unificada (Notificação Pix + Orçamento e conversa WhatsApp) */}
+          <div className="mt-7 rounded-2xl border border-[#D7E1EE] bg-[#F2F7FD]/50 p-3 sm:p-5 shadow-sm space-y-3">
+            <div className="w-full rounded-xl overflow-hidden shadow-sm border border-[#D7E1EE]/70 bg-white">
+              <img
+                src={IMAGES.provaPix}
+                alt="Notificação de Pix recebido de R$ 19.490,00"
+                className="w-full h-auto block"
+                loading="lazy"
+              />
+            </div>
+            <div className="w-full rounded-xl overflow-hidden shadow-sm border border-[#D7E1EE]/70 bg-white">
+              <img
+                src={IMAGES.provaOrcamentoWhatsapp}
+                alt="Orçamento de energia solar aprovado de R$ 19.490 e mensagens de negociação pelo WhatsApp"
+                className="w-full h-auto block"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
           <div className="mt-7 space-y-4 text-[17px] leading-[1.6] text-[#17324F]">
             <p>Eu peguei o número e mandei a primeira mensagem.</p>
             <p>A conversa andou, fiz o atendimento, apresentei o projeto e negociei até fechar.</p>

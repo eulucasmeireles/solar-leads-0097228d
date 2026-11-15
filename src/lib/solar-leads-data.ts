@@ -14,4 +14,9 @@ export const IMAGES = {
   // Imagem 3: Dinossauro tráfego pago sob o meteoro
   dinossauroTrafegoPago:
     "https://vibe.filesafe.space/1794701011824623469/attachments/0a047701-ed41-46e2-8d10-a9ea3a5614ad.png",
+  // Prova social do projeto R$ 19.490
+  provaPix:
+    "https://vibe.filesafe.space/1794701011824623469/attachments/67506e33-8090-412a-8bfa-c585c37ab361.png",
+  provaOrcamentoWhatsapp:
+    "https://vibe.filesafe.space/1794701011824623469/attachments/295121d4-5aa3-40ba-a8e1-b18c6b3344cb.png",
 };
