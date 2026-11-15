@@ -6,7 +6,7 @@ import { IMAGES } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
 import { BookingSection } from "@/components/solar/BookingSection";
 import { ObrigadoFaq } from "@/components/solar/ObrigadoFaq";
-import { Clock, MessageSquare, Filter, FileText, CheckCircle2, Maximize2, X } from "lucide-react";
+import { Clock, MessageSquare, Filter, FileText, Maximize2, X } from "lucide-react";
 
 export const Route = createFileRoute("/obrigado")({
   head: () => ({
@@ -32,15 +32,6 @@ export const Route = createFileRoute("/obrigado")({
   }),
   component: ThankYouPage,
 });
-
-function formatBRL(value: number): string {
-  return value.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
-}
 
 function ThankYouPage() {
   const hydrated = useHydrated();
@@ -91,10 +82,6 @@ function ThankYouPage() {
     };
   }, [hydrated]);
 
-  const total = order?.totals?.totalDueToday ?? order?.amount ?? null;
-  const hasDobro = order?.lines?.some(
-    (l) => l.name.toLowerCase().includes("dobro") || l.name.toLowerCase().includes("1.000"),
-  );
   const buyerPhone = order?.buyer?.phone ?? null;
 
   const showFixedCta = pastHeroCta && !calendarVisible;
@@ -127,56 +114,8 @@ function ThankYouPage() {
 
       <main className="px-5 pt-6 pb-28 sm:pb-32">
         <div className="max-w-[680px] mx-auto">
-          {/* 1. Confirmação compacta da compra */}
-          <section className="bg-white rounded-2xl border border-[#D7E1EE] p-4 sm:p-5 shadow-sm">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#075BCC] flex items-center justify-center shrink-0 shadow-sm mt-0.5">
-                <CheckCircle2 className="w-6 h-6 text-white" strokeWidth={2.5} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-wrap items-center justify-between gap-1">
-                  <h1 className="font-['Poppins'] font-bold text-[#092C5D] text-[17px] sm:text-[19px] leading-tight">
-                    Pagamento confirmado! Sua lista está a caminho.
-                  </h1>
-                  {order && (
-                    <span className="text-[12px] text-[#53677D] font-mono">
-                      #{order.orderId.slice(-6)}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1 text-[14px] sm:text-[15px] text-[#17324F] leading-[1.45]">
-                  Vamos confirmar sua cidade pelo WhatsApp e enviar o PDF na mesma conversa em até
-                  2h após a confirmação.
-                </p>
-                {hasDobro && (
-                  <p className="mt-1.5 text-[13px] text-[#075BCC] font-['Poppins'] font-semibold">
-                    ✓ Sua entrega contém 1.000 contatos no total.
-                  </p>
-                )}
-                {total != null && (
-                  <p className="mt-1 text-[13px] text-[#53677D]">
-                    Total do pedido: <strong className="text-[#092C5D]">{formatBRL(total)}</strong>
-                  </p>
-                )}
-                <div className="mt-2.5 pt-2.5 border-t border-[#D7E1EE]/70 flex flex-wrap items-center justify-between gap-2 text-[13px]">
-                  <span className="text-[#53677D]">
-                    {buyerPhone ? `Contato cadastrado: ${buyerPhone}` : "Fique atento ao WhatsApp"}
-                  </span>
-                  <a
-                    href="https://wa.me/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-['Poppins'] font-semibold text-[#075BCC] hover:underline inline-flex items-center gap-1"
-                  >
-                    Abrir WhatsApp →
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* 2. Convite Principal */}
-          <section className="mt-8 sm:mt-10 text-center">
+          {/* 1. Convite Principal */}
+          <section className="text-center">
             <span className="inline-block bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-extrabold text-[11px] sm:text-[12px] uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-xs">
               Sua compra liberou um convite especial
             </span>
