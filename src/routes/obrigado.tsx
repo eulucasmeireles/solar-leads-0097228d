@@ -43,10 +43,25 @@ function ThankYouPage() {
 
   return (
     <div className="min-h-screen bg-solar-bg-alt text-solar-text font-body">
-      <header className="bg-solar-deep py-3 px-5 shadow-md">
-        <div className="max-w-[640px] mx-auto flex items-center justify-center">
-          <span className="font-heading font-bold text-white text-[16px] sm:text-[18px] tracking-tight">
-            Solar Leads
+      <header className="bg-solar-deep py-3 px-4 sm:px-5 shadow-md">
+        <div className="max-w-[640px] mx-auto flex items-center justify-between">
+          <a
+            href="/"
+            className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors text-[14px] font-heading font-medium"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Voltar
+          </a>
+          <span className="text-white/70 text-[12px] sm:text-[13px] font-heading font-medium">
+            Pedido confirmado
           </span>
         </div>
       </header>
