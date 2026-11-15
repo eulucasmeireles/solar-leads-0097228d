@@ -3,28 +3,24 @@ import { ChevronDown } from "lucide-react";
 
 export const FAQ_ITEMS = [
   {
-    q: "A consultoria é gratuita mesmo?",
-    a: "Sim. A participação é 100% gratuita. Qualquer contratação adicional será apresentada separadamente, caso haja interesse.",
+    q: "A consultoria tem algum custo?",
+    a: "Não. A participação é 100% gratuita. Qualquer contratação adicional será apresentada separadamente, caso haja interesse.",
   },
   {
     q: "Preciso esperar a reunião para receber minha lista?",
-    a: "Não. A entrega acontece pelo WhatsApp, independentemente da consultoria.",
+    a: "Não. A entrega segue pelo WhatsApp, independentemente do agendamento.",
   },
   {
     q: "Serve para quem está começando?",
-    a: "Sim. Vamos considerar o seu momento e o que você precisa preparar para começar a trabalhar os contatos.",
+    a: "Sim. Vamos considerar o seu momento e o que precisa preparar para trabalhar os contatos.",
   },
   {
-    q: "E para quem já tem equipe comercial?",
-    a: "Também. Podemos olhar para como o atendimento está dividido e o que precisa ganhar agilidade.",
+    q: "E se eu já tiver uma equipe comercial?",
+    a: "Também podemos olhar para a divisão do atendimento, a qualificação e o acompanhamento das oportunidades.",
   },
   {
     q: "O que preciso levar para a conversa?",
-    a: "Uma ideia de como vocês atendem hoje, quem ficará responsável pelos contatos e qual parte da rotina mais toma tempo.",
-  },
-  {
-    q: "Vou conseguir orçamentos em 24h?",
-    a: "Esse é o objetivo do plano de execução, mas o resultado depende do trabalho realizado e do retorno dos contatos. Na reunião, vamos olhar para o que está ao seu alcance preparar e executar.",
+    a: "Uma ideia de como vocês atendem hoje, quem vai trabalhar os contatos e qual parte da rotina mais toma tempo.",
   },
 ];
 
@@ -33,8 +29,8 @@ export function ObrigadoFaq() {
 
   return (
     <section className="mt-12 sm:mt-16">
-      <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] leading-[1.2] text-center">
-        Antes de escolher seu horário
+      <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[26px] leading-[1.2] text-center [text-wrap:balance]">
+        Perguntas frequentes
       </h2>
 
       <div className="mt-6 space-y-2.5">
@@ -58,7 +54,7 @@ export function ObrigadoFaq() {
                 />
               </button>
               {isOpen && (
-                <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 text-[15px] text-[#17324F] leading-[1.55] border-t border-[#D7E1EE]/60">
+                <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 text-[15px] sm:text-[16px] text-[#17324F] leading-[1.55] border-t border-[#D7E1EE]/60">
                   <p className="pt-2">{item.a}</p>
                 </div>
               )}

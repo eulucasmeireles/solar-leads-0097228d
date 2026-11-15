@@ -12,21 +12,17 @@ export function BookingSection({ buyerPhone }: BookingSectionProps) {
   const [selectedTime, setSelectedTime] = useState<string>("14:30");
 
   return (
-    <div className="bg-white rounded-2xl border-2 border-[#075BCC] p-6 sm:p-8 shadow-md">
+    <div className="bg-white rounded-2xl border-2 border-[#075BCC] p-5 sm:p-8 shadow-md">
       <div className="text-center">
-        <span className="inline-block bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-extrabold text-[12px] uppercase tracking-wider px-3.5 py-1.5 rounded-full">
+        <span className="inline-block bg-[#FFE344] text-[#092C5D] font-['Poppins'] font-bold text-[11px] sm:text-[12px] uppercase tracking-wider px-3.5 py-1.5 rounded-full">
           Consultoria 100% Gratuita
         </span>
-        <h2 className="mt-3 font-['Poppins'] font-bold text-[#092C5D] text-[23px] sm:text-[28px] leading-[1.2]">
+        <h2 className="mt-3 font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[30px] leading-[1.2] [text-wrap:balance]">
           Vamos olhar para as suas próximas 24h?
         </h2>
-        <p className="mt-2.5 text-[15px] sm:text-[16px] text-[#17324F] leading-[1.5] max-w-[500px] mx-auto">
-          Escolha um horário para conhecer o caso dos R$19.490 e conversar sobre como trabalhar sua
-          lista com foco nos primeiros pedidos de orçamento.
-        </p>
-        <p className="mt-1.5 text-[13px] text-[#53677D] max-w-[480px] mx-auto">
-          As próximas 24h são o horizonte do plano que vamos discutir. O avanço depende da
-          preparação da sua operação, da execução e das respostas dos contatos.
+        <p className="mt-3 text-[16px] sm:text-[17px] text-[#17324F] leading-[1.55] max-w-[520px] mx-auto">
+          Escolha um horário para conhecer o caso dos R$19.490 e conversar sobre como acelerar o
+          trabalho com sua lista.
         </p>
       </div>
 
@@ -41,7 +37,7 @@ export function BookingSection({ buyerPhone }: BookingSectionProps) {
           <p className="mt-2 font-['Poppins'] font-semibold text-[#075BCC] text-[16px]">
             {selectedDay} às {selectedTime} (Horário de Brasília)
           </p>
-          <p className="mt-3 text-[14px] sm:text-[15px] text-[#17324F] leading-[1.5] max-w-[440px] mx-auto">
+          <p className="mt-3 text-[15px] sm:text-[16px] text-[#17324F] leading-[1.5] max-w-[440px] mx-auto">
             Você recebe a confirmação e os detalhes pelo WhatsApp
             {buyerPhone ? ` no número ${buyerPhone}` : ""}.
           </p>
@@ -51,9 +47,9 @@ export function BookingSection({ buyerPhone }: BookingSectionProps) {
           <button
             type="button"
             onClick={() => setBookingConfirmed(false)}
-            className="mt-4 text-[13px] font-['Poppins'] font-semibold text-[#075BCC] underline hover:text-[#092C5D]"
+            className="mt-4 text-[13px] font-['Poppins'] font-semibold text-[#075BCC] underline hover:text-[#092C5D] underline-offset-2 transition-colors"
           >
-            Escolher outro horário
+            Reagendar
           </button>
         </div>
       ) : (
@@ -70,7 +66,7 @@ export function BookingSection({ buyerPhone }: BookingSectionProps) {
                   onClick={() => setSelectedDay(d)}
                   className={`py-2.5 px-2 rounded-lg text-[14px] font-['Poppins'] font-semibold border transition-all ${
                     selectedDay === d
-                      ? "bg-[#092C5D] text-white border-[#092C5D] shadow-xs"
+                      ? "bg-[#092C5D] text-white border-[#092C5D]"
                       : "bg-[#F2F7FD] text-[#092C5D] border-[#D7E1EE] hover:border-[#075BCC]"
                   }`}
                 >
@@ -92,7 +88,7 @@ export function BookingSection({ buyerPhone }: BookingSectionProps) {
                   onClick={() => setSelectedTime(t)}
                   className={`py-2 px-2 rounded-lg text-[14px] font-['Poppins'] font-medium border transition-all ${
                     selectedTime === t
-                      ? "bg-[#075BCC] text-white border-[#075BCC] font-bold shadow-xs"
+                      ? "bg-[#075BCC] text-white border-[#075BCC] font-bold"
                       : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
                   }`}
                 >
@@ -108,11 +104,15 @@ export function BookingSection({ buyerPhone }: BookingSectionProps) {
               onClick={() => setBookingConfirmed(true)}
               size="large"
             />
-            <p className="mt-3 text-center text-[13px] text-[#53677D]">
+            <p className="mt-3 text-center text-[13px] text-[#53677D] leading-[1.5]">
               Você recebe a confirmação e os detalhes pelo WhatsApp.
             </p>
             <p className="mt-1 text-center text-[12px] text-[#53677D]">
               Sua lista será entregue normalmente, mesmo se você não agendar.
+            </p>
+            <p className="mt-2 text-center text-[13px] text-[#53677D] leading-[1.5] max-w-[460px] mx-auto">
+              As 24h são o horizonte do plano de execução. Os resultados dependem da preparação, do
+              atendimento e das respostas dos contatos.
             </p>
           </div>
         </div>
