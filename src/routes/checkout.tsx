@@ -236,8 +236,8 @@ function CheckoutPage() {
 
           {/* Produto principal */}
           <div className="mt-8 bg-white rounded-xl border-2 border-[#075BCC] p-5 shadow-sm">
-            <div className="flex items-start gap-3">
-              <div className="shrink-0 w-6 h-6 rounded-full bg-[#075BCC] flex items-center justify-center mt-0.5">
+            <div className="flex items-center gap-3">
+              <div className="shrink-0 w-6 h-6 rounded-full bg-[#075BCC] flex items-center justify-center">
                 <svg
                   className="w-4 h-4 text-white"
                   fill="none"
@@ -248,15 +248,15 @@ function CheckoutPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <div className="flex-1">
-                <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[18px] sm:text-[20px] leading-tight">
+              <div className="flex-1 min-w-0">
+                <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[17px] sm:text-[20px] leading-tight">
                   {MAIN_PRODUCT_CONFIG.title}
                 </h2>
-                <p className="mt-1 text-[15px] text-[#53677D] leading-[1.5]">
+                <p className="mt-1 text-[14px] sm:text-[15px] text-[#53677D] leading-[1.5]">
                   {MAIN_PRODUCT_CONFIG.description}
                 </p>
               </div>
-              <div className="shrink-0 text-right">
+              <div className="shrink-0 text-right pl-2">
                 <span className="font-['Poppins'] font-extrabold text-[#092C5D] text-[24px] sm:text-[28px]">
                   R$97
                 </span>
@@ -266,11 +266,11 @@ function CheckoutPage() {
 
           {/* Order bumps */}
           {bumpProducts.length > 0 && (
-            <div className="mt-6">
-              <p className="font-['Poppins'] font-bold text-[#092C5D] text-[17px] sm:text-[18px] mb-4">
+            <div className="mt-8">
+              <p className="font-['Poppins'] font-bold text-[#092C5D] text-[17px] sm:text-[19px] mb-4">
                 Adicione ao seu pedido:
               </p>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {bumpProducts.map((bump) => {
                   const isSelected = selectedBumps.has(bump.key);
                   const available = !!bump.product;
@@ -281,58 +281,66 @@ function CheckoutPage() {
                       onClick={() => available && toggleBump(bump.key)}
                       disabled={!available}
                       aria-pressed={isSelected}
-                      className={`w-full text-left bg-white rounded-xl border-2 p-4 transition-all duration-150 ${
+                      className={`w-full text-left bg-white rounded-xl border-2 p-4 sm:p-5 transition-all duration-150 ${
                         isSelected
                           ? "border-[#075BCC] shadow-md"
                           : "border-[#D7E1EE] hover:border-[#075BCC]/50"
                       } ${!available ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
                     >
-                      <div className="flex items-start gap-3 sm:gap-4">
-                        <div
-                          className={`shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center mt-1 transition-colors ${
-                            isSelected
-                              ? "bg-[#FFE344] border-[#FFE344]"
-                              : "border-[#D7E1EE] bg-white"
-                          }`}
-                        >
-                          {isSelected && (
-                            <svg
-                              className="w-4 h-4 text-[#092C5D]"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              strokeWidth={3}
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                          )}
-                        </div>
-                        <div className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-[#F2F7FD] border border-[#D7E1EE] flex items-center justify-center p-1">
+                      <div className="flex gap-4">
+                        {/* Imagem */}
+                        <div className="shrink-0 w-[72px] h-[72px] sm:w-[88px] sm:h-[88px] rounded-lg overflow-hidden bg-[#F2F7FD] border border-[#D7E1EE] flex items-center justify-center p-1.5">
                           <img
                             src={bump.image}
                             alt={bump.title}
                             className="w-full h-full object-contain"
                             loading="lazy"
-                            width="80"
-                            height="80"
+                            width="88"
+                            height="88"
                           />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-['Poppins'] font-bold text-[#092C5D] text-[15px] sm:text-[17px] leading-tight">
-                            {bump.title}
-                          </h3>
-                          <p className="mt-1 text-[13px] sm:text-[14px] text-[#53677D] leading-[1.45]">
+
+                        {/* Conteúdo */}
+                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                          <div className="flex items-start justify-between gap-2">
+                            <h3 className="font-['Poppins'] font-bold text-[#092C5D] text-[15px] sm:text-[17px] leading-tight">
+                              {bump.title}
+                            </h3>
+                            <span className="font-['Poppins'] font-extrabold text-[#075BCC] text-[18px] sm:text-[22px] whitespace-nowrap shrink-0">
+                              +R${bump.price}
+                            </span>
+                          </div>
+                          <p className="mt-1.5 text-[13px] sm:text-[14px] text-[#53677D] leading-[1.45]">
                             {bump.description}
                           </p>
-                        </div>
-                        <div className="shrink-0 text-right">
-                          <span className="font-['Poppins'] font-extrabold text-[#075BCC] text-[18px] sm:text-[22px] whitespace-nowrap">
-                            +R${bump.price}
-                          </span>
+                          <div className="mt-2.5 flex items-center gap-2">
+                            <div
+                              className={`shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
+                                isSelected
+                                  ? "bg-[#FFE344] border-[#FFE344]"
+                                  : "border-[#D7E1EE] bg-white"
+                              }`}
+                            >
+                              {isSelected && (
+                                <svg
+                                  className="w-3 h-3 text-[#092C5D]"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                  strokeWidth={3}
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                              )}
+                            </div>
+                            <span className="text-[13px] font-['Poppins'] font-semibold text-[#092C5D]">
+                              {isSelected ? "Adicionado" : "Adicionar"}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </button>
