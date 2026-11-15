@@ -358,11 +358,7 @@ export function ReviewScreen({
               <WhatsAppIcon className="shrink-0 mt-0.5 w-5 h-5 text-solar-primary" />
               <div>
                 <p className="font-heading font-semibold text-solar-deep text-[15px] sm:text-[16px]">
-                  Sua entrega acontece pelo WhatsApp
-                </p>
-                <p className="mt-1 text-[14px] sm:text-[15px] text-solar-muted leading-[1.5]">
-                  Após a confirmação do pagamento, a gente confirma sua cidade pelo WhatsApp. Você
-                  recebe o PDF na mesma conversa em até 2h após essa confirmação.
+                  Receba direto no WhatsApp
                 </p>
               </div>
             </div>
@@ -384,9 +380,6 @@ export function ReviewScreen({
               <div>
                 <p className="font-heading font-semibold text-solar-deep text-[15px] sm:text-[16px]">
                   30 dias de garantia
-                </p>
-                <p className="mt-1 text-[13px] sm:text-[14px] text-solar-muted leading-[1.5]">
-                  Você tem 30 dias para solicitar a devolução dos R$97.
                 </p>
               </div>
             </div>
