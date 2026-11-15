@@ -143,10 +143,10 @@ function ThankYouPage() {
               </button>
             </div>
 
-            <p className="mt-5 sm:mt-6">
-              <span className="font-['Caveat'] text-[28px] sm:text-[36px] md:text-[40px] text-[#092C5D] font-bold marker-highlight leading-[1.15]">
-                A gente exagerou na idade. No trabalho, nem tanto.
-              </span>
+            <p className="mt-5 sm:mt-6 font-['Caveat'] text-[28px] sm:text-[36px] md:text-[40px] text-[#092C5D] font-bold leading-[1.2]">
+              <span className="marker-highlight">A gente exagerou no tempo.</span>
+              <br />
+              <span className="marker-highlight">No trabalho, nem tanto.</span>
             </p>
 
             <div className="mt-4 text-[16px] sm:text-[18px] text-[#17324F] leading-[1.6] max-w-[600px] mx-auto text-left sm:text-center">
