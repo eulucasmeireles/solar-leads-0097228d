@@ -52,8 +52,8 @@ export function CheckoutScreen({
 
   return (
     <div className="min-h-screen bg-solar-bg-alt text-solar-text font-body">
-      <header className="bg-solar-deep py-3 px-4 sm:px-5 shadow-md sticky top-0 z-30">
-        <div className="max-w-[640px] mx-auto flex items-center justify-between gap-3">
+      <header className="bg-solar-deep py-3 px-4 sm:px-6 shadow-md sticky top-0 z-30">
+        <div className="max-w-[720px] mx-auto flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => setShowReviewOverlay(true)}
@@ -83,8 +83,8 @@ export function CheckoutScreen({
         </div>
       </header>
 
-      <main className="px-4 sm:px-5 pt-5 pb-10">
-        <div className="max-w-[640px] mx-auto">
+      <main className="px-4 sm:px-5 pt-6 pb-12">
+        <div className="max-w-[720px] mx-auto">
           <h1 className="font-heading font-bold text-solar-deep text-[22px] sm:text-[26px] leading-[1.2] text-center">
             Falta pouco para receber seus contatos
           </h1>

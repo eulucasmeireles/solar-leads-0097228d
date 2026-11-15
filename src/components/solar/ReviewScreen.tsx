@@ -44,7 +44,7 @@ export function ReviewScreen({
   return (
     <div className="min-h-screen bg-solar-bg-alt text-solar-text font-body pb-32 lg:pb-12">
       <header className="bg-solar-deep py-3 px-5 shadow-md sticky top-0 z-20">
-        <div className="max-w-[640px] mx-auto flex items-center justify-between">
+        <div className="max-w-[720px] mx-auto flex items-center justify-between">
           <a
             href="/"
             className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors text-[14px] font-heading font-medium"
@@ -66,8 +66,8 @@ export function ReviewScreen({
         </div>
       </header>
 
-      <main className="px-5 pt-5 sm:pt-7">
-        <div className="max-w-[640px] mx-auto">
+      <main className="px-5 pt-6 sm:pt-8">
+        <div className="max-w-[720px] mx-auto">
           <h1 className="font-heading font-bold text-solar-deep text-[24px] sm:text-[28px] leading-[1.2] text-center">
             Seu pedido está quase pronto
           </h1>

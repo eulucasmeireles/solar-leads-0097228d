@@ -105,7 +105,7 @@ export function ReviewOverlay({
   return (
     <div className="fixed inset-0 z-40 bg-solar-bg-alt overflow-y-auto">
       <header className="bg-solar-deep py-3 px-5 shadow-md sticky top-0 z-10">
-        <div className="max-w-[640px] mx-auto flex items-center justify-between">
+        <div className="max-w-[720px] mx-auto flex items-center justify-between">
           <span className="text-white/70 text-[12px] sm:text-[13px] font-heading font-medium">
             Revisar pedido
           </span>
@@ -128,8 +128,8 @@ export function ReviewOverlay({
         </div>
       </header>
 
-      <main className="px-5 pt-5 pb-32">
-        <div className="max-w-[640px] mx-auto">
+      <main className="px-5 pt-6 pb-32">
+        <div className="max-w-[720px] mx-auto">
           <h1 className="font-heading font-bold text-solar-deep text-[22px] sm:text-[26px] leading-[1.2]">
             Quer alterar algo no pedido?
           </h1>

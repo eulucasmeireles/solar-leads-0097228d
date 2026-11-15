@@ -175,15 +175,48 @@ html {
 }
 
 /*
- * Oculta o resumo duplicado interno do PaymentCheckoutBlock (sidebar "Order summary",
- * seletor de quantidade, cupom, lista de produtos e placeholder "Sem imagem").
- * A página de revisão e o cabeçalho do checkout já mostram o resumo completo em
- * português, com os adicionais selecionados e sem permitir alterar quantidade
- * (produto digital único). Seletores reais do bloco selado (BEM ghl-payment-checkout__*).
+ * Layout do PaymentCheckoutBlock (bloco selado)
+ * No desktop, o bloco selado tenta dividir em 2 colunas (formulário e aside de resumo).
+ * Como ocultamos o aside interno com os seletores abaixo, forçamos o grid/main
+ * do bloco a ocupar 100% da largura, evitando que os campos de cartão fiquem
+ * comprimidos em uma coluna estreita de ~280px na esquerda da tela.
  */
-.checkout-host-clean .ghl-payment-checkout__aside {
-  display: none !important;
+.checkout-host-clean,
+.checkout-host-clean * {
+  box-sizing: border-box;
 }
+
+.checkout-host-clean .ghl-payment-checkout,
+.checkout-host-clean [class*="payment-checkout"] {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.checkout-host-clean [class*="payment-checkout__grid"],
+.checkout-host-clean [class*="payment-checkout__layout"],
+.checkout-host-clean [class*="payment-checkout__container"],
+.checkout-host-clean [class*="payment-checkout__row"],
+.checkout-host-clean [class*="payment-checkout__body"],
+.checkout-host-clean [class*="payment-checkout__content"] {
+  display: block !important;
+  width: 100% !important;
+  grid-template-columns: 1fr !important;
+}
+
+.checkout-host-clean [class*="payment-checkout__main"],
+.checkout-host-clean [class*="payment-checkout__form"],
+.checkout-host-clean [class*="payment-checkout__fields"],
+.checkout-host-clean [class*="payment-checkout__step"],
+.checkout-host-clean [class*="payment-checkout__card"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 1 100% !important;
+}
+
+/* Oculta a barra lateral duplicada de resumo em inglês e seletores de quantidade/cupom */
+.checkout-host-clean .ghl-payment-checkout__aside,
+.checkout-host-clean [class*="payment-checkout__aside"],
+.checkout-host-clean [class*="payment-checkout__sidebar"],
 .checkout-host-clean .ghl-payment-checkout__summary-list,
 .checkout-host-clean .ghl-payment-checkout__summary-row,
 .checkout-host-clean .ghl-payment-checkout__summary-line,
