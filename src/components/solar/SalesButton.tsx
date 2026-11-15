@@ -1,8 +1,10 @@
+import type { MouseEvent } from "react";
+
 interface SalesButtonProps {
   text: string;
   subtext?: string;
   href?: string;
-  onClick?: () => void;
+  onClick?: (e: MouseEvent) => void;
   className?: string;
   size?: "default" | "large";
 }
