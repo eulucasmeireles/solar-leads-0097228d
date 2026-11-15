@@ -113,11 +113,6 @@ function Index() {
           <p className="mt-4 text-center text-[14px] sm:text-[15px] text-[#53677D] font-medium">
             Lista no WhatsApp · 30 dias de garantia
           </p>
-
-          {/* Condição de entrega */}
-          <p className="mt-3 text-center text-[13px] sm:text-[14px] text-[#53677D] leading-[1.5]">
-            Entrega em até 2h após o pagamento confirmado e a cidade informada pelo WhatsApp.
-          </p>
         </div>
       </section>
 
@@ -430,10 +425,6 @@ function Index() {
           <div className="mt-8">
             <SalesButton text="QUERO RECEBER MEUS 500 CONTATOS" href={CHECKOUT_URL} size="large" />
           </div>
-
-          <p className="mt-4 text-center text-[13px] sm:text-[14px] text-[#53677D] leading-[1.5]">
-            Até 2h após pagamento confirmado e cidade informada pelo WhatsApp
-          </p>
         </div>
       </section>
 
