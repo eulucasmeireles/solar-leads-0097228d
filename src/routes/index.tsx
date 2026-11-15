@@ -117,7 +117,7 @@ function Index() {
 
           {/* Garantia curta */}
           <p className="mt-4 text-center text-[14px] sm:text-[15px] text-[#53677D] font-medium">
-            PDF direto no WhatsApp · 30 dias de garantia
+            Lista no WhatsApp · 30 dias de garantia
           </p>
 
           {/* Condição de entrega */}
