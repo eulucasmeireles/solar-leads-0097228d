@@ -16,6 +16,7 @@ interface OrderBumpConfig {
   description: string;
   price: number;
   searchName: string;
+  image: string;
 }
 
 const MAIN_PRODUCT_CONFIG = {
@@ -33,6 +34,8 @@ const ORDER_BUMPS: OrderBumpConfig[] = [
     description: "Modelo de mensagem para enviar no WhatsApp para público frio. Copie e cole.",
     price: 27,
     searchName: "7 mensagens",
+    image:
+      "https://vibe.filesafe.space/1794701011824623469/attachments/6f366f69-10e4-41f8-8970-6f22a97306ed.png",
   },
   {
     key: "ob2",
@@ -41,6 +44,8 @@ const ORDER_BUMPS: OrderBumpConfig[] = [
       "Filtro de qualificação com 5 perguntas para separar quem está pronto para comprar.",
     price: 27,
     searchName: "5 perguntas",
+    image:
+      "https://vibe.filesafe.space/1794701011824623469/attachments/43cee2f8-289c-4313-a108-61e8e001f78f.png",
   },
   {
     key: "ob3",
@@ -48,6 +53,8 @@ const ORDER_BUMPS: OrderBumpConfig[] = [
     description: "Receba 1.000 leads ao invés de 500. O dobro de contatos para prospecção.",
     price: 27,
     searchName: "dobre",
+    image:
+      "https://vibe.filesafe.space/1794701011824623469/attachments/683e1d9b-89a5-43e2-a88e-eb0c4bbb0e84.png",
   },
   {
     key: "ob4",
@@ -55,6 +62,8 @@ const ORDER_BUMPS: OrderBumpConfig[] = [
     description: "7 Mensagens + 5 Perguntas + Dobro de Leads. Tudo junto com economia.",
     price: 47,
     searchName: "kit corta",
+    image:
+      "https://vibe.filesafe.space/1794701011824623469/attachments/3a34e949-a913-45c8-a57c-86f8b6d250ef.png",
   },
 ];
 
@@ -278,9 +287,9 @@ function CheckoutPage() {
                           : "border-[#D7E1EE] hover:border-[#075BCC]/50"
                       } ${!available ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
                     >
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-start gap-3 sm:gap-4">
                         <div
-                          className={`shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center mt-0.5 transition-colors ${
+                          className={`shrink-0 w-6 h-6 rounded-md border-2 flex items-center justify-center mt-1 transition-colors ${
                             isSelected
                               ? "bg-[#FFE344] border-[#FFE344]"
                               : "border-[#D7E1EE] bg-white"
@@ -302,16 +311,26 @@ function CheckoutPage() {
                             </svg>
                           )}
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-['Poppins'] font-bold text-[#092C5D] text-[16px] sm:text-[17px] leading-tight">
+                        <div className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-[#F2F7FD] border border-[#D7E1EE] flex items-center justify-center p-1">
+                          <img
+                            src={bump.image}
+                            alt={bump.title}
+                            className="w-full h-full object-contain"
+                            loading="lazy"
+                            width="80"
+                            height="80"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-['Poppins'] font-bold text-[#092C5D] text-[15px] sm:text-[17px] leading-tight">
                             {bump.title}
                           </h3>
-                          <p className="mt-1 text-[14px] sm:text-[15px] text-[#53677D] leading-[1.5]">
+                          <p className="mt-1 text-[13px] sm:text-[14px] text-[#53677D] leading-[1.45]">
                             {bump.description}
                           </p>
                         </div>
                         <div className="shrink-0 text-right">
-                          <span className="font-['Poppins'] font-extrabold text-[#075BCC] text-[20px] sm:text-[22px]">
+                          <span className="font-['Poppins'] font-extrabold text-[#075BCC] text-[18px] sm:text-[22px] whitespace-nowrap">
                             +R${bump.price}
                           </span>
                         </div>
