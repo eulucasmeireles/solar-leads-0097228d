@@ -285,7 +285,7 @@ function Index() {
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5] mt-0.5" />
-                <span>WhatsApp verificado antes da entrega.</span>
+                <span>WhatsApp verificado.</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-5 h-5 text-[#075BCC] shrink-0 stroke-[2.5] mt-0.5" />
