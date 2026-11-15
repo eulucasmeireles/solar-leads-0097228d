@@ -138,11 +138,24 @@ function CheckoutPage() {
     }
   }, [hydrated]);
 
+  const KIT_KEY = "ob4";
+  const INDIVIDUAL_KEYS = ["ob1", "ob2", "ob3"];
+
   const toggleBump = (key: string) => {
     setSelectedBumps((prev) => {
       const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
+      if (next.has(key)) {
+        next.delete(key);
+      } else {
+        next.add(key);
+        if (key === KIT_KEY) {
+          // O kit é um combo dos 3 individuais: selecionar o kit remove os outros.
+          INDIVIDUAL_KEYS.forEach((k) => next.delete(k));
+        } else {
+          // Selecionar um individual remove o kit (não faz sentido ter os dois).
+          next.delete(KIT_KEY);
+        }
+      }
       return next;
     });
   };
@@ -274,18 +287,23 @@ function CheckoutPage() {
                 {bumpProducts.map((bump) => {
                   const isSelected = selectedBumps.has(bump.key);
                   const available = !!bump.product;
+                  const kitSelected = selectedBumps.has(KIT_KEY);
+                  const isIncludedInKit = kitSelected && INDIVIDUAL_KEYS.includes(bump.key);
+                  const disabled = !available || isIncludedInKit;
                   return (
                     <button
                       key={bump.key}
                       type="button"
-                      onClick={() => available && toggleBump(bump.key)}
-                      disabled={!available}
+                      onClick={() => !disabled && toggleBump(bump.key)}
+                      disabled={disabled}
                       aria-pressed={isSelected}
                       className={`w-full text-left bg-white rounded-xl border-2 p-4 sm:p-5 transition-all duration-150 ${
                         isSelected
                           ? "border-[#075BCC] shadow-md"
-                          : "border-[#D7E1EE] hover:border-[#075BCC]/50"
-                      } ${!available ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
+                          : isIncludedInKit
+                            ? "border-[#075BCC]/30 bg-[#F2F7FD]"
+                            : "border-[#D7E1EE] hover:border-[#075BCC]/50"
+                      } ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`}
                     >
                       <div className="flex gap-4">
                         {/* Imagem */}
@@ -293,7 +311,7 @@ function CheckoutPage() {
                           <img
                             src={bump.image}
                             alt={bump.title}
-                            className="w-full h-full object-contain"
+                            className={`w-full h-full object-contain ${isIncludedInKit ? "opacity-50" : ""}`}
                             loading="lazy"
                             width="88"
                             height="88"
@@ -314,32 +332,57 @@ function CheckoutPage() {
                             {bump.description}
                           </p>
                           <div className="mt-2.5 flex items-center gap-2">
-                            <div
-                              className={`shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
-                                isSelected
-                                  ? "bg-[#FFE344] border-[#FFE344]"
-                                  : "border-[#D7E1EE] bg-white"
-                              }`}
-                            >
-                              {isSelected && (
-                                <svg
-                                  className="w-3 h-3 text-[#092C5D]"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={3}
+                            {isIncludedInKit ? (
+                              <>
+                                <div className="shrink-0 w-5 h-5 rounded bg-[#075BCC] border-2 border-[#075BCC] flex items-center justify-center">
+                                  <svg
+                                    className="w-3 h-3 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={3}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                </div>
+                                <span className="text-[13px] font-['Poppins'] font-semibold text-[#075BCC]">
+                                  Incluso no kit
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                <div
+                                  className={`shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
+                                    isSelected
+                                      ? "bg-[#FFE344] border-[#FFE344]"
+                                      : "border-[#D7E1EE] bg-white"
+                                  }`}
                                 >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
-                              )}
-                            </div>
-                            <span className="text-[13px] font-['Poppins'] font-semibold text-[#092C5D]">
-                              {isSelected ? "Adicionado" : "Adicionar"}
-                            </span>
+                                  {isSelected && (
+                                    <svg
+                                      className="w-3 h-3 text-[#092C5D]"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                      strokeWidth={3}
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M5 13l4 4L19 7"
+                                      />
+                                    </svg>
+                                  )}
+                                </div>
+                                <span className="text-[13px] font-['Poppins'] font-semibold text-[#092C5D]">
+                                  {isSelected ? "Adicionado" : "Adicionar"}
+                                </span>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
