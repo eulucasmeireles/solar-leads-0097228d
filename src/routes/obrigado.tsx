@@ -464,9 +464,6 @@ function ThankYouPage() {
               <p>
                 Eu abro o caso da venda e mostro o caminho para acelerar o trabalho com a lista.
               </p>
-              <p className="font-['Poppins'] font-bold text-[#092C5D] pt-1">
-                A parte de virar fóssil pode ficar só na tirinha.
-              </p>
             </div>
 
             <div className="mt-6 flex flex-col items-center">
