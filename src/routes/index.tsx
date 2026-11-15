@@ -165,12 +165,12 @@ function Index() {
       </section>
 
       {/* ============================================================ */}
-      {/* E. CASO REAL (R$19.800)                                      */}
+      {/* E. CASO REAL (R$19.490)                                      */}
       {/* ============================================================ */}
       <section className="px-5 py-12 sm:py-16">
         <div className="max-w-[640px] mx-auto">
           <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] leading-[1.2] text-center">
-            Esse projeto de <span className="text-[#075BCC]">R$19.800</span> começou com um contato
+            Esse projeto de <span className="text-[#075BCC]">R$19.490</span> começou com um contato
             da lista.
           </h2>
 
