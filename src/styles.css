@@ -247,6 +247,9 @@ html {
   height: 56px;
   border-radius: 50%;
   background-color: #075bcc;
+  background-image: url("https://vibe.filesafe.space/1794701011824623469/assets/63ed4dc2-bc35-4d19-8cbc-ae3216a4e804.png");
+  background-size: cover;
+  background-position: center;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -258,6 +261,7 @@ html {
     transform 0.15s ease,
     background-color 0.15s ease;
   cursor: pointer;
+  overflow: hidden;
 }
 .chat-launcher:hover {
   background-color: #0866e2;
@@ -368,10 +372,14 @@ html {
   height: 38px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.12);
+  background-image: url("https://vibe.filesafe.space/1794701011824623469/assets/63ed4dc2-bc35-4d19-8cbc-ae3216a4e804.png");
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
+  flex-shrink: 0;
 }
 .chat-header-title {
   font-family: var(--font-heading);

@@ -177,7 +177,6 @@ export function ChatWidget() {
         className="chat-launcher"
         data-open={state.isOpen ? "true" : "false"}
       >
-        <ChatIcon />
         {!!state.unreadCount && state.unreadCount > 0 && (
           <span className="chat-launcher-badge">{state.unreadCount}</span>
         )}
@@ -193,9 +192,7 @@ export function ChatWidget() {
         <div className="chat-panel" ref={panelRef}>
           <header className="chat-header">
             <div className="chat-header-info">
-              <div className="chat-avatar">
-                <ChatIcon />
-              </div>
+              <div className="chat-avatar" />
               <div>
                 <div className="chat-header-title">{CHAT_HEADING}</div>
                 <div className="chat-header-status">
