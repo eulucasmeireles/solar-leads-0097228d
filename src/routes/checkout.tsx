@@ -130,9 +130,7 @@ function CheckoutPage() {
     if (!mainProduct) return null;
     const mainPriceId = getPriceId(mainProduct);
     if (!mainPriceId) return null;
-    const items: { priceId: string; quantity: number }[] = [
-      { priceId: mainPriceId, quantity: 1 },
-    ];
+    const items: { priceId: string; quantity: number }[] = [{ priceId: mainPriceId, quantity: 1 }];
     if (selectedKit && kitProduct) {
       const priceId = getPriceId(kitProduct);
       if (priceId) items.push({ priceId, quantity: 1 });
@@ -178,7 +176,10 @@ function CheckoutPage() {
     else toggleBump(key);
   };
 
-  const selectionKey = useMemo(() => [...selectedBumps].sort().join(",") || "base", [selectedBumps]);
+  const selectionKey = useMemo(
+    () => [...selectedBumps].sort().join(",") || "base",
+    [selectedBumps],
+  );
 
   // ---- Tela de checkout (PaymentCheckoutBlock selado, layout two-step) ----
   if (showCheckout && hydrated) {
@@ -191,7 +192,13 @@ function CheckoutPage() {
               onClick={() => setShowReviewOverlay(true)}
               className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors text-[14px] font-heading font-medium shrink-0"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
               Voltar
@@ -201,7 +208,11 @@ function CheckoutPage() {
             </span>
             <span className="flex items-center gap-1.5 text-white/70 text-[12px] sm:text-[13px] font-heading font-medium shrink-0">
               <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                <path
+                  fillRule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span className="hidden sm:inline">Pagamento seguro</span>
             </span>
@@ -233,7 +244,13 @@ function CheckoutPage() {
                 </span>
                 <span className="flex items-center gap-1 text-solar-primary font-heading font-semibold text-[13px] sm:text-[14px]">
                   {showOrderDetails ? "Ocultar" : "Ver detalhes"}
-                  <svg className={`w-4 h-4 transition-transform motion-safe:duration-200 ${showOrderDetails ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <svg
+                    className={`w-4 h-4 transition-transform motion-safe:duration-200 ${showOrderDetails ? "rotate-180" : ""}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </span>
@@ -242,12 +259,16 @@ function CheckoutPage() {
                 <div className="px-4 sm:px-5 pb-4 pt-1 border-t border-solar-border">
                   <div className="flex items-center justify-between gap-3 py-2">
                     <span className="text-[15px] text-solar-text">500 contatos enriquecidos</span>
-                    <span className="font-heading font-bold text-solar-deep text-[15px]">{formatBRL(BASE_PRICE)}</span>
+                    <span className="font-heading font-bold text-solar-deep text-[15px]">
+                      {formatBRL(BASE_PRICE)}
+                    </span>
                   </div>
                   {extras.map((extra) => (
                     <div key={extra.key} className="flex items-center justify-between gap-3 py-1.5">
                       <span className="text-[14px] text-solar-text">{extra.title}</span>
-                      <span className="font-heading font-bold text-solar-deep text-[14px]">+{formatBRL(extra.price)}</span>
+                      <span className="font-heading font-bold text-solar-deep text-[14px]">
+                        +{formatBRL(extra.price)}
+                      </span>
                     </div>
                   ))}
                   {hasDobro && (
@@ -256,15 +277,19 @@ function CheckoutPage() {
                     </p>
                   )}
                   <div className="mt-2 pt-2 border-t border-solar-border flex items-center justify-between">
-                    <span className="font-heading font-bold text-solar-deep text-[16px]">Total</span>
-                    <span className="font-heading font-extrabold text-solar-deep text-[20px]">{formatBRLcents(total)}</span>
+                    <span className="font-heading font-bold text-solar-deep text-[16px]">
+                      Total
+                    </span>
+                    <span className="font-heading font-extrabold text-solar-deep text-[20px]">
+                      {formatBRLcents(total)}
+                    </span>
                   </div>
                 </div>
               )}
             </div>
 
             {/* Bloco selado: coleta nome/WhatsApp/e-mail (passo 1) e pagamento (passo 2) */}
-            <div className="mt-4 bg-white rounded-2xl border border-solar-border shadow-sm p-4 sm:p-6">
+            <div className="mt-4 bg-white rounded-2xl border border-solar-border shadow-sm p-4 sm:p-6 checkout-host-clean">
               <h2 className="font-heading font-bold text-solar-deep text-[18px] sm:text-[20px] mb-1">
                 Onde vamos falar com você?
               </h2>
@@ -293,8 +318,18 @@ function CheckoutPage() {
             </div>
 
             <p className="mt-3 flex items-center gap-2 text-[13px] sm:text-[14px] text-solar-muted">
-              <svg className="w-4 h-4 text-solar-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-4 h-4 text-solar-primary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               30 dias de garantia para solicitar a devolução dos R$97.
             </p>
@@ -313,7 +348,13 @@ function CheckoutPage() {
             selectedKit={selectedKit}
             selectedIndividualKeys={selectedIndividualKeys}
             allIndividualsSelected={allIndividualsSelected}
-            individualConfigs={individualConfigs.map((c) => ({ key: c.key, title: c.title, description: c.description, price: c.price, image: c.image }))}
+            individualConfigs={individualConfigs.map((c) => ({
+              key: c.key,
+              title: c.title,
+              description: c.description,
+              price: c.price,
+              image: c.image,
+            }))}
             total={total}
             extras={extras}
             removeExtra={removeExtra}
@@ -357,7 +398,10 @@ function CheckoutPage() {
     <div className="min-h-screen bg-solar-bg-alt text-solar-text font-body pb-32 lg:pb-12">
       <header className="bg-solar-deep py-3 px-5 shadow-md sticky top-0 z-20">
         <div className="max-w-[640px] mx-auto flex items-center justify-between">
-          <a href="/" className="font-heading font-bold text-white text-[16px] sm:text-[18px] tracking-tight">
+          <a
+            href="/"
+            className="font-heading font-bold text-white text-[16px] sm:text-[18px] tracking-tight"
+          >
             Solar Leads
           </a>
           <span className="text-white/70 text-[12px] sm:text-[13px] font-heading font-medium">
@@ -379,7 +423,13 @@ function CheckoutPage() {
           <div className="mt-6 bg-white rounded-2xl border border-solar-border p-5 shadow-sm">
             <div className="flex items-start gap-3">
               <span className="shrink-0 mt-0.5 w-5 h-5 rounded-full bg-solar-primary flex items-center justify-center">
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}>
+                <svg
+                  className="w-3 h-3 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={3.5}
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </span>
@@ -413,27 +463,65 @@ function CheckoutPage() {
             >
               <div className="flex items-center gap-3">
                 <div className="shrink-0 w-[64px] h-[64px] sm:w-[72px] sm:h-[72px] rounded-xl overflow-hidden bg-solar-bg-alt border border-solar-border flex items-center justify-center p-1.5">
-                  <img src={KIT_CONFIG.image} alt="Kit Corta Caminho" className="w-full h-full object-contain" loading="lazy" width="72" height="72" />
+                  <img
+                    src={KIT_CONFIG.image}
+                    alt="Kit Corta Caminho"
+                    className="w-full h-full object-contain"
+                    loading="lazy"
+                    width="72"
+                    height="72"
+                  />
                 </div>
                 <div className="flex-1 min-w-0 flex items-center justify-between gap-2">
-                  <h3 className="font-heading font-bold text-solar-deep text-[17px] sm:text-[19px] leading-tight">Kit Corta Caminho</h3>
-                  <span className="font-heading font-extrabold text-solar-primary text-[20px] sm:text-[22px] whitespace-nowrap shrink-0">+{formatBRL(KIT_CONFIG.price)}</span>
+                  <h3 className="font-heading font-bold text-solar-deep text-[17px] sm:text-[19px] leading-tight">
+                    Kit Corta Caminho
+                  </h3>
+                  <span className="font-heading font-extrabold text-solar-primary text-[20px] sm:text-[22px] whitespace-nowrap shrink-0">
+                    +{formatBRL(KIT_CONFIG.price)}
+                  </span>
                 </div>
               </div>
               <ul className="mt-3 space-y-1.5 text-[15px] sm:text-[16px] text-solar-text leading-[1.5]">
-                <li className="flex items-start gap-2"><span className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-solar-primary" />7 mensagens para copiar e colar.</li>
-                <li className="flex items-start gap-2"><span className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-solar-primary" />5 perguntas para qualificar seus contatos.</li>
-                <li className="flex items-start gap-2"><span className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-solar-primary" />Dobro de contatos: 1.000 no total.</li>
+                <li className="flex items-start gap-2">
+                  <span className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-solar-primary" />7
+                  mensagens para copiar e colar.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-solar-primary" />5
+                  perguntas para qualificar seus contatos.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-solar-primary" />
+                  Dobro de contatos: 1.000 no total.
+                </li>
               </ul>
               <div className="mt-3 inline-flex flex-wrap items-baseline gap-x-2 bg-solar-yellow/40 rounded-lg px-3 py-1.5">
-                <span className="font-heading font-bold text-solar-deep text-[14px]">Separados: R$81 · No kit: R$47</span>
-                <span className="font-heading font-bold text-solar-deep text-[14px]">Você economiza R$34</span>
+                <span className="font-heading font-bold text-solar-deep text-[14px]">
+                  Separados: R$81 · No kit: R$47
+                </span>
+                <span className="font-heading font-bold text-solar-deep text-[14px]">
+                  Você economiza R$34
+                </span>
               </div>
               <div className="mt-3 flex items-center gap-2.5">
-                <span className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors motion-safe:duration-200 ${selectedKit ? "bg-solar-primary border-solar-primary" : "border-solar-border bg-white"}`}>
-                  {selectedKit && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                <span
+                  className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors motion-safe:duration-200 ${selectedKit ? "bg-solar-primary border-solar-primary" : "border-solar-border bg-white"}`}
+                >
+                  {selectedKit && (
+                    <svg
+                      className="w-3 h-3 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3.5}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
                 </span>
-                <span className="font-heading font-semibold text-solar-deep text-[15px] sm:text-[16px]">{selectedKit ? "Kit adicionado ao pedido" : "Adicionar kit ao pedido"}</span>
+                <span className="font-heading font-semibold text-solar-deep text-[15px] sm:text-[16px]">
+                  {selectedKit ? "Kit adicionado ao pedido" : "Adicionar kit ao pedido"}
+                </span>
               </div>
             </button>
           </div>
@@ -443,41 +531,117 @@ function CheckoutPage() {
             <p className="font-heading font-semibold text-solar-muted text-[15px] sm:text-[16px]">
               Prefere escolher os extras separadamente?
             </p>
-            <button type="button" onClick={() => setShowIndividuals((v) => !v)} aria-expanded={showIndividuals} className="mt-1 inline-flex items-center gap-2 text-solar-primary font-heading font-semibold text-[15px] sm:text-[16px] hover:underline">
+            <button
+              type="button"
+              onClick={() => setShowIndividuals((v) => !v)}
+              aria-expanded={showIndividuals}
+              className="mt-1 inline-flex items-center gap-2 text-solar-primary font-heading font-semibold text-[15px] sm:text-[16px] hover:underline"
+            >
               {showIndividuals ? "Recolher opções avulsas" : "Ver opções avulsas"}
-              <svg className={`w-4 h-4 transition-transform motion-safe:duration-200 ${showIndividuals ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              <svg
+                className={`w-4 h-4 transition-transform motion-safe:duration-200 ${showIndividuals ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
             </button>
             {showIndividuals && (
               <div className="mt-4 space-y-3">
                 {selectedKit && (
                   <div className="rounded-xl border border-solar-primary/30 bg-solar-bg-alt p-3.5">
-                    <p className="text-[14px] sm:text-[15px] text-solar-deep font-heading font-semibold">Os três extras já estão incluídos no kit.</p>
-                    <button type="button" onClick={clearKit} className="mt-2 inline-flex items-center gap-1.5 text-solar-primary font-heading font-semibold text-[14px] hover:underline">Trocar por itens avulsos<svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg></button>
+                    <p className="text-[14px] sm:text-[15px] text-solar-deep font-heading font-semibold">
+                      Os três extras já estão incluídos no kit.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={clearKit}
+                      className="mt-2 inline-flex items-center gap-1.5 text-solar-primary font-heading font-semibold text-[14px] hover:underline"
+                    >
+                      Trocar por itens avulsos
+                      <svg
+                        className="w-3.5 h-3.5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2.5}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
                   </div>
                 )}
                 {individualConfigs.map((bump) => {
                   const isSelected = selectedBumps.has(bump.key);
                   const disabled = selectedKit;
                   return (
-                    <button key={bump.key} type="button" onClick={() => !disabled && toggleBump(bump.key)} disabled={disabled} aria-pressed={isSelected} className={`w-full text-left bg-white rounded-2xl border-2 p-4 transition-colors motion-safe:duration-200 ${isSelected ? "border-solar-primary bg-solar-bg-alt shadow-sm" : "border-solar-border hover:border-solar-primary/40"} ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}>
+                    <button
+                      key={bump.key}
+                      type="button"
+                      onClick={() => !disabled && toggleBump(bump.key)}
+                      disabled={disabled}
+                      aria-pressed={isSelected}
+                      className={`w-full text-left bg-white rounded-2xl border-2 p-4 transition-colors motion-safe:duration-200 ${isSelected ? "border-solar-primary bg-solar-bg-alt shadow-sm" : "border-solar-border hover:border-solar-primary/40"} ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
+                    >
                       <div className="flex items-center gap-3">
                         <div className="shrink-0 w-[60px] h-[60px] sm:w-[64px] sm:h-[64px] rounded-xl overflow-hidden bg-solar-bg-alt border border-solar-border flex items-center justify-center p-1.5">
-                          <img src={bump.image} alt={bump.title} className={`w-full h-full object-contain ${disabled ? "opacity-40" : ""}`} loading="lazy" width="64" height="64" />
+                          <img
+                            src={bump.image}
+                            alt={bump.title}
+                            className={`w-full h-full object-contain ${disabled ? "opacity-40" : ""}`}
+                            loading="lazy"
+                            width="64"
+                            height="64"
+                          />
                         </div>
-                        <h3 className="flex-1 min-w-0 font-heading font-bold text-solar-deep text-[16px] sm:text-[17px] leading-tight">{bump.title}</h3>
+                        <h3 className="flex-1 min-w-0 font-heading font-bold text-solar-deep text-[16px] sm:text-[17px] leading-tight">
+                          {bump.title}
+                        </h3>
                       </div>
-                      <p className="mt-2 text-[15px] sm:text-[16px] text-solar-muted leading-[1.5]">{bump.description}</p>
+                      <p className="mt-2 text-[15px] sm:text-[16px] text-solar-muted leading-[1.5]">
+                        {bump.description}
+                      </p>
                       <div className="mt-3 flex items-center justify-between">
-                        <span className="font-heading font-extrabold text-solar-primary text-[18px] sm:text-[20px]">+{formatBRL(bump.price)}</span>
-                        <span className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors motion-safe:duration-200 ${isSelected ? "bg-solar-primary border-solar-primary" : "border-solar-border bg-white"}`}>{isSelected && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}</span>
+                        <span className="font-heading font-extrabold text-solar-primary text-[18px] sm:text-[20px]">
+                          +{formatBRL(bump.price)}
+                        </span>
+                        <span
+                          className={`shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors motion-safe:duration-200 ${isSelected ? "bg-solar-primary border-solar-primary" : "border-solar-border bg-white"}`}
+                        >
+                          {isSelected && (
+                            <svg
+                              className="w-3 h-3 text-white"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={3.5}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
+                          )}
+                        </span>
                       </div>
                     </button>
                   );
                 })}
                 {allIndividualsSelected && (
                   <div className="rounded-xl border-2 border-solar-yellow bg-solar-yellow/20 p-4">
-                    <p className="text-[15px] sm:text-[16px] text-solar-deep font-heading font-semibold leading-[1.5]">Com o kit, você leva os mesmos extras e economiza R$34.</p>
-                    <button type="button" onClick={swapToKit} className="btn-sales mt-3 inline-flex items-center justify-center rounded-[10px] px-5 py-3 min-h-[48px] font-heading font-bold text-[15px] uppercase tracking-wide text-white">TROCAR PELO KIT</button>
+                    <p className="text-[15px] sm:text-[16px] text-solar-deep font-heading font-semibold leading-[1.5]">
+                      Com o kit, você leva os mesmos extras e economiza R$34.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={swapToKit}
+                      className="btn-sales mt-3 inline-flex items-center justify-center rounded-[10px] px-5 py-3 min-h-[48px] font-heading font-bold text-[15px] uppercase tracking-wide text-white"
+                    >
+                      TROCAR PELO KIT
+                    </button>
                   </div>
                 )}
               </div>
@@ -486,49 +650,92 @@ function CheckoutPage() {
 
           {/* Resumo + entrega */}
           <div className="mt-8">
-            <h2 className="font-heading font-bold text-solar-deep text-[18px] sm:text-[19px] mb-3">Resumo do pedido</h2>
+            <h2 className="font-heading font-bold text-solar-deep text-[18px] sm:text-[19px] mb-3">
+              Resumo do pedido
+            </h2>
             <div className="bg-white rounded-2xl border border-solar-border p-5 shadow-sm">
               <div className="flex items-center justify-between gap-3">
                 <span className="text-[16px] text-solar-text">500 contatos enriquecidos</span>
-                <span className="font-heading font-bold text-solar-deep text-[17px]">{formatBRL(BASE_PRICE)}</span>
+                <span className="font-heading font-bold text-solar-deep text-[17px]">
+                  {formatBRL(BASE_PRICE)}
+                </span>
               </div>
               <div className="mt-3 space-y-2.5">
                 {extras.length === 0 ? (
-                  <p className="text-[15px] text-solar-muted leading-[1.5]">Tudo certo. Você pode seguir só com os 500 contatos.</p>
+                  <p className="text-[15px] text-solar-muted leading-[1.5]">
+                    Tudo certo. Você pode seguir só com os 500 contatos.
+                  </p>
                 ) : (
                   extras.map((extra) => (
                     <div key={extra.key} className="flex items-center justify-between gap-3">
                       <span className="flex items-center gap-2 text-[15px] text-solar-text min-w-0">
                         <span className="truncate">{extra.title}</span>
-                        <button type="button" onClick={() => removeExtra(extra.key)} className="shrink-0 text-solar-muted text-[13px] font-heading font-semibold hover:text-solar-primary hover:underline">remover</button>
+                        <button
+                          type="button"
+                          onClick={() => removeExtra(extra.key)}
+                          className="shrink-0 text-solar-muted text-[13px] font-heading font-semibold hover:text-solar-primary hover:underline"
+                        >
+                          remover
+                        </button>
                       </span>
-                      <span className="font-heading font-bold text-solar-deep text-[16px] shrink-0">+{formatBRL(extra.price)}</span>
+                      <span className="font-heading font-bold text-solar-deep text-[16px] shrink-0">
+                        +{formatBRL(extra.price)}
+                      </span>
                     </div>
                   ))
                 )}
               </div>
-              {hasDobro && <p className="mt-3 text-[13px] text-solar-primary font-heading font-semibold">Entrega com 1.000 contatos no total.</p>}
+              {hasDobro && (
+                <p className="mt-3 text-[13px] text-solar-primary font-heading font-semibold">
+                  Entrega com 1.000 contatos no total.
+                </p>
+              )}
               <div className="mt-4 pt-3 border-t border-solar-border flex items-center justify-between">
                 <span className="font-heading font-bold text-solar-deep text-[18px]">Total</span>
-                <span className="font-heading font-extrabold text-solar-deep text-[24px] sm:text-[28px]">{formatBRL(total)}</span>
+                <span className="font-heading font-extrabold text-solar-deep text-[24px] sm:text-[28px]">
+                  {formatBRL(total)}
+                </span>
               </div>
             </div>
 
             <div className="mt-4 flex items-start gap-3 bg-white rounded-xl border border-solar-border p-4">
               <WhatsAppIcon className="shrink-0 mt-0.5 w-5 h-5 text-solar-primary" />
               <div>
-                <p className="font-heading font-semibold text-solar-deep text-[15px] sm:text-[16px]">Sua entrega acontece pelo WhatsApp</p>
-                <p className="mt-1 text-[14px] sm:text-[15px] text-solar-muted leading-[1.5]">Após a confirmação do pagamento, a gente confirma sua cidade pelo WhatsApp. Você recebe o PDF na mesma conversa em até 2h após essa confirmação.</p>
+                <p className="font-heading font-semibold text-solar-deep text-[15px] sm:text-[16px]">
+                  Sua entrega acontece pelo WhatsApp
+                </p>
+                <p className="mt-1 text-[14px] sm:text-[15px] text-solar-muted leading-[1.5]">
+                  Após a confirmação do pagamento, a gente confirma sua cidade pelo WhatsApp. Você
+                  recebe o PDF na mesma conversa em até 2h após essa confirmação.
+                </p>
               </div>
             </div>
 
             <p className="mt-3 flex items-center gap-2 text-[13px] sm:text-[14px] text-solar-muted">
-              <svg className="w-4 h-4 text-solar-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <svg
+                className="w-4 h-4 text-solar-primary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
               30 dias de garantia para solicitar a devolução dos R$97.
             </p>
 
             <div className="hidden lg:block mt-5">
-              <button type="button" onClick={handleContinue} className="btn-sales w-full rounded-[10px] flex items-center justify-center px-6 py-4 min-h-[56px] font-heading font-bold text-[20px] uppercase tracking-wide text-white">IR PARA PAGAMENTO</button>
+              <button
+                type="button"
+                onClick={handleContinue}
+                className="btn-sales w-full rounded-[10px] flex items-center justify-center px-6 py-4 min-h-[56px] font-heading font-bold text-[20px] uppercase tracking-wide text-white"
+              >
+                IR PARA PAGAMENTO
+              </button>
             </div>
           </div>
         </div>
@@ -539,9 +746,17 @@ function CheckoutPage() {
         <div className="max-w-[640px] mx-auto px-5 py-3 flex items-center gap-3">
           <div className="shrink-0 leading-tight">
             <div className="text-[12px] text-solar-muted">Total do pedido</div>
-            <div className="font-heading font-extrabold text-solar-deep text-[19px]">{formatBRL(total)}</div>
+            <div className="font-heading font-extrabold text-solar-deep text-[19px]">
+              {formatBRL(total)}
+            </div>
           </div>
-          <button type="button" onClick={handleContinue} className="btn-sales flex-1 min-w-0 rounded-[10px] flex items-center justify-center px-4 py-3 min-h-[52px] font-heading font-bold text-[15px] uppercase tracking-wide text-white">IR PARA PAGAMENTO</button>
+          <button
+            type="button"
+            onClick={handleContinue}
+            className="btn-sales flex-1 min-w-0 rounded-[10px] flex items-center justify-center px-4 py-3 min-h-[52px] font-heading font-bold text-[15px] uppercase tracking-wide text-white"
+          >
+            IR PARA PAGAMENTO
+          </button>
         </div>
       </div>
     </div>

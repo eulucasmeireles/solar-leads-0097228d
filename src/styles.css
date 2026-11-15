@@ -173,3 +173,16 @@ html {
   border: 2px dashed #092c5d;
   background-color: #ffffff;
 }
+
+/* 
+ * Oculta o resumo duplicado interno do PaymentCheckoutBlock (Order summary / Cupom / Seletor de Qtd),
+ * já que a página de revisão e o cabeçalho do checkout já mostram o resumo completo em português
+ * com os adicionais selecionados, sem permitir alterar quantidade (produto digital único).
+ */
+.checkout-host-clean [data-testid="order-summary"],
+.checkout-host-clean .order-summary,
+.checkout-host-clean [class*="order-summary"],
+.checkout-host-clean [class*="OrderSummary"],
+.checkout-host-clean [class*="orderSummary"] {
+  display: none !important;
+}

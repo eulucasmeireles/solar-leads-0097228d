@@ -37,8 +37,8 @@ function ThankYouPage() {
   }, [hydrated]);
 
   const total = order?.totals?.totalDueToday ?? order?.amount ?? null;
-  const hasDobro = order?.lines?.some((l) =>
-    l.name.toLowerCase().includes("dobro") || l.name.toLowerCase().includes("1.000"),
+  const hasDobro = order?.lines?.some(
+    (l) => l.name.toLowerCase().includes("dobro") || l.name.toLowerCase().includes("1.000"),
   );
 
   return (
@@ -96,7 +96,9 @@ function ThankYouPage() {
               )}
               {total != null && (
                 <div className="mt-3 pt-3 border-t border-solar-border flex items-center justify-between">
-                  <span className="font-heading font-bold text-solar-deep text-[16px]">Total pago</span>
+                  <span className="font-heading font-bold text-solar-deep text-[16px]">
+                    Total pago
+                  </span>
                   <span className="font-heading font-extrabold text-solar-deep text-[20px]">
                     {formatBRL(total)}
                   </span>

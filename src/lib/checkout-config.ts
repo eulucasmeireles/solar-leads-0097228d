@@ -67,9 +67,7 @@ export const BASE_PRICE = 97;
 export const INDIV_PRICE = 27;
 
 export const KIT_CONFIG = ORDER_BUMPS.find((b) => b.key === KIT_KEY)!;
-export const INDIVIDUAL_CONFIGS = INDIVIDUAL_KEYS.map(
-  (k) => ORDER_BUMPS.find((b) => b.key === k)!,
-);
+export const INDIVIDUAL_CONFIGS = INDIVIDUAL_KEYS.map((k) => ORDER_BUMPS.find((b) => b.key === k)!);
 
 export function findProduct(
   products: CatalogProduct[],
