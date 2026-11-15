@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { CheckCircle2, Clock, Loader2 } from "lucide-react";
-import { SalesButton } from "./SalesButton";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import {
   CALENDAR_ID,
   LOCATION_ID,
@@ -111,6 +110,9 @@ const O_QUE_RESOLVER_OPTIONS = [
   "Organizar o processo inteiro",
 ];
 
+const inputClasses =
+  "w-full min-h-[48px] px-3 py-2.5 rounded-lg border border-[#D7E1EE] text-[16px] text-[#17324F] outline-none focus:border-[#075BCC] focus:ring-1 focus:ring-[#075BCC]/30 transition-colors";
+
 export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSectionProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -152,6 +154,13 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
   useEffect(() => {
     setCalendarDays(buildCalendarDays(freeSlots));
   }, [freeSlots]);
+
+  // Auto-select first available day when data loads
+  useEffect(() => {
+    if (calendarDays.length > 0 && !selectedDay) {
+      setSelectedDay(calendarDays[0] ?? null);
+    }
+  }, [calendarDays, selectedDay]);
 
   const handleSelectDay = (day: DaySlot) => {
     setSelectedDay(day);
@@ -250,7 +259,6 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-[10px] bg-[#075BCC] text-white font-['Poppins'] font-semibold text-[14px] hover:bg-[#0866e2] transition-colors"
             >
-              <Clock className="w-4 h-4" />
               Adicionar ao calendário
             </a>
             <button
@@ -265,217 +273,227 @@ export function BookingSection({ buyerPhone, buyerName, buyerEmail }: BookingSec
             </button>
           </div>
         </div>
-      ) : loading ? (
-        <div className="mt-7 flex flex-col items-center justify-center py-10 text-[#53677D] gap-3">
-          <Loader2 className="w-7 h-7 animate-spin text-[#075BCC]" />
-          <p className="text-[15px]">Carregando horários disponíveis…</p>
-        </div>
-      ) : error ? (
-        <div className="mt-7 text-center py-8">
-          <p className="text-[16px] text-[#17324F] mb-4">{error}</p>
-          <button
-            type="button"
-            onClick={loadSlots}
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-[10px] bg-[#075BCC] text-white font-['Poppins'] font-semibold text-[14px] hover:bg-[#0866e2] transition-colors"
-          >
-            Tentar novamente
-          </button>
-        </div>
-      ) : calendarDays.length === 0 ? (
-        <div className="mt-7 text-center py-8">
-          <p className="text-[16px] text-[#17324F] mb-4">
-            Não há horários disponíveis no momento. Tente novamente em alguns instantes.
-          </p>
-          <button
-            type="button"
-            onClick={loadSlots}
-            className="inline-flex items-center justify-center px-5 py-2.5 rounded-[10px] bg-[#075BCC] text-white font-['Poppins'] font-semibold text-[14px] hover:bg-[#0866e2] transition-colors"
-          >
-            Recarregar horários
-          </button>
-        </div>
       ) : (
-        <div className="mt-7 space-y-5">
-          {/* Seleção de dia */}
-          <div>
-            <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[14px] mb-2">
-              1. Escolha o dia:
-            </label>
-            <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 snap-x">
-              {calendarDays.map((day) => (
-                <button
-                  key={day.dateISO}
-                  type="button"
-                  onClick={() => handleSelectDay(day)}
-                  className={`shrink-0 snap-start flex flex-col items-center justify-center w-16 py-2.5 rounded-lg border transition-all ${
-                    selectedDay?.dateISO === day.dateISO
-                      ? "bg-[#092C5D] text-white border-[#092C5D]"
-                      : "bg-[#F2F7FD] text-[#092C5D] border-[#D7E1EE] hover:border-[#075BCC]"
-                  }`}
-                >
-                  <span className="text-[11px] font-medium opacity-80">{day.label}</span>
-                  <span className="text-[18px] font-['Poppins'] font-bold leading-tight">
-                    {day.dayNum}
-                  </span>
-                </button>
-              ))}
+        <div className="mt-7 space-y-6">
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-10 text-[#53677D] gap-3">
+              <Loader2 className="w-7 h-7 animate-spin text-[#075BCC]" />
+              <p className="text-[15px]">Carregando horários disponíveis…</p>
             </div>
-          </div>
-
-          {/* Seleção de horário */}
-          {selectedDay && (
-            <div className="transition-all duration-150">
-              <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[14px] mb-2">
-                2. Escolha o horário disponível:
-              </label>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                {selectedDay.slots.map((slot) => (
-                  <button
-                    key={slot}
-                    type="button"
-                    onClick={() => handleSelectSlot(slot)}
-                    className={`py-2.5 px-2 rounded-lg text-[15px] font-['Poppins'] font-medium border transition-all ${
-                      selectedSlot === slot
-                        ? "bg-[#075BCC] text-white border-[#075BCC] font-bold"
-                        : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
-                    }`}
-                  >
-                    {formatSlotTime(slot)}
-                  </button>
-                ))}
-              </div>
+          ) : error ? (
+            <div className="text-center py-8">
+              <p className="text-[16px] text-[#17324F] mb-4">{error}</p>
+              <button
+                type="button"
+                onClick={loadSlots}
+                className="inline-flex items-center justify-center px-5 py-2.5 rounded-[10px] bg-[#075BCC] text-white font-['Poppins'] font-semibold text-[14px] hover:bg-[#0866e2] transition-colors"
+              >
+                Tentar novamente
+              </button>
             </div>
-          )}
-
-          {/* Formulário de dados */}
-          {selectedSlot && (
-            <div className="mt-2 space-y-4 transition-all duration-150">
-              <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[14px] mb-1">
-                3. Seus dados para o agendamento:
-              </label>
-
+          ) : calendarDays.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-[16px] text-[#17324F] mb-4">
+                Não há horários disponíveis no momento. Tente novamente em alguns instantes.
+              </p>
+              <button
+                type="button"
+                onClick={loadSlots}
+                className="inline-flex items-center justify-center px-5 py-2.5 rounded-[10px] bg-[#075BCC] text-white font-['Poppins'] font-semibold text-[14px] hover:bg-[#0866e2] transition-colors"
+              >
+                Recarregar horários
+              </button>
+            </div>
+          ) : (
+            <>
+              {/* === ETAPA ÚNICA: dia + horário + dados === */}
+              {/* Seleção de dia */}
               <div>
-                <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1">
-                  Nome completo
+                <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[15px] mb-2">
+                  Escolha o dia
                 </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Seu nome"
-                  autoComplete="name"
-                  className="w-full min-h-[48px] px-3 py-2.5 rounded-lg border border-[#D7E1EE] text-[16px] text-[#17324F] outline-none focus:border-[#075BCC] focus:ring-1 focus:ring-[#075BCC]/30 transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1">
-                  WhatsApp com DDD
-                  <span className="block text-[13px] font-normal text-[#53677D]">
-                    Vamos confirmar sua cidade e enviar sua lista por aqui.
-                  </span>
-                </label>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="(11) 99999-9999"
-                  autoComplete="tel"
-                  className="w-full min-h-[48px] px-3 py-2.5 rounded-lg border border-[#D7E1EE] text-[16px] text-[#17324F] outline-none focus:border-[#075BCC] focus:ring-1 focus:ring-[#075BCC]/30 transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1">
-                  E-mail
-                  <span className="block text-[13px] font-normal text-[#53677D]">
-                    Para receber o comprovante da compra.
-                  </span>
-                </label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="seu@email.com"
-                  autoComplete="email"
-                  className="w-full min-h-[48px] px-3 py-2.5 rounded-lg border border-[#D7E1EE] text-[16px] text-[#17324F] outline-none focus:border-[#075BCC] focus:ring-1 focus:ring-[#075BCC]/30 transition-colors"
-                />
-              </div>
-
-              {/* Perguntas de preparação */}
-              <div>
-                <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1.5">
-                  Hoje, quem cuida das vendas?
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {QUEM_CUIDA_OPTIONS.map((opt) => (
+                <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 snap-x">
+                  {calendarDays.map((day) => (
                     <button
-                      key={opt}
+                      key={day.dateISO}
                       type="button"
-                      onClick={() => setQuemCuida(opt)}
-                      className={`min-h-[48px] px-3 py-2 rounded-lg text-[14px] font-['Poppins'] font-semibold border transition-all text-center ${
-                        quemCuida === opt
-                          ? "bg-[#075BCC]/10 text-[#075BCC] border-[#075BCC]"
-                          : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
+                      onClick={() => handleSelectDay(day)}
+                      className={`shrink-0 snap-start flex flex-col items-center justify-center w-[60px] py-2.5 rounded-lg border transition-all ${
+                        selectedDay?.dateISO === day.dateISO
+                          ? "bg-[#092C5D] text-white border-[#092C5D]"
+                          : "bg-[#F2F7FD] text-[#092C5D] border-[#D7E1EE] hover:border-[#075BCC]"
                       }`}
                     >
-                      {opt}
+                      <span className="text-[11px] font-medium opacity-80">{day.label}</span>
+                      <span className="text-[18px] font-['Poppins'] font-bold leading-tight">
+                        {day.dayNum}
+                      </span>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <div>
-                <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1.5">
-                  O que você mais quer resolver nessa conversa?
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {O_QUE_RESOLVER_OPTIONS.map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => setOQueResolver(opt)}
-                      className={`min-h-[48px] px-3 py-2 rounded-lg text-[14px] font-['Poppins'] font-semibold border transition-all text-center ${
-                        oQueResolver === opt
-                          ? "bg-[#075BCC]/10 text-[#075BCC] border-[#075BCC]"
-                          : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Botão de confirmação */}
-          {selectedSlot && (
-            <div className="pt-2">
-              <SalesButton
-                text="CONFIRMAR MINHA CONSULTORIA"
-                onClick={handleSubmit}
-                size="large"
-                className={canSubmit ? "" : "pointer-events-none opacity-60"}
-              />
-              {submitting && (
-                <div className="mt-3 flex items-center justify-center gap-2 text-[14px] text-[#53677D]">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Confirmando seu agendamento…
+              {/* Seleção de horário */}
+              {selectedDay && (
+                <div className="transition-all duration-150">
+                  <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[15px] mb-2">
+                    Escolha o horário
+                  </label>
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                    {selectedDay.slots.map((slot) => (
+                      <button
+                        key={slot}
+                        type="button"
+                        onClick={() => handleSelectSlot(slot)}
+                        className={`py-2.5 px-2 rounded-lg text-[15px] font-['Poppins'] font-medium border transition-all ${
+                          selectedSlot === slot
+                            ? "bg-[#075BCC] text-white border-[#075BCC] font-bold"
+                            : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
+                        }`}
+                      >
+                        {formatSlotTime(slot)}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
-              {error && <p className="mt-3 text-center text-[14px] text-[#b91c1c]">{error}</p>}
-              <p className="mt-3 text-center text-[13px] text-[#53677D] leading-[1.5]">
-                Você recebe a confirmação e os detalhes pelo WhatsApp.
-              </p>
-              <p className="mt-1 text-center text-[12px] text-[#53677D]">
-                Sua lista será entregue normalmente, mesmo se você não agendar.
-              </p>
-              <p className="mt-2 text-center text-[13px] text-[#53677D] leading-[1.5] max-w-[460px] mx-auto">
-                As 24h são o horizonte do plano de execução. Os resultados dependem da preparação,
-                do atendimento e das respostas dos contatos.
-              </p>
-            </div>
+
+              {/* Formulário de dados — sempre visível */}
+              <div className="space-y-4 pt-2 border-t border-[#D7E1EE]">
+                <label className="block font-['Poppins'] font-semibold text-[#092C5D] text-[15px] pt-4">
+                  Seus dados
+                </label>
+
+                <div>
+                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1">
+                    Nome completo
+                  </label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Seu nome"
+                    autoComplete="name"
+                    className={inputClasses}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1">
+                    WhatsApp com DDD
+                    <span className="block text-[13px] font-normal text-[#53677D]">
+                      Vamos confirmar sua cidade e enviar sua lista por aqui.
+                    </span>
+                  </label>
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="(11) 99999-9999"
+                    autoComplete="tel"
+                    className={inputClasses}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1">
+                    E-mail
+                    <span className="block text-[13px] font-normal text-[#53677D]">
+                      Para receber o comprovante da compra.
+                    </span>
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="seu@email.com"
+                    autoComplete="email"
+                    className={inputClasses}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1.5">
+                    Hoje, quem cuida das vendas?
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {QUEM_CUIDA_OPTIONS.map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => setQuemCuida(opt)}
+                        className={`min-h-[48px] px-3 py-2 rounded-lg text-[14px] font-['Poppins'] font-semibold border transition-all text-center ${
+                          quemCuida === opt
+                            ? "bg-[#075BCC]/10 text-[#075BCC] border-[#075BCC]"
+                            : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[14px] font-['Open_Sans'] font-semibold text-[#17324F] mb-1.5">
+                    O que você mais quer resolver nessa conversa?
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {O_QUE_RESOLVER_OPTIONS.map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => setOQueResolver(opt)}
+                        className={`min-h-[48px] px-3 py-2 rounded-lg text-[14px] font-['Poppins'] font-semibold border transition-all text-center ${
+                          oQueResolver === opt
+                            ? "bg-[#075BCC]/10 text-[#075BCC] border-[#075BCC]"
+                            : "bg-white text-[#17324F] border-[#D7E1EE] hover:border-[#075BCC]"
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Botão de confirmação */}
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={!canSubmit}
+                  className={`btn-sales rounded-[10px] w-full flex items-center justify-center font-['Poppins'] font-bold text-[17px] sm:text-[19px] min-h-[56px] px-6 py-4 text-center leading-tight transition-all duration-150 ${
+                    canSubmit ? "cursor-pointer" : "pointer-events-none opacity-50 grayscale-[0.3]"
+                  }`}
+                >
+                  {submitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Confirmando…
+                    </span>
+                  ) : (
+                    "CONFIRMAR MINHA CONSULTORIA"
+                  )}
+                </button>
+                {!selectedSlot && (
+                  <p className="mt-3 text-center text-[14px] text-[#53677D]">
+                    Selecione um dia e um horário acima para continuar.
+                  </p>
+                )}
+                {error && <p className="mt-3 text-center text-[14px] text-[#b91c1c]">{error}</p>}
+                <p className="mt-3 text-center text-[13px] text-[#53677D] leading-[1.5]">
+                  Você recebe a confirmação e os detalhes pelo WhatsApp.
+                </p>
+                <p className="mt-1 text-center text-[12px] text-[#53677D]">
+                  Sua lista será entregue normalmente, mesmo se você não agendar.
+                </p>
+                <p className="mt-2 text-center text-[13px] text-[#53677D] leading-[1.5] max-w-[460px] mx-auto">
+                  As 24h são o horizonte do plano de execução. Os resultados dependem da preparação,
+                  do atendimento e das respostas dos contatos.
+                </p>
+              </div>
+            </>
           )}
         </div>
       )}
