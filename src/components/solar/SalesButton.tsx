@@ -1,5 +1,3 @@
-import { ArrowRight } from "lucide-react";
-
 interface SalesButtonProps {
   text: string;
   subtext?: string;
@@ -19,10 +17,7 @@ export function SalesButton({
 }: SalesButtonProps) {
   const content = (
     <div className="flex flex-col items-center justify-center text-center w-full">
-      <span className="inline-flex items-center justify-center gap-2.5 font-bold uppercase tracking-wide">
-        <span>{text}</span>
-        <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFE344] shrink-0 stroke-[3]" />
-      </span>
+      <span className="font-bold uppercase tracking-wide">{text}</span>
       {subtext && (
         <span className="text-xs sm:text-sm font-normal text-white/90 mt-1">{subtext}</span>
       )}
