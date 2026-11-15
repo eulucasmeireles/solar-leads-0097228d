@@ -304,23 +304,6 @@ function ThankYouPage() {
 
           {/* H. FAQ */}
           <ObrigadoFaq />
-
-          {/* I. Fechamento */}
-          <section className="mt-12 sm:mt-16 text-center">
-            <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[22px] sm:text-[28px] leading-[1.2] [text-wrap:balance]">
-              A parte de virar fóssil pode ficar só na tirinha.
-            </h2>
-            <p className="mt-4 text-[16px] sm:text-[18px] text-[#17324F] leading-[1.6] max-w-[520px] mx-auto">
-              Você já garantiu os contatos. Agora vamos conversar sobre como acelerar o próximo
-              passo.
-            </p>
-            <div className="mt-6 flex flex-col items-center">
-              <div className="inline-block mb-2 font-['Poppins'] font-extrabold text-[12px] sm:text-[13px] text-[#092C5D] bg-[#FFE344] px-3 py-1 rounded-full uppercase tracking-wider">
-                100% Gratuita
-              </div>
-              <SalesButton text="QUERO AGENDAR MINHA CONSULTORIA" href="#agendar" size="large" />
-            </div>
-          </section>
         </div>
       </main>
 
