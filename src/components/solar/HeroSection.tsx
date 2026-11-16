@@ -5,14 +5,10 @@ export function HeroSection() {
   return (
     <section className="px-5 pt-8 pb-12 sm:pt-14 sm:pb-16">
       <div className="max-w-[760px] mx-auto text-left">
-        <span className="inline-block font-['Poppins'] font-bold text-[12px] sm:text-[13px] tracking-wider uppercase text-[#075BCC] bg-[#F2F7FD] border border-[#D7E1EE] px-3 py-1 rounded-full">
-          PARA QUEM VENDE ENERGIA SOLAR
-        </span>
-
-        <h1 className="mt-4 font-['Poppins'] font-bold text-[#092C5D] text-[28px] sm:text-[38px] md:text-[46px] leading-[1.14] tracking-tight">
+        <h1 className="font-['Poppins'] font-bold text-[#092C5D] text-[28px] sm:text-[38px] md:text-[46px] leading-[1.14] tracking-tight">
           <span className="text-[#075BCC]">R$84 mil</span> nos meus primeiros 27 dias vendendo
-          energia solar.{" "}
-          <span className="font-['Caveat'] text-[32px] sm:text-[42px] text-[#092C5D] font-bold marker-highlight whitespace-normal inline">
+          <span className="marker-highlight">energia solar</span>.{" "}
+          <span className="font-['Caveat'] text-[32px] sm:text-[42px] text-[#092C5D] font-bold whitespace-normal inline">
             Sem gastar com anúncios.
           </span>
         </h1>
