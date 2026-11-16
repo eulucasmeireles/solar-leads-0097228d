@@ -62,8 +62,13 @@ export function priceOrder(extraKeys: string[]): PricedOrder {
   const kit = unique.includes(KIT_KEY);
   if (kit && unique.length > 1) throw new Error("O kit já inclui os extras avulsos.");
   const chosen = kit ? [KIT_CONFIG] : ORDER_BUMPS.filter((b) => unique.includes(b.key));
+  // TESTE: o secret opcional TEST_BASE_PRICE_CENTS (ex.: 100) troca o preço-base só no servidor.
+  // Deixe-o VAZIO ou apagado em produção.
+  const override = Number(process.env["TEST_BASE_PRICE_CENTS"]);
+  const baseCents =
+    Number.isInteger(override) && override >= 100 ? override : Math.round(BASE_PRICE * 100);
   const items = [
-    { description: MAIN_PRODUCT_CONFIG.title, quantity: 1, price: Math.round(BASE_PRICE * 100) },
+    { description: MAIN_PRODUCT_CONFIG.title, quantity: 1, price: baseCents },
     ...chosen.map((b) => ({ description: b.title, quantity: 1, price: Math.round(b.price * 100) })),
   ];
   return {
