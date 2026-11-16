@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { X, Loader2, ShieldCheck } from "lucide-react";
 import { trackLeadCapture } from "@/lib/lead-tracking";
+import { saveLead } from "@/lib/lead-store";
 
 interface LeadCaptureModalProps {
   open: boolean;
@@ -31,7 +32,6 @@ function isValidPhone(raw: string): boolean {
 
 export function LeadCaptureModal({ open, onClose, onSuccess }: LeadCaptureModalProps) {
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -75,11 +75,18 @@ export function LeadCaptureModal({ open, onClose, onSuccess }: LeadCaptureModalP
     if (!formValid || status === "submitting") return;
 
     setStatus("submitting");
+    // Guarda os dados para pré-preencher o checkout.
+    saveLead({
+      firstName: firstName.trim(),
+      lastName: "",
+      email: email.trim(),
+      phone,
+    });
     // Fire-and-forget: envia ao CRM e segue para o checkout.
     try {
       trackLeadCapture({
         firstName: firstName.trim(),
-        lastName: lastName.trim() || firstName.trim(),
+        lastName: firstName.trim(),
         email: email.trim(),
         phone: phone,
       });
@@ -162,25 +169,6 @@ export function LeadCaptureModal({ open, onClose, onSuccess }: LeadCaptureModalP
               style={{
                 borderColor: touched && !nameValid ? "#ef4444" : "#D7E1EE",
               }}
-            />
-          </div>
-
-          {/* Sobrenome */}
-          <div>
-            <label
-              htmlFor="lead-lastname"
-              className="block text-[14px] font-['Open_Sans'] font-semibold text-[#092C5D] mb-1.5"
-            >
-              Sobrenome <span className="text-[#9AAABD] font-normal">(opcional)</span>
-            </label>
-            <input
-              id="lead-lastname"
-              type="text"
-              autoComplete="family-name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Seu sobrenome"
-              className="w-full min-h-[48px] rounded-[10px] border border-[#D7E1EE] bg-white px-3.5 text-[16px] text-[#17324F] font-['Open_Sans'] placeholder:text-[#9AAABD] outline-none transition-colors focus:border-[#075BCC] focus:ring-2 focus:ring-[#075BCC]/20"
             />
           </div>
 

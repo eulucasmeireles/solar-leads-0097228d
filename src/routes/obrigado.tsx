@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useHydrated } from "@tanstack/react-router";
 import { readCheckoutOrder, type CheckoutOrder } from "@/integrations/payments";
+import { clearLead } from "@/lib/lead-store";
 import { IMAGES } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
 import { BookingSection } from "@/components/solar/BookingSection";
@@ -47,6 +48,7 @@ function ThankYouPage() {
   useEffect(() => {
     if (hydrated) {
       setOrder(readCheckoutOrder());
+      clearLead();
     }
   }, [hydrated]);
 

@@ -3,12 +3,10 @@
  * Extraída da rota de checkout para mantê-la enxuta.
  */
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { PaymentCheckoutBlock } from "@/integrations/payments";
-import { BASE_PRICE, formatBRL, formatBRLcents } from "@/lib/checkout-config";
+import { BASE_PRICE, MAIN_PRODUCT_CONFIG, formatBRL, formatBRLcents } from "@/lib/checkout-config";
+import { InfinitePayForm } from "@/components/solar/InfinitePayForm";
 import { ReviewOverlay, StepBadge, WhatsAppIcon } from "@/components/solar/CheckoutOverlay";
 import type { BumpLite, ExtraLite } from "@/components/solar/CheckoutOverlay";
-import { trackLeadCapture } from "@/lib/lead-tracking";
 
 export interface CheckoutScreenProps {
   selectionKey: string;
@@ -30,7 +28,6 @@ export interface CheckoutScreenProps {
 }
 
 export function CheckoutScreen({
-  selectionKey,
   total,
   extras,
   hasDobro,
@@ -47,7 +44,6 @@ export function CheckoutScreen({
   removeExtra,
   onContinue,
 }: CheckoutScreenProps) {
-  const navigate = useNavigate();
   const [showReviewOverlay, setShowReviewOverlay] = useState(false);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
 
@@ -151,7 +147,7 @@ export function CheckoutScreen({
             )}
           </div>
 
-          {/* Bloco selado: coleta nome/WhatsApp/e-mail (passo 1) e pagamento (passo 2) */}
+          {/* Dados do comprador (passo 1) e envio ao pagamento da InfinitePay (passo 2) */}
           <div className="mt-4 bg-white rounded-2xl border border-solar-border shadow-sm p-4 sm:p-6 checkout-host-clean">
             <h2 className="font-heading font-bold text-solar-deep text-[18px] sm:text-[20px] mb-1">
               Onde vamos falar com você?
@@ -159,28 +155,13 @@ export function CheckoutScreen({
             <p className="text-[14px] sm:text-[15px] text-solar-muted leading-[1.5] mb-4">
               Nome, WhatsApp e e-mail. A gente confirma sua cidade e envia a lista pelo WhatsApp.
             </p>
-            <PaymentCheckoutBlock
-              key={selectionKey}
-              layout="two-step"
-              fields={{ phone: "required", address: "hidden" }}
-              onSuccess={(order) => {
-                // Alimenta o CRM com os dados do comprador (fire-and-forget)
-                const buyer = order.buyer;
-                if (buyer) {
-                  const parts = buyer.name.trim().split(/\s+/);
-                  try {
-                    trackLeadCapture({
-                      firstName: parts[0] ?? buyer.name,
-                      lastName: parts.slice(1).join(" ") || parts[0] || buyer.name,
-                      email: buyer.email,
-                      phone: buyer.phone ?? "",
-                    });
-                  } catch {
-                    /* não bloqueia a navegação */
-                  }
-                }
-                navigate({ to: "/obrigado" });
-              }}
+            <InfinitePayForm
+              total={total}
+              extraKeys={extras.map((extra) => extra.key)}
+              lines={[
+                { description: MAIN_PRODUCT_CONFIG.title, price: BASE_PRICE },
+                ...extras.map((extra) => ({ description: extra.title, price: extra.price })),
+              ]}
             />
           </div>
 
