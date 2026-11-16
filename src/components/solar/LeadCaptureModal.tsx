@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { X, Loader2, ShieldCheck } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
 import { trackLeadCapture } from "@/lib/lead-tracking";
 
 interface LeadCaptureModalProps {
@@ -36,6 +36,7 @@ export function LeadCaptureModal({ open, onClose, onSuccess }: LeadCaptureModalP
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [touched, setTouched] = useState(false);
+  const [consent, setConsent] = useState(false);
   const firstInputRef = useRef<HTMLInputElement>(null);
 
   // Trava o scroll do body quando aberto
@@ -67,7 +68,7 @@ export function LeadCaptureModal({ open, onClose, onSuccess }: LeadCaptureModalP
   const emailValid = isValidEmail(email);
   const phoneValid = isValidPhone(phone);
   const nameValid = firstName.trim().length >= 2;
-  const formValid = nameValid && emailValid && phoneValid;
+  const formValid = nameValid && emailValid && phoneValid && consent;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -261,12 +262,25 @@ export function LeadCaptureModal({ open, onClose, onSuccess }: LeadCaptureModalP
             )}
           </button>
 
-          {/* Confiança */}
-          <div className="flex items-center justify-center gap-1.5 pt-1">
-            <ShieldCheck className="w-4 h-4 text-[#075BCC] shrink-0" />
-            <span className="text-[13px] text-[#53677D] font-['Open_Sans']">
-              Seus dados estão seguros. Sem spam.
-            </span>
+          {/* Consentimento de contato pelo WhatsApp */}
+          <div className="pt-1">
+            <label className="flex items-start gap-2.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                required
+                className="mt-0.5 h-[18px] w-[18px] shrink-0 rounded-[5px] border-2 border-[#D7E1EE] accent-[#075BCC] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#075BCC]/30"
+              />
+              <span className="text-[13px] sm:text-[14px] text-[#53677D] font-['Open_Sans'] leading-[1.5]">
+                Concordo em receber minha lista e o atendimento pelo WhatsApp no número informado.
+              </span>
+            </label>
+            {touched && !consent && (
+              <p className="mt-1 ml-[26px] text-[12px] text-red-500 font-['Open_Sans']">
+                Marque para continuar.
+              </p>
+            )}
           </div>
         </form>
       </div>
