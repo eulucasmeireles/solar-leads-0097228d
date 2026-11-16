@@ -1,4 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import type { MouseEvent } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { CHECKOUT_URL, IMAGES } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
 import { FaqAccordion } from "@/components/solar/FaqAccordion";
@@ -6,6 +9,7 @@ import { TopBarCarousel } from "@/components/solar/TopBarCarousel";
 import { HeroSection } from "@/components/solar/HeroSection";
 import { ProblemAndStorySections } from "@/components/solar/ProblemAndStorySections";
 import { DeliverableAndOfferSections } from "@/components/solar/DeliverableAndOfferSections";
+import { LeadCaptureModal } from "@/components/solar/LeadCaptureModal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,19 +39,27 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const navigate = useNavigate();
+  const [leadModalOpen, setLeadModalOpen] = useState(false);
+
+  const handleBuyClick = (e: MouseEvent) => {
+    e.preventDefault();
+    setLeadModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-white text-[#17324F] font-['Open_Sans'] selection:bg-[#FFE344] selection:text-[#092C5D]">
       {/* Faixa superior com carrossel suave */}
       <TopBarCarousel />
 
-      {/* 1. Hero — Promessa e Produto (Ilustração da lista logo abaixo de 'Sem gastar com anúncios') */}
-      <HeroSection />
+      {/* 1. Hero — Promessa e Produto */}
+      <HeroSection onBuyClick={handleBuyClick} />
 
-      {/* 2. Problema (Dinossauro), 3. História (Lucas com sua foto real), 4. Prova (R$19.490) e 5. Mecanismo */}
+      {/* 2–5. Problema, História, Prova e Mecanismo */}
       <ProblemAndStorySections />
 
-      {/* 6. Entregável (PDF grande frontal), 7. Objeção, 8. Oferta e 9. Entrega */}
-      <DeliverableAndOfferSections />
+      {/* 6–9. Entregável, Objeção, Oferta e Entrega */}
+      <DeliverableAndOfferSections onBuyClick={handleBuyClick} />
 
       {/* ============================================================ */}
       {/* 10. GARANTIA                                                 */}
@@ -76,7 +88,12 @@ function Index() {
           </div>
 
           <div className="mt-8">
-            <SalesButton text="QUERO MINHA LISTA POR R$97" href={CHECKOUT_URL} size="large" />
+            <SalesButton
+              text="QUERO MINHA LISTA POR R$97"
+              href={CHECKOUT_URL}
+              onClick={handleBuyClick}
+              size="large"
+            />
           </div>
         </div>
       </section>
@@ -117,7 +134,12 @@ function Index() {
           </div>
 
           <div className="mt-7">
-            <SalesButton text="QUERO RECEBER MINHA LISTA" href={CHECKOUT_URL} size="large" />
+            <SalesButton
+              text="QUERO RECEBER MINHA LISTA"
+              href={CHECKOUT_URL}
+              onClick={handleBuyClick}
+              size="large"
+            />
           </div>
 
           <p className="mt-4 text-[14px] sm:text-[15px] text-[#53677D] font-medium">
@@ -136,6 +158,16 @@ function Index() {
           </p>
         </div>
       </footer>
+
+      {/* Modal de captura de lead — abre antes de ir para o checkout */}
+      <LeadCaptureModal
+        open={leadModalOpen}
+        onClose={() => setLeadModalOpen(false)}
+        onSuccess={() => {
+          setLeadModalOpen(false);
+          navigate({ to: "/checkout" });
+        }}
+      />
     </div>
   );
 }

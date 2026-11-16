@@ -95,10 +95,48 @@ export interface LeadCaptureData {
   phone: string;
 }
 
+const LEAD_STORAGE_KEY = "vibe.lead-capture.v1";
+
 /**
- * Envia os dados do lead para o CRM. Fire-and-forget.
+ * Persiste os dados do lead em localStorage para pré-popular o checkout
+ * quando o bloco selado de pagamento suportar leitura desses dados.
+ */
+export function saveLeadData(data: LeadCaptureData) {
+  try {
+    localStorage.setItem(LEAD_STORAGE_KEY, JSON.stringify({ ...data, savedAt: Date.now() }));
+  } catch {
+    /* localStorage indisponível — ignora */
+  }
+}
+
+/**
+ * Lê os dados do lead persistidos, se existirem.
+ */
+export function getLeadData(): LeadCaptureData | null {
+  try {
+    const raw = localStorage.getItem(LEAD_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (typeof parsed?.firstName === "string" && typeof parsed?.email === "string") {
+      return {
+        firstName: parsed.firstName,
+        lastName: parsed.lastName ?? "",
+        email: parsed.email,
+        phone: parsed.phone ?? "",
+      };
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Envia os dados do lead para o CRM e persiste localmente. Fire-and-forget.
  */
 export function trackLeadCapture(data: LeadCaptureData) {
+  saveLeadData(data);
+
   const trackingPayload = {
     type: "external_form_submission",
     timestamp: Date.now(),

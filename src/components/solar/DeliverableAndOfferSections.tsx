@@ -1,8 +1,13 @@
+import type { MouseEvent } from "react";
 import { IMAGES, CHECKOUT_URL } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
 import { CheckCircle2, Check, MapPin, FileCheck } from "lucide-react";
 
-export function DeliverableAndOfferSections() {
+interface DeliverableAndOfferSectionsProps {
+  onBuyClick?: (e: MouseEvent) => void;
+}
+
+export function DeliverableAndOfferSections({ onBuyClick }: DeliverableAndOfferSectionsProps) {
   return (
     <>
       {/* ============================================================ */}
@@ -188,6 +193,7 @@ export function DeliverableAndOfferSections() {
               <SalesButton
                 text="QUERO RECEBER MEUS 500 CONTATOS"
                 href={CHECKOUT_URL}
+                onClick={onBuyClick}
                 size="large"
               />
             </div>
@@ -263,7 +269,12 @@ export function DeliverableAndOfferSections() {
           </p>
 
           <div className="mt-6 text-center">
-            <SalesButton text="QUERO ESCOLHER MINHA CIDADE" href={CHECKOUT_URL} size="large" />
+            <SalesButton
+              text="QUERO ESCOLHER MINHA CIDADE"
+              href={CHECKOUT_URL}
+              onClick={onBuyClick}
+              size="large"
+            />
           </div>
         </div>
       </section>
