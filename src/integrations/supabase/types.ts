@@ -10,11 +10,70 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.18"
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          amount_cents: number
+          capture_method: string | null
+          created_at: string
+          delivered_at: string | null
+          delivery_error: string | null
+          email: string
+          extras: string
+          ghl_contact_id: string | null
+          id: string
+          invoice_slug: string | null
+          name: string
+          order_nsu: string
+          paid_amount_cents: number | null
+          paid_at: string | null
+          phone: string
+          status: string
+          transaction_nsu: string | null
+        }
+        Insert: {
+          amount_cents: number
+          capture_method?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          delivery_error?: string | null
+          email: string
+          extras?: string
+          ghl_contact_id?: string | null
+          id?: string
+          invoice_slug?: string | null
+          name: string
+          order_nsu: string
+          paid_amount_cents?: number | null
+          paid_at?: string | null
+          phone: string
+          status?: string
+          transaction_nsu?: string | null
+        }
+        Update: {
+          amount_cents?: number
+          capture_method?: string | null
+          created_at?: string
+          delivered_at?: string | null
+          delivery_error?: string | null
+          email?: string
+          extras?: string
+          ghl_contact_id?: string | null
+          id?: string
+          invoice_slug?: string | null
+          name?: string
+          order_nsu?: string
+          paid_amount_cents?: number | null
+          paid_at?: string | null
+          phone?: string
+          status?: string
+          transaction_nsu?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
