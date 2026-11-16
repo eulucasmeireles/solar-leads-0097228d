@@ -4,7 +4,7 @@ interface SalesButtonProps {
   text: string;
   subtext?: string;
   href?: string;
-  onClick?: (e: MouseEvent) => void;
+  onClick?: ((e: MouseEvent) => void) | undefined;
   className?: string;
   size?: "default" | "large";
 }

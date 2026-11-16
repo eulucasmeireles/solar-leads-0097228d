@@ -1,7 +1,12 @@
+import type { MouseEvent } from "react";
 import { CHECKOUT_URL, IMAGES } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
 
-export function HeroSection() {
+interface HeroSectionProps {
+  onBuyClick?: (e: MouseEvent) => void;
+}
+
+export function HeroSection({ onBuyClick }: HeroSectionProps) {
   return (
     <section className="px-5 pt-8 pb-12 sm:pt-14 sm:pb-16">
       <div className="max-w-[760px] mx-auto text-left">
@@ -36,7 +41,12 @@ export function HeroSection() {
         </p>
 
         <div className="mt-6 pt-1">
-          <SalesButton text="QUERO RECEBER MEUS 500 CONTATOS" href={CHECKOUT_URL} size="large" />
+          <SalesButton
+            text="QUERO RECEBER MEUS 500 CONTATOS"
+            href={CHECKOUT_URL}
+            onClick={onBuyClick}
+            size="large"
+          />
         </div>
       </div>
     </section>
