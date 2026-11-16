@@ -31,7 +31,8 @@ export function HeroSection() {
         </div>
 
         <p className="mt-6 text-[17px] sm:text-[19px] text-[#17324F] leading-[1.6]">
-          Receba 500 contatos enriquecidos da sua cidade de atuação e comece a prospectar hoje.
+          Receba 500 contatos enriquecidos da sua cidade de atuação e comece a prospectar agora
+          mesmo.
         </p>
 
         <div className="mt-6 pt-1">
