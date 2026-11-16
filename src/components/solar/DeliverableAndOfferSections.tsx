@@ -112,7 +112,7 @@ export function DeliverableAndOfferSections() {
       {/* ============================================================ */}
       <section id="oferta" className="px-5 py-12 sm:py-16 scroll-mt-6">
         <div className="max-w-[640px] mx-auto text-left">
-          <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] leading-[1.2] text-center">
+          <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[26px] sm:text-[34px] leading-[1.2] text-left">
             Seu próximo cliente pode estar nesta lista telefônica.
           </h2>
 
