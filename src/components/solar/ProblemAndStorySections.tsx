@@ -52,8 +52,7 @@ export function ProblemAndStorySections() {
       <section className="px-5 py-12 sm:py-16">
         <div className="max-w-[960px] mx-auto">
           <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[32px] leading-[1.2]">
-            Antes de vender essa lista, eu passei anos trabalhando com marketing e investindo em
-            tráfego.
+            Antes de vender essa lista, eu passei anos no marketing e investindo em tráfego.
           </h2>
 
           {/* Foto Real do Lucas logo abaixo da headline */}
@@ -68,9 +67,6 @@ export function ProblemAndStorySections() {
                 height="450"
               />
             </div>
-            <span className="mt-3 font-['Poppins'] font-semibold text-[#092C5D] text-[15px]">
-              Lucas Meireles
-            </span>
           </div>
 
           {/* Texto de história */}
