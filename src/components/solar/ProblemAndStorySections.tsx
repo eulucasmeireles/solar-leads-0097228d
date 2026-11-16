@@ -51,63 +51,61 @@ export function ProblemAndStorySections() {
       {/* ============================================================ */}
       <section className="px-5 py-12 sm:py-16">
         <div className="max-w-[960px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Foto Real do Lucas anexada */}
-            <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col items-center">
-              <div className="w-full max-w-[340px] rounded-2xl overflow-hidden border border-[#D7E1EE] shadow-[0_10px_25px_-10px_rgba(9,44,93,0.15)] bg-[#F2F7FD]">
-                <img
-                  src={IMAGES.fotoLucas}
-                  alt="Lucas Meireles — marketing e operação comercial na Energiza"
-                  className="w-full h-auto object-cover block"
-                  loading="lazy"
-                  width="400"
-                  height="450"
-                />
-              </div>
-              <span className="mt-3 font-['Poppins'] font-semibold text-[#092C5D] text-[15px]">
-                Lucas Meireles
-              </span>
+          <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[32px] leading-[1.2]">
+            Antes de vender essa lista, eu passei anos trabalhando com marketing e investindo em
+            tráfego.
+          </h2>
+
+          {/* Foto Real do Lucas logo abaixo da headline */}
+          <div className="mt-6 flex flex-col items-center sm:items-start">
+            <div className="w-full max-w-[400px] rounded-2xl overflow-hidden border border-[#D7E1EE] shadow-[0_10px_25px_-10px_rgba(9,44,93,0.15)] bg-[#F2F7FD]">
+              <img
+                src={IMAGES.fotoLucas}
+                alt="Lucas Meireles — marketing e operação comercial na Energiza"
+                className="w-full h-auto object-cover block"
+                loading="lazy"
+                width="400"
+                height="450"
+              />
             </div>
+            <span className="mt-3 font-['Poppins'] font-semibold text-[#092C5D] text-[15px]">
+              Lucas Meireles
+            </span>
+          </div>
 
-            {/* Texto de história */}
-            <div className="lg:col-span-7 order-1 lg:order-2 text-left">
-              <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[32px] leading-[1.2]">
-                Antes de vender essa lista, eu passei anos trabalhando com marketing e investindo em
-                tráfego.
-              </h2>
-
-              <div className="mt-6 space-y-4 text-[17px] leading-[1.6] text-[#17324F]">
-                <p>Eu sou o Lucas Meireles.</p>
-                <p>
-                  Meu trabalho passa por campanhas, anúncios, páginas de vendas, funis e automações.
-                  E, na Energiza, também participo da operação comercial: ofertas, orçamentos e
-                  propostas de energia solar.
-                </p>
-                <p>Então eu acompanho os dois lados.</p>
-                <p>
-                  O esforço para fazer um contato chegar. E o trabalho para transformar aquela
-                  conversa em um projeto.
-                </p>
-                <p>
-                  Depois de anos investindo em tráfego, uma coisa ficou clara pra mim: o custo não
-                  termina quando o lead chega.
-                </p>
-                <p>
-                  Você ainda precisa atender, entender o cenário, montar a proposta e acompanhar a
-                  negociação.
-                </p>
-                <p>
-                  E, quando o contato fica mais caro, essa conta aperta antes mesmo de a venda
-                  acontecer.
-                </p>
-                <p>
-                  Eu queria ter outra forma de começar conversas. Uma que não exigisse colocar mais
-                  dinheiro em anúncios a cada nova tentativa de encontrar clientes.
-                </p>
-                <p className="font-['Poppins'] font-semibold text-[#092C5D] text-[18px] bg-[#F2F7FD] p-4 rounded-lg border-l-4 border-[#075BCC]">
-                  Foi aí que a lista entrou na minha operação.
-                </p>
-              </div>
+          {/* Texto de história */}
+          <div className="mt-8 max-w-[680px] text-left">
+            <div className="space-y-4 text-[17px] leading-[1.6] text-[#17324F]">
+              <p>Eu sou o Lucas Meireles.</p>
+              <p>
+                Meu trabalho passa por campanhas, anúncios, páginas de vendas, funis e automações.
+                E, na Energiza, também participo da operação comercial: ofertas, orçamentos e
+                propostas de energia solar.
+              </p>
+              <p>Então eu acompanho os dois lados.</p>
+              <p>
+                O esforço para fazer um contato chegar. E o trabalho para transformar aquela
+                conversa em um projeto.
+              </p>
+              <p>
+                Depois de anos investindo em tráfego, uma coisa ficou clara pra mim: o custo não
+                termina quando o lead chega.
+              </p>
+              <p>
+                Você ainda precisa atender, entender o cenário, montar a proposta e acompanhar a
+                negociação.
+              </p>
+              <p>
+                E, quando o contato fica mais caro, essa conta aperta antes mesmo de a venda
+                acontecer.
+              </p>
+              <p>
+                Eu queria ter outra forma de começar conversas. Uma que não exigisse colocar mais
+                dinheiro em anúncios a cada nova tentativa de encontrar clientes.
+              </p>
+              <p className="font-['Poppins'] font-semibold text-[#092C5D] text-[18px] bg-[#F2F7FD] p-4 rounded-lg border-l-4 border-[#075BCC]">
+                Foi aí que a lista entrou na minha operação.
+              </p>
             </div>
           </div>
         </div>
