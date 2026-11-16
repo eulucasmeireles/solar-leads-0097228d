@@ -31,12 +31,7 @@ export function HeroSection() {
         </div>
 
         <p className="mt-6 text-[17px] sm:text-[19px] text-[#17324F] leading-[1.6]">
-          Todos esses projetos vieram de uma lista de contatos. Agora você pode receber 500 contatos
-          enriquecidos da cidade que escolher para começar sua própria prospecção.
-        </p>
-
-        <p className="mt-3 text-[14px] sm:text-[15px] text-[#53677D]">
-          Nome, WhatsApp verificado e informações para orientar sua abordagem.
+          Receba 500 contatos enriquecidos da sua cidade de atuação e comece a prospectar hoje.
         </p>
 
         <div className="mt-6 pt-1">
