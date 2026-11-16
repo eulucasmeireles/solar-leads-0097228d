@@ -156,7 +156,7 @@ export function ProblemAndStorySections() {
       {/* ============================================================ */}
       <section className="px-5 py-12 sm:py-16">
         <div className="max-w-[680px] mx-auto text-left">
-          <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[32px] leading-[1.2] text-center">
+          <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[32px] leading-[1.2] text-left">
             Você já se perguntou de onde vem o número que um call center usa para te ligar?
           </h2>
 
