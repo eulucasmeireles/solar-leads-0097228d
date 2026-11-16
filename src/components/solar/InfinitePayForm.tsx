@@ -11,8 +11,14 @@ import {
   type CheckoutLine,
 } from "@/lib/infinitepay";
 import { formatBRLcents } from "@/lib/checkout-config";
-import { trackLeadCapture } from "@/lib/lead-tracking";
-import { loadLead, saveLead, type StoredLead } from "@/lib/lead-store";
+import { getLeadData, trackLeadCapture, type LeadCaptureData } from "@/lib/lead-tracking";
+
+/** Nome completo a partir do lead guardado (o modal repete o nome quando não há sobrenome). */
+function fullName(lead: LeadCaptureData): string {
+  const first = lead.firstName.trim();
+  const last = lead.lastName.trim();
+  return last && last !== first ? `${first} ${last}` : first;
+}
 
 const inputClass =
   "w-full min-h-[48px] rounded-[10px] border border-[#D7E1EE] bg-white px-3.5 text-[16px] text-[#17324F] font-['Open_Sans'] placeholder:text-[#9AAABD] outline-none transition-colors focus:border-[#075BCC] focus:ring-2 focus:ring-[#075BCC]/20";
@@ -34,13 +40,13 @@ export function InfinitePayForm({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   // Lead capturado na primeira página; lido após a hidratação para não divergir do servidor.
-  const [prefilled, setPrefilled] = useState<StoredLead | null>(null);
+  const [prefilled, setPrefilled] = useState<LeadCaptureData | null>(null);
 
   useEffect(() => {
-    const lead = loadLead();
+    const lead = getLeadData();
     if (!lead) return;
     setPrefilled(lead);
-    setName(`${lead.firstName} ${lead.lastName}`.trim());
+    setName(fullName(lead));
     setPhone(lead.phone);
     setEmail(lead.email);
   }, []);
@@ -72,7 +78,7 @@ export function InfinitePayForm({
         !prefilled ||
         prefilled.email.trim().toLowerCase() !== cleanEmail ||
         normalizePhone(prefilled.phone) !== e164 ||
-        `${prefilled.firstName} ${prefilled.lastName}`.trim() !== cleanName;
+        fullName(prefilled) !== cleanName;
       if (changed) {
         try {
           trackLeadCapture({
@@ -84,7 +90,6 @@ export function InfinitePayForm({
         } catch {
           /* não bloqueia o pagamento */
         }
-        saveLead({ firstName, lastName, email: cleanEmail, phone });
       }
       const url = await createInfinitePayLink(
         { name: cleanName, email: cleanEmail, phone: e164 },

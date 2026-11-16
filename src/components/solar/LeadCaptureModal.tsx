@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { X, Loader2 } from "lucide-react";
 import { trackLeadCapture } from "@/lib/lead-tracking";
-import { saveLead } from "@/lib/lead-store";
 
 interface LeadCaptureModalProps {
   open: boolean;
@@ -76,13 +75,6 @@ export function LeadCaptureModal({ open, onClose, onSuccess }: LeadCaptureModalP
     if (!formValid || status === "submitting") return;
 
     setStatus("submitting");
-    // Guarda os dados para pré-preencher o checkout.
-    saveLead({
-      firstName: firstName.trim(),
-      lastName: "",
-      email: email.trim(),
-      phone,
-    });
     // Fire-and-forget: envia ao CRM e segue para o checkout.
     try {
       trackLeadCapture({

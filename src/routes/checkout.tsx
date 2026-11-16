@@ -1,11 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useHydrated } from "@tanstack/react-router";
-import {
-  isCheckoutReturn,
-  listCatalogProducts,
-  type CatalogProduct,
-} from "@/integrations/payments";
 import {
   BASE_PRICE,
   INDIVIDUAL_CONFIGS,
@@ -13,11 +8,7 @@ import {
   INDIV_PRICE,
   KIT_CONFIG,
   KIT_KEY,
-  MAIN_PRODUCT_CONFIG,
-  SELECTION_KEY,
-  findProduct,
   formatBRL,
-  getPriceId,
 } from "@/lib/checkout-config";
 import { CheckoutScreen } from "@/components/solar/CheckoutScreen";
 import { ReviewScreen } from "@/components/solar/ReviewScreen";
@@ -32,14 +23,6 @@ export const Route = createFileRoute("/checkout")({
       },
     ],
   }),
-  loader: async () => {
-    try {
-      const page = await listCatalogProducts({ limit: 24 });
-      return { products: page.products };
-    } catch {
-      return { products: [] as CatalogProduct[] };
-    }
-  },
   component: CheckoutPage,
   errorComponent: ({ error }) => (
     <div className="min-h-screen flex items-center justify-center bg-solar-bg-alt p-5">
@@ -63,26 +46,12 @@ export const Route = createFileRoute("/checkout")({
 });
 
 function CheckoutPage() {
-  const { products } = Route.useLoaderData();
   const hydrated = useHydrated();
   const [showCheckout, setShowCheckout] = useState(false);
   const [showIndividuals, setShowIndividuals] = useState(false);
   const [selectedBumps, setSelectedBumps] = useState<Set<string>>(new Set());
 
-  const mainProduct = findProduct(products, MAIN_PRODUCT_CONFIG.searchName);
-  const kitProduct = findProduct(products, KIT_CONFIG.searchName);
-  const individualConfigs = INDIVIDUAL_CONFIGS.map((c) => ({
-    ...c,
-    product: findProduct(products, c.searchName),
-  }));
-
-  const hasProducts = !!mainProduct;
-
-  useEffect(() => {
-    if (hydrated && isCheckoutReturn()) {
-      setShowCheckout(true);
-    }
-  }, [hydrated]);
+  const individualConfigs = INDIVIDUAL_CONFIGS;
 
   const selectedKit = selectedBumps.has(KIT_KEY);
   const selectedIndividualKeys = INDIVIDUAL_KEYS.filter((k) => selectedBumps.has(k));
@@ -121,30 +90,8 @@ function CheckoutPage() {
       return next;
     });
 
-  const buildItems = () => {
-    if (!mainProduct) return null;
-    const mainPriceId = getPriceId(mainProduct);
-    if (!mainPriceId) return null;
-    const items: { priceId: string; quantity: number }[] = [{ priceId: mainPriceId, quantity: 1 }];
-    if (selectedKit && kitProduct) {
-      const priceId = getPriceId(kitProduct);
-      if (priceId) items.push({ priceId, quantity: 1 });
-    } else {
-      for (const k of selectedIndividualKeys) {
-        const cfg = individualConfigs.find((c) => c.key === k);
-        if (cfg?.product) {
-          const priceId = getPriceId(cfg.product);
-          if (priceId) items.push({ priceId, quantity: 1 });
-        }
-      }
-    }
-    return items;
-  };
-
   const handleContinue = () => {
-    const items = buildItems();
-    if (!items || !hydrated) return;
-    localStorage.setItem(SELECTION_KEY, JSON.stringify({ items }));
+    if (!hydrated) return;
     setShowCheckout(true);
   };
 
@@ -203,33 +150,6 @@ function CheckoutPage() {
         removeExtra={removeExtra}
         onContinue={handleContinue}
       />
-    );
-  }
-
-  // ---- Sem produtos cadastrados ----
-  if (hydrated && !hasProducts) {
-    return (
-      <div className="min-h-screen bg-solar-bg-alt flex items-center justify-center p-5">
-        <div className="max-w-md text-center bg-white rounded-2xl border border-solar-border p-8 shadow-lg">
-          <h1 className="font-heading font-bold text-solar-deep text-xl mb-3">
-            Produtos em configuração
-          </h1>
-          <p className="text-solar-muted text-[15px] leading-relaxed">
-            Os produtos ainda não foram cadastrados no catálogo de pagamentos. Acesse{" "}
-            <strong className="text-solar-deep">Mais → Pagamentos</strong> e cadastre:
-          </p>
-          <ul className="mt-4 text-left text-[14px] text-solar-text space-y-1.5">
-            <li>• Lista de 500 contatos enriquecidos — R$97</li>
-            <li>• 7 mensagens prontas — R$27</li>
-            <li>• 5 perguntas de qualificação — R$27</li>
-            <li>• Dobro de contatos (1.000 leads) — R$27</li>
-            <li>• Kit Corta Caminho — R$47</li>
-          </ul>
-          <p className="mt-4 text-solar-muted text-[14px] leading-relaxed">
-            Depois de cadastrar, esta página vai exibi-los automaticamente.
-          </p>
-        </div>
-      </div>
     );
   }
 
