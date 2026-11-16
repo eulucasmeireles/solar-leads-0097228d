@@ -124,21 +124,11 @@ html {
 /* Pen highlighter marker effect behind lower part of text */
 .marker-highlight {
   position: relative;
-  display: inline;
-  white-space: nowrap;
-}
-
-.marker-highlight::after {
-  content: "";
-  position: absolute;
-  left: -2px;
-  right: -2px;
-  bottom: 2px;
-  height: 42%;
-  background-color: var(--color-solar-yellow);
-  z-index: -1;
-  border-radius: 2px;
-  opacity: 0.92;
+  display: inline-block;
+  background-color: #ffe344;
+  color: #092c5d;
+  padding: 0 6px;
+  line-height: 1.15;
 }
 
 /* 3D sales-letter button */
