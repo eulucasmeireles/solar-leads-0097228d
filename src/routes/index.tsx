@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CHECKOUT_URL, IMAGES } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
 import { FaqAccordion } from "@/components/solar/FaqAccordion";
 import { TopBarCarousel } from "@/components/solar/TopBarCarousel";
-import { HeroSection, ImageZoomModal } from "@/components/solar/HeroSection";
+import { HeroSection } from "@/components/solar/HeroSection";
 import { ProblemAndStorySections } from "@/components/solar/ProblemAndStorySections";
 import { DeliverableAndOfferSections } from "@/components/solar/DeliverableAndOfferSections";
 
@@ -36,21 +35,19 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [zoomImage, setZoomImage] = useState<{ src: string; alt: string } | null>(null);
-
   return (
     <div className="min-h-screen bg-white text-[#17324F] font-['Open_Sans'] selection:bg-[#FFE344] selection:text-[#092C5D]">
       {/* Faixa superior com carrossel suave */}
       <TopBarCarousel />
 
-      {/* 1. Hero — Promessa e Produto (Mockup compacto frontal) */}
-      <HeroSection onZoom={setZoomImage} />
+      {/* 1. Hero — Promessa e Produto (Ilustração da lista logo abaixo de 'Sem gastar com anúncios') */}
+      <HeroSection />
 
-      {/* 2. Problema (Dinossauro), 3. História (Lucas) e 4. Prova (R$19.490) e 5. Mecanismo */}
-      <ProblemAndStorySections onZoom={setZoomImage} />
+      {/* 2. Problema (Dinossauro), 3. História (Lucas com sua foto real), 4. Prova (R$19.490) e 5. Mecanismo */}
+      <ProblemAndStorySections />
 
       {/* 6. Entregável (PDF grande frontal), 7. Objeção, 8. Oferta e 9. Entrega */}
-      <DeliverableAndOfferSections onZoom={setZoomImage} />
+      <DeliverableAndOfferSections />
 
       {/* ============================================================ */}
       {/* 10. GARANTIA                                                 */}
@@ -139,9 +136,6 @@ function Index() {
           </p>
         </div>
       </footer>
-
-      {/* Modal acessível de ampliação de imagem */}
-      <ImageZoomModal image={zoomImage} onClose={() => setZoomImage(null)} />
     </div>
   );
 }

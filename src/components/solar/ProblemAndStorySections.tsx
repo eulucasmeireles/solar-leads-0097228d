@@ -1,12 +1,7 @@
-import { IMAGES, CHECKOUT_URL } from "@/lib/solar-leads-data";
-import { SalesButton } from "@/components/solar/SalesButton";
-import { Maximize2, Network, PhoneCall, FileSpreadsheet } from "lucide-react";
+import { IMAGES } from "@/lib/solar-leads-data";
+import { Network, PhoneCall, FileSpreadsheet } from "lucide-react";
 
-export function ProblemAndStorySections({
-  onZoom,
-}: {
-  onZoom: (data: { src: string; alt: string }) => void;
-}) {
+export function ProblemAndStorySections() {
   return (
     <>
       {/* ============================================================ */}
@@ -19,7 +14,7 @@ export function ProblemAndStorySections({
           </h2>
 
           <div className="mt-7 flex flex-col items-center">
-            <div className="relative group w-full max-w-[340px] sm:max-w-[420px]">
+            <div className="w-full max-w-[340px] sm:max-w-[420px]">
               <img
                 src={IMAGES.dinossauroTrafegoPago}
                 alt="Dinossauro identificado como Tráfego Pago sob um meteoro com a frase Extinção iminente."
@@ -28,20 +23,6 @@ export function ProblemAndStorySections({
                 width="420"
                 height="315"
               />
-              <button
-                type="button"
-                onClick={() =>
-                  onZoom({
-                    src: IMAGES.dinossauroTrafegoPago,
-                    alt: "Tirinha do dinossauro do tráfego pago sob o meteoro",
-                  })
-                }
-                aria-label="Ampliar tirinha do dinossauro"
-                className="absolute bottom-2 right-2 bg-white/95 hover:bg-[#075BCC] hover:text-white text-[#092C5D] border border-[#D7E1EE] p-1.5 rounded-md shadow-sm transition-colors text-xs flex items-center gap-1 font-['Poppins']"
-              >
-                <Maximize2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Ampliar</span>
-              </button>
             </div>
           </div>
 
@@ -71,15 +52,15 @@ export function ProblemAndStorySections({
       <section className="px-5 py-12 sm:py-16">
         <div className="max-w-[960px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Foto Real do Lucas */}
+            {/* Foto Real do Lucas anexada */}
             <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col items-center">
-              <div className="w-full max-w-[320px] rounded-2xl overflow-hidden border border-[#D7E1EE] shadow-[0_10px_25px_-10px_rgba(9,44,93,0.15)] bg-[#F2F7FD]">
+              <div className="w-full max-w-[340px] rounded-2xl overflow-hidden border border-[#D7E1EE] shadow-[0_10px_25px_-10px_rgba(9,44,93,0.15)] bg-[#F2F7FD]">
                 <img
                   src={IMAGES.fotoLucas}
                   alt="Lucas Meireles — marketing e operação comercial na Energiza"
                   className="w-full h-auto object-cover block"
                   loading="lazy"
-                  width="360"
+                  width="400"
                   height="450"
                 />
               </div>
@@ -147,7 +128,7 @@ export function ProblemAndStorySections({
             <p className="font-semibold text-[#092C5D]">A conversa avançou e virou esse projeto.</p>
           </div>
 
-          <div className="mt-7 relative group rounded-2xl border border-[#D7E1EE] bg-white p-3 sm:p-5 shadow-sm">
+          <div className="mt-7 rounded-2xl border border-[#D7E1EE] bg-white p-3 sm:p-5 shadow-sm">
             <div className="w-full rounded-xl overflow-hidden bg-white">
               <img
                 src={IMAGES.provaOrcamentoWhatsapp}
@@ -161,20 +142,6 @@ export function ProblemAndStorySections({
             <p className="mt-2 text-center text-[12px] text-[#53677D]">
               Orçamento de energia solar aprovado com conversa de negociação.
             </p>
-            <button
-              type="button"
-              onClick={() =>
-                onZoom({
-                  src: IMAGES.provaOrcamentoWhatsapp,
-                  alt: "Orçamento de R$ 19.490 e conversa real no WhatsApp",
-                })
-              }
-              aria-label="Ampliar comprovante de orçamento"
-              className="absolute top-5 right-5 bg-[#092C5D]/90 hover:bg-[#075BCC] text-white p-2 rounded-lg shadow-md transition-colors flex items-center gap-1.5 text-xs font-['Poppins'] font-semibold"
-            >
-              <Maximize2 className="w-3.5 h-3.5" />
-              <span>Ampliar</span>
-            </button>
           </div>
 
           <div className="mt-7 space-y-4 text-[17px] leading-[1.6] text-[#17324F]">

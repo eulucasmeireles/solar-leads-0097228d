@@ -1,12 +1,8 @@
 import { IMAGES, CHECKOUT_URL } from "@/lib/solar-leads-data";
 import { SalesButton } from "@/components/solar/SalesButton";
-import { CheckCircle2, Check, MapPin, FileCheck, Maximize2 } from "lucide-react";
+import { CheckCircle2, Check, MapPin, FileCheck } from "lucide-react";
 
-export function DeliverableAndOfferSections({
-  onZoom,
-}: {
-  onZoom: (data: { src: string; alt: string }) => void;
-}) {
+export function DeliverableAndOfferSections() {
   return (
     <>
       {/* ============================================================ */}
@@ -38,20 +34,6 @@ export function DeliverableAndOfferSections({
                 height="820"
               />
             </div>
-            <button
-              type="button"
-              onClick={() =>
-                onZoom({
-                  src: IMAGES.produtoPdfCorrigido,
-                  alt: "Mockup principal do PDF com 500 contatos enriquecidos",
-                })
-              }
-              aria-label="Ampliar mockup do PDF"
-              className="absolute top-5 right-5 bg-[#092C5D]/90 hover:bg-[#075BCC] text-white p-2 rounded-lg shadow-md transition-colors flex items-center gap-1.5 text-xs font-['Poppins'] font-semibold"
-            >
-              <Maximize2 className="w-3.5 h-3.5" />
-              <span>Ampliar</span>
-            </button>
           </div>
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
