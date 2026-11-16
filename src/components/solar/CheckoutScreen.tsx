@@ -3,7 +3,7 @@
  * Extraída da rota de checkout para mantê-la enxuta.
  */
 import { useState } from "react";
-import { BASE_PRICE, MAIN_PRODUCT_CONFIG, formatBRL, formatBRLcents } from "@/lib/checkout-config";
+import { BASE_PRICE, formatBRL, formatBRLcents } from "@/lib/checkout-config";
 import { InfinitePayForm } from "@/components/solar/InfinitePayForm";
 import { ReviewOverlay, StepBadge, WhatsAppIcon } from "@/components/solar/CheckoutOverlay";
 import type { BumpLite, ExtraLite } from "@/components/solar/CheckoutOverlay";
@@ -155,14 +155,7 @@ export function CheckoutScreen({
             <p className="text-[14px] sm:text-[15px] text-solar-muted leading-[1.5] mb-4">
               Nome, WhatsApp e e-mail. A gente confirma sua cidade e envia a lista pelo WhatsApp.
             </p>
-            <InfinitePayForm
-              total={total}
-              extraKeys={extras.map((extra) => extra.key)}
-              lines={[
-                { description: MAIN_PRODUCT_CONFIG.title, price: BASE_PRICE },
-                ...extras.map((extra) => ({ description: extra.title, price: extra.price })),
-              ]}
-            />
+            <InfinitePayForm total={total} extraKeys={extras.map((extra) => extra.key)} />
           </div>
 
           <div className="mt-4 flex items-start gap-3 bg-white rounded-xl border border-solar-border p-4">

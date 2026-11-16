@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
+import { Route as PagoRouteImport } from './routes/pago'
+import { Route as ApiInfinitepayWebhookRouteImport } from './routes/api/infinitepay-webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +30,60 @@ const ObrigadoRoute = ObrigadoRouteImport.update({
   path: '/obrigado',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PagoRoute = PagoRouteImport.update({
+  id: '/pago',
+  path: '/pago',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInfinitepayWebhookRoute = ApiInfinitepayWebhookRouteImport.update({
+  id: '/api/infinitepay-webhook',
+  path: '/api/infinitepay-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/obrigado': typeof ObrigadoRoute
+  '/pago': typeof PagoRoute
+  '/api/infinitepay-webhook': typeof ApiInfinitepayWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/obrigado': typeof ObrigadoRoute
+  '/pago': typeof PagoRoute
+  '/api/infinitepay-webhook': typeof ApiInfinitepayWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/obrigado': typeof ObrigadoRoute
+  '/pago': typeof PagoRoute
+  '/api/infinitepay-webhook': typeof ApiInfinitepayWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/checkout' | '/obrigado'
+  fullPaths:
+    '/' | '/checkout' | '/obrigado' | '/pago' | '/api/infinitepay-webhook'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/checkout' | '/obrigado'
-  id: '__root__' | '/' | '/checkout' | '/obrigado'
+  to: '/' | '/checkout' | '/obrigado' | '/pago' | '/api/infinitepay-webhook'
+  id:
+    | '__root__'
+    | '/'
+    | '/checkout'
+    | '/obrigado'
+    | '/pago'
+    | '/api/infinitepay-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheckoutRoute: typeof CheckoutRoute
   ObrigadoRoute: typeof ObrigadoRoute
+  PagoRoute: typeof PagoRoute
+  ApiInfinitepayWebhookRoute: typeof ApiInfinitepayWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +109,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ObrigadoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pago': {
+      id: '/pago'
+      path: '/pago'
+      fullPath: '/pago'
+      preLoaderRoute: typeof PagoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/infinitepay-webhook': {
+      id: '/api/infinitepay-webhook'
+      path: '/api/infinitepay-webhook'
+      fullPath: '/api/infinitepay-webhook'
+      preLoaderRoute: typeof ApiInfinitepayWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +130,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheckoutRoute: CheckoutRoute,
   ObrigadoRoute: ObrigadoRoute,
+  PagoRoute: PagoRoute,
+  ApiInfinitepayWebhookRoute: ApiInfinitepayWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
