@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useHydrated } from "@tanstack/react-router";
 import {
   BASE_PRICE,
@@ -13,7 +13,7 @@ import {
 import { CheckoutScreen } from "@/components/solar/CheckoutScreen";
 import { ReviewScreen } from "@/components/solar/ReviewScreen";
 import { PaymentWaiting } from "@/components/solar/PaymentWaiting";
-import { getLeadData } from "@/lib/lead-tracking";
+import { getLeadData, trackInitiateCheckout } from "@/lib/lead-tracking";
 import { leadToBuyer, useInfinitePayCheckout } from "@/lib/use-infinitepay-checkout";
 
 export const Route = createFileRoute("/checkout")({
@@ -53,6 +53,11 @@ function CheckoutPage() {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showIndividuals, setShowIndividuals] = useState(false);
   const [selectedBumps, setSelectedBumps] = useState<Set<string>>(new Set());
+
+  // InitiateCheckout no Meta Pixel ao chegar no checkout.
+  useEffect(() => {
+    trackInitiateCheckout();
+  }, []);
 
   const individualConfigs = INDIVIDUAL_CONFIGS;
 

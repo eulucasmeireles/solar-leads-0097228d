@@ -264,6 +264,29 @@ export async function confirmPayment(input: {
       .update({ delivery_error: message.slice(0, 500) })
       .eq("id", updated.id);
   }
+
+  // Meta Conversions API — Purchase (servidor, com PII hasheada).
+  try {
+    const { sendMetaConversion, readFbp, readOrBuildFbc } =
+      await import("@/lib/meta-conversions.server");
+    const [firstName, ...rest] = updated.name.split(" ");
+    await sendMetaConversion({
+      eventName: "Purchase",
+      eventTime: Math.floor(Date.now() / 1000),
+      userData: {
+        email: updated.email,
+        phone: updated.phone,
+        firstName,
+        lastName: rest.length > 0 ? rest.join(" ") : undefined,
+        fbp: readFbp(process.env["COOKIE"] ?? null),
+        fbc: readOrBuildFbc(process.env["COOKIE"] ?? null),
+      },
+      value: updated.amount_cents / 100,
+      currency: "BRL",
+    });
+  } catch (error) {
+    console.error("[Meta CAPI] Purchase falhou:", error);
+  }
   return { ok: true, status: "paid" };
 }
 

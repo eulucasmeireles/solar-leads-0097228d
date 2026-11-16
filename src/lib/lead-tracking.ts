@@ -1,8 +1,10 @@
 /**
- * Helper de tracking de leads para o CRM.
+ * Helper de tracking de leads para o CRM e Meta Pixel.
  * Envia os dados de captura (nome, e-mail, WhatsApp) como evento de formulário
  * externo, fire-and-forget, sem bloquear a navegação para o checkout.
+ * Também dispara os eventos Lead e InitiateCheckout no Meta Pixel (cliente).
  */
+import { trackMetaEvent, newEventId } from "@/lib/meta-pixel";
 
 type StandardTrackingFieldKey = string;
 type RegisteredCustomFieldId = string;
@@ -132,10 +134,30 @@ export function getLeadData(): LeadCaptureData | null {
 }
 
 /**
+ * Dispara o evento InitiateCheckout no Meta Pixel (cliente).
+ * Chamar quando o visitante clica em qualquer CTA de compra.
+ */
+export function trackInitiateCheckout(): void {
+  trackMetaEvent("InitiateCheckout", {
+    content_name: "500 contatos enriquecidos",
+    value: 97,
+    currency: "BRL",
+  });
+}
+
+/**
  * Envia os dados do lead para o CRM e persiste localmente. Fire-and-forget.
+ * Também dispara o evento Lead no Meta Pixel (cliente).
  */
 export function trackLeadCapture(data: LeadCaptureData) {
   saveLeadData(data);
+
+  // Meta Pixel — Lead (cliente)
+  trackMetaEvent("Lead", {
+    content_name: "Captura pré-checkout",
+    value: 97,
+    currency: "BRL",
+  });
 
   const trackingPayload = {
     type: "external_form_submission",
@@ -174,3 +196,5 @@ export function trackLeadCapture(data: LeadCaptureData) {
 
   postTrackingEvent(trackingPayload);
 }
+
+export { newEventId };

@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportVibeError } from "../lib/vibe-error-reporting";
+import { initMetaPixel, META_PIXEL_ID } from "@/lib/meta-pixel";
 
 function NotFoundComponent() {
   return (
@@ -113,6 +114,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
     ],
+    scripts: [
+      // Meta Pixel base (carrega no <head>). O init/track rodam no cliente via initMetaPixel().
+      {
+        src: "https://connect.facebook.net/en_US/fbevents.js",
+        async: true,
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -137,10 +145,25 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  // Inicializa o Meta Pixel no cliente (PageView automático). Idempotente.
+  useEffect(() => {
+    initMetaPixel();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      {/* Meta Pixel <noscript> fallback */}
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style={{ display: "none" }}
+          src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+          alt=""
+        />
+      </noscript>
     </QueryClientProvider>
   );
 }

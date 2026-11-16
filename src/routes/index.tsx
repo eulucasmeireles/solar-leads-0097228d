@@ -10,6 +10,7 @@ import { HeroSection } from "@/components/solar/HeroSection";
 import { ProblemAndStorySections } from "@/components/solar/ProblemAndStorySections";
 import { DeliverableAndOfferSections } from "@/components/solar/DeliverableAndOfferSections";
 import { LeadCaptureModal } from "@/components/solar/LeadCaptureModal";
+import { trackInitiateCheckout } from "@/lib/lead-tracking";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,6 +45,7 @@ function Index() {
 
   const handleBuyClick = (e: MouseEvent) => {
     e.preventDefault();
+    trackInitiateCheckout();
     setLeadModalOpen(true);
   };
 
