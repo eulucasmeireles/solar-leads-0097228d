@@ -8,8 +8,8 @@ export function HeroSection() {
         <h1 className="font-['Poppins'] font-bold text-[#092C5D] text-[28px] sm:text-[38px] md:text-[46px] leading-[1.18] tracking-tight">
           <span className="text-[#075BCC]">R$84 mil</span> nos meus primeiros 27 dias vendendo{" "}
           <span className="marker-highlight">energia solar.</span>
-          <br className="hidden sm:inline" />{" "}
-          <span className="font-['Caveat'] text-[32px] sm:text-[42px] text-[#092C5D] font-bold whitespace-normal inline mt-1">
+          <br />{" "}
+          <span className="font-['Caveat'] text-[32px] sm:text-[42px] text-[#092C5D] font-bold whitespace-normal inline-block mt-1">
             Sem gastar com anúncios.
           </span>
         </h1>
