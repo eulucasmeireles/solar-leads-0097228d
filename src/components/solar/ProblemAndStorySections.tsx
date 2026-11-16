@@ -117,20 +117,20 @@ export function ProblemAndStorySections() {
             <span className="text-[#075BCC]">R$19.490</span>.
           </h2>
 
-          {/* Composição da prova: orçamento + conversa + print do Pix */}
+          {/* Composição da prova: print do Pix + orçamento/conversa */}
           <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="rounded-2xl border border-[#D7E1EE] bg-white p-2 sm:p-3 shadow-sm overflow-hidden">
               <img
-                src={IMAGES.provaOrcamentoWhatsapp}
-                alt="Orçamento de energia solar aprovado com trechos reais da negociação no WhatsApp"
+                src={IMAGES.provaPix}
+                alt="Comprovante do pagamento do projeto de energia solar"
                 className="w-full h-auto block rounded-lg"
                 loading="lazy"
               />
             </div>
             <div className="rounded-2xl border border-[#D7E1EE] bg-white p-2 sm:p-3 shadow-sm overflow-hidden">
               <img
-                src={IMAGES.provaPix}
-                alt="Comprovante do pagamento do projeto de energia solar"
+                src={IMAGES.provaOrcamentoWhatsapp}
+                alt="Orçamento de energia solar aprovado com trechos reais da negociação no WhatsApp"
                 className="w-full h-auto block rounded-lg"
                 loading="lazy"
               />
