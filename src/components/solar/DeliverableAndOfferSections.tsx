@@ -72,11 +72,6 @@ export function DeliverableAndOfferSections() {
           <p className="mt-7 font-['Poppins'] font-semibold text-[#092C5D] text-[17px] text-center">
             Você abre o PDF e encontra essas informações reunidas, sem precisar montar tudo do zero.
           </p>
-
-          <p className="mt-3 text-center text-[13px] text-[#53677D] leading-[1.5] max-w-[620px] mx-auto">
-            * Os campos adicionais variam conforme os dados disponíveis. Os indicadores ajudam na
-            priorização e não representam intenção de compra confirmada.
-          </p>
         </div>
       </section>
 
