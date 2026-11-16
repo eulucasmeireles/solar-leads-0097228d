@@ -1,25 +1,15 @@
 /**
- * Formulário do checkout (nome, WhatsApp, e-mail). Cria o pedido no servidor,
- * abre o pagamento da InfinitePay num popup e, quando o servidor confirma o
- * pagamento, fecha o popup e leva o cliente sozinho para /obrigado.
+ * Formulário de reserva do checkout (nome, WhatsApp, e-mail). Só aparece quando
+ * o cliente chega ao /checkout sem os dados do modal da primeira página, ou com
+ * dados inválidos. No fluxo normal o botão da revisão do pedido paga direto.
  */
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { normalizePhone } from "@/lib/phone";
-import { createOrder, getOrderStatus } from "@/lib/orders.functions";
 import { formatBRLcents } from "@/lib/checkout-config";
 import { getLeadData, trackLeadCapture, type LeadCaptureData } from "@/lib/lead-tracking";
-
-/** Nome completo a partir do lead guardado (o modal repete o nome quando não há sobrenome). */
-function fullName(lead: LeadCaptureData): string {
-  const first = lead.firstName.trim();
-  const last = lead.lastName.trim();
-  return last && last !== first ? `${first} ${last}` : first;
-}
-
-const POLL_MS = 2500;
-const POLL_MAX_MS = 20 * 60 * 1000;
-const POPUP_FEATURES = "popup=yes,width=480,height=760,left=120,top=60";
+import { fullName, useInfinitePayCheckout } from "@/lib/use-infinitepay-checkout";
+import { PaymentWaiting } from "@/components/solar/PaymentWaiting";
 
 const inputClass =
   "w-full min-h-[48px] rounded-[10px] border border-[#D7E1EE] bg-white px-3.5 text-[16px] text-[#17324F] font-['Open_Sans'] placeholder:text-[#9AAABD] outline-none transition-colors focus:border-[#075BCC] focus:ring-2 focus:ring-[#075BCC]/20";
@@ -30,14 +20,9 @@ export function InfinitePayForm({ total, extraKeys }: { total: number; extraKeys
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [paying, setPaying] = useState<{ orderNsu: string; url: string } | null>(null);
   // Lead capturado na primeira página; lido após a hidratação para não divergir do servidor.
   const [prefilled, setPrefilled] = useState<LeadCaptureData | null>(null);
-
-  const popupRef = useRef<Window | null>(null);
-  const pollRef = useRef<number | null>(null);
-  const startedAtRef = useRef(0);
+  const checkout = useInfinitePayCheckout(extraKeys);
 
   useEffect(() => {
     const lead = getLeadData();
@@ -48,68 +33,9 @@ export function InfinitePayForm({ total, extraKeys }: { total: number; extraKeys
     setEmail(lead.email);
   }, []);
 
-  const stopPolling = useCallback(() => {
-    if (pollRef.current !== null) {
-      window.clearInterval(pollRef.current);
-      pollRef.current = null;
-    }
-  }, []);
-
-  // Para a consulta se o componente sair da tela.
-  useEffect(() => stopPolling, [stopPolling]);
-
-  const goToThankYou = useCallback(() => {
-    stopPolling();
-    try {
-      popupRef.current?.close();
-    } catch {
-      /* popup já fechado */
-    }
-    window.location.assign("/obrigado");
-  }, [stopPolling]);
-
-  const checkStatus = useCallback(
-    async (orderNsu: string) => {
-      try {
-        const { status } = await getOrderStatus({ data: { orderNsu } });
-        if (status === "paid") goToThankYou();
-      } catch {
-        /* falha de rede: tenta de novo no próximo ciclo */
-      }
-    },
-    [goToThankYou],
-  );
-
-  const startPolling = useCallback(
-    (orderNsu: string) => {
-      stopPolling();
-      startedAtRef.current = Date.now();
-      pollRef.current = window.setInterval(() => {
-        if (Date.now() - startedAtRef.current > POLL_MAX_MS) {
-          stopPolling();
-          return;
-        }
-        void checkStatus(orderNsu);
-      }, POLL_MS);
-    },
-    [checkStatus, stopPolling],
-  );
-
-  // O popup (/pago) avisa que voltou do pagamento: confere na hora.
-  useEffect(() => {
-    if (!paying) return;
-    const onMessage = (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
-      const data = event.data as { type?: string } | null;
-      if (data?.type === "infinitepay-paid") void checkStatus(paying.orderNsu);
-    };
-    window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
-  }, [paying, checkStatus]);
-
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (loading) return;
+    if (checkout.loading) return;
     setError(null);
 
     const cleanName = name.trim().replace(/\s+/g, " ");
@@ -121,93 +47,43 @@ export function InfinitePayForm({ total, extraKeys }: { total: number; extraKeys
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail))
       return setError("Informe um e-mail válido.");
 
-    // O popup precisa abrir dentro do clique, senão o navegador o bloqueia.
-    const popup = window.open("about:blank", "infinitepay-checkout", POPUP_FEATURES);
-    popupRef.current = popup;
-    setLoading(true);
-    try {
+    // Só reenvia ao CRM se o cliente mudou algo; senão o lead da primeira página já foi enviado.
+    const changed =
+      !prefilled ||
+      prefilled.email.trim().toLowerCase() !== cleanEmail ||
+      normalizePhone(prefilled.phone) !== e164 ||
+      fullName(prefilled) !== cleanName;
+    if (changed) {
       const parts = cleanName.split(" ");
       const firstName = parts[0] ?? cleanName;
       const lastName = parts.slice(1).join(" ");
-      // Só reenvia ao CRM se o cliente mudou algo; senão o lead da primeira página já foi enviado.
-      const changed =
-        !prefilled ||
-        prefilled.email.trim().toLowerCase() !== cleanEmail ||
-        normalizePhone(prefilled.phone) !== e164 ||
-        fullName(prefilled) !== cleanName;
-      if (changed) {
-        try {
-          trackLeadCapture({
-            firstName,
-            lastName: lastName || firstName,
-            email: cleanEmail,
-            phone: e164,
-          });
-        } catch {
-          /* não bloqueia o pagamento */
-        }
-      }
-
-      const { orderNsu, url } = await createOrder({
-        data: { name: cleanName, email: cleanEmail, phone: phone, extraKeys },
-      });
-
-      if (popup && !popup.closed) {
-        popup.location.href = url;
-        setPaying({ orderNsu, url });
-        startPolling(orderNsu);
-      } else {
-        // Popup bloqueado: abre o pagamento nesta mesma aba.
-        window.location.assign(url);
-      }
-    } catch (err) {
-      console.error(err);
       try {
-        popup?.close();
+        trackLeadCapture({
+          firstName,
+          lastName: lastName || firstName,
+          email: cleanEmail,
+          phone: e164,
+        });
       } catch {
-        /* ignora */
+        /* não bloqueia o pagamento */
       }
-      setError("Não foi possível abrir o pagamento. Confira seus dados e tente de novo.");
-    } finally {
-      setLoading(false);
     }
+
+    // Chamado direto do envio do formulário: o popup precisa abrir dentro do clique.
+    void checkout.start({ name: cleanName, email: cleanEmail, phone });
   };
 
-  if (paying) {
+  if (checkout.paying) {
     return (
-      <div className="text-center space-y-3.5" role="status" aria-live="polite">
-        <div className="mx-auto h-9 w-9 animate-spin rounded-full border-4 border-[#D7E1EE] border-t-[#075BCC]" />
-        <p className="font-heading font-bold text-solar-deep text-[17px]">
-          Finalize o pagamento na janela que abriu
-        </p>
-        <p className="text-[14px] text-solar-muted leading-[1.5]">
-          Pague por Pix ou cartão. Esta tela segue sozinha assim que o pagamento for aprovado.
-        </p>
-        <button
-          type="button"
-          onClick={() => {
-            const win = window.open(paying.url, "infinitepay-checkout", POPUP_FEATURES);
-            popupRef.current = win;
-          }}
-          className="text-solar-primary font-heading font-semibold text-[14px] hover:underline"
-        >
-          Abrir a janela de pagamento de novo
-        </button>
-        <div>
-          <button
-            type="button"
-            onClick={() => {
-              stopPolling();
-              setPaying(null);
-            }}
-            className="text-solar-muted text-[13px] hover:underline"
-          >
-            Voltar e corrigir meus dados
-          </button>
-        </div>
-      </div>
+      <PaymentWaiting
+        onReopen={checkout.reopen}
+        onCancel={checkout.cancel}
+        cancelLabel="Voltar e corrigir meus dados"
+      />
     );
   }
+
+  const shownError = error ?? checkout.error;
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-3.5">
@@ -260,18 +136,20 @@ export function InfinitePayForm({ total, extraKeys }: { total: number; extraKeys
         />
       </div>
 
-      {error && (
+      {shownError && (
         <p role="alert" className="text-[14px] text-red-600 font-['Open_Sans']">
-          {error}
+          {shownError}
         </p>
       )}
 
       <button
         type="submit"
-        disabled={loading}
+        disabled={checkout.loading}
         className="btn-sales w-full rounded-[10px] flex items-center justify-center px-4 py-3 min-h-[52px] font-heading font-bold text-[15px] uppercase tracking-wide text-white disabled:opacity-60"
       >
-        {loading ? "Abrindo pagamento..." : `Ir para o pagamento · ${formatBRLcents(total)}`}
+        {checkout.loading
+          ? "Abrindo pagamento..."
+          : `Ir para o pagamento · ${formatBRLcents(total)}`}
       </button>
       <p className="text-[12px] text-solar-muted leading-[1.5] text-center">
         O pagamento abre numa janela segura da InfinitePay (Pix ou cartão). Esta tela continua

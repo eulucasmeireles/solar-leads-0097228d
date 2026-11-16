@@ -12,6 +12,9 @@ import {
 } from "@/lib/checkout-config";
 import { CheckoutScreen } from "@/components/solar/CheckoutScreen";
 import { ReviewScreen } from "@/components/solar/ReviewScreen";
+import { PaymentWaiting } from "@/components/solar/PaymentWaiting";
+import { getLeadData } from "@/lib/lead-tracking";
+import { leadToBuyer, useInfinitePayCheckout } from "@/lib/use-infinitepay-checkout";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -58,6 +61,10 @@ function CheckoutPage() {
   const allIndividualsSelected =
     !selectedKit && selectedIndividualKeys.length === INDIVIDUAL_KEYS.length;
 
+  // Pagamento direto: usa os dados do modal da primeira página, sem pedir tudo de novo.
+  const extraKeys = selectedKit ? [KIT_KEY] : selectedIndividualKeys;
+  const checkout = useInfinitePayCheckout(extraKeys);
+
   const toggleBump = (key: string) => {
     setSelectedBumps((prev) => {
       const next = new Set(prev);
@@ -90,9 +97,18 @@ function CheckoutPage() {
       return next;
     });
 
+  // Chamado direto do clique em "IR PARA PAGAMENTO" (o popup precisa abrir dentro do clique).
   const handleContinue = () => {
-    if (!hydrated) return;
-    setShowCheckout(true);
+    if (!hydrated || checkout.loading) return;
+    const buyer = leadToBuyer(getLeadData());
+    if (!buyer) {
+      // Sem os dados do modal (ou inválidos): pede os dados na tela de reserva.
+      setShowCheckout(true);
+      return;
+    }
+    void checkout.start(buyer).then((ok) => {
+      if (!ok) setShowCheckout(true);
+    });
   };
 
   const total = useMemo(() => {
@@ -129,7 +145,29 @@ function CheckoutPage() {
     image: c.image,
   }));
 
-  // ---- Tela de checkout (PaymentCheckoutBlock selado, layout two-step) ----
+  // ---- Aguardando o pagamento no popup ----
+  if (checkout.paying) {
+    return (
+      <div className="min-h-screen bg-solar-bg-alt text-solar-text font-body">
+        <header className="bg-solar-deep py-3 px-4 sm:px-6 shadow-md">
+          <div className="max-w-[720px] mx-auto text-white/70 text-[13px] font-heading font-medium">
+            Pagamento seguro
+          </div>
+        </header>
+        <main className="px-4 sm:px-5 pt-10">
+          <div className="max-w-[520px] mx-auto bg-white rounded-2xl border border-solar-border shadow-sm p-6 sm:p-8">
+            <PaymentWaiting
+              onReopen={checkout.reopen}
+              onCancel={checkout.cancel}
+              cancelLabel="Voltar ao pedido"
+            />
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // ---- Tela de reserva: só se faltarem os dados do modal ----
   if (showCheckout && hydrated) {
     return (
       <CheckoutScreen
@@ -148,30 +186,44 @@ function CheckoutPage() {
         allIndividualsSelected={allIndividualsSelected}
         individualConfigs={bumpLiteConfigs}
         removeExtra={removeExtra}
-        onContinue={handleContinue}
+        onContinue={() => setShowCheckout(true)}
       />
     );
   }
 
-  // ---- Revisão do pedido (pré-checkout) ----
+  // ---- Revisão do pedido: o botão já leva ao pagamento ----
   return (
-    <ReviewScreen
-      selectedBumps={selectedBumps}
-      toggleBump={toggleBump}
-      clearKit={clearKit}
-      swapToKit={swapToKit}
-      showIndividuals={showIndividuals}
-      setShowIndividuals={setShowIndividuals}
-      selectedKit={selectedKit}
-      selectedIndividualKeys={selectedIndividualKeys}
-      allIndividualsSelected={allIndividualsSelected}
-      individualConfigs={bumpLiteConfigs}
-      total={total}
-      extras={extras}
-      removeExtra={removeExtra}
-      hasDobro={hasDobro}
-      onContinue={handleContinue}
-    />
+    <>
+      {checkout.loading && (
+        <div
+          className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-3 bg-white/80 backdrop-blur-[2px]"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="h-9 w-9 animate-spin rounded-full border-4 border-[#D7E1EE] border-t-[#075BCC]" />
+          <p className="font-heading font-bold text-solar-deep text-[16px]">
+            Abrindo o pagamento...
+          </p>
+        </div>
+      )}
+      <ReviewScreen
+        selectedBumps={selectedBumps}
+        toggleBump={toggleBump}
+        clearKit={clearKit}
+        swapToKit={swapToKit}
+        showIndividuals={showIndividuals}
+        setShowIndividuals={setShowIndividuals}
+        selectedKit={selectedKit}
+        selectedIndividualKeys={selectedIndividualKeys}
+        allIndividualsSelected={allIndividualsSelected}
+        individualConfigs={bumpLiteConfigs}
+        total={total}
+        extras={extras}
+        removeExtra={removeExtra}
+        hasDobro={hasDobro}
+        onContinue={handleContinue}
+      />
+    </>
   );
 }
 
