@@ -111,34 +111,33 @@ export function ProblemAndStorySections() {
       {/* 4. PROVA — O PROJETO DE R$19.490                            */}
       {/* ============================================================ */}
       <section className="px-5 py-12 sm:py-16 bg-[#F2F7FD] border-y border-[#D7E1EE]">
-        <div className="max-w-[720px] mx-auto text-left">
+        <div className="max-w-[760px] mx-auto text-left">
           <h2 className="font-['Poppins'] font-bold text-[#092C5D] text-[24px] sm:text-[32px] leading-[1.2] text-center">
             Uma primeira mensagem abriu uma conversa que virou um projeto de{" "}
             <span className="text-[#075BCC]">R$19.490</span>.
           </h2>
 
-          <div className="mt-5 space-y-3 text-[17px] leading-[1.6] text-[#17324F] text-center max-w-[560px] mx-auto">
-            <p>Eu entrei em contato com uma pessoa da lista.</p>
-            <p className="font-semibold text-[#092C5D]">A conversa avançou e virou esse projeto.</p>
-          </div>
-
-          <div className="mt-7 rounded-2xl border border-[#D7E1EE] bg-white p-3 sm:p-5 shadow-sm">
-            <div className="w-full rounded-xl overflow-hidden bg-white">
+          {/* Composição da prova: orçamento + conversa + print do Pix */}
+          <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="rounded-2xl border border-[#D7E1EE] bg-white p-2 sm:p-3 shadow-sm overflow-hidden">
               <img
                 src={IMAGES.provaOrcamentoWhatsapp}
-                alt="Orçamento aprovado de R$ 19.490 e trechos reais da negociação no WhatsApp com dados sensíveis ocultos"
-                className="w-full h-auto block mx-auto"
+                alt="Orçamento de energia solar aprovado com trechos reais da negociação no WhatsApp"
+                className="w-full h-auto block rounded-lg"
                 loading="lazy"
-                width="720"
-                height="480"
               />
             </div>
-            <p className="mt-2 text-center text-[12px] text-[#53677D]">
-              Orçamento de energia solar aprovado com conversa de negociação.
-            </p>
+            <div className="rounded-2xl border border-[#D7E1EE] bg-white p-2 sm:p-3 shadow-sm overflow-hidden">
+              <img
+                src={IMAGES.provaPix}
+                alt="Comprovante do pagamento do projeto de energia solar"
+                className="w-full h-auto block rounded-lg"
+                loading="lazy"
+              />
+            </div>
           </div>
 
-          <div className="mt-7 space-y-4 text-[17px] leading-[1.6] text-[#17324F]">
+          <div className="mt-5 space-y-4 text-[17px] leading-[1.6] text-[#17324F]">
             <p>
               Nos meus primeiros 27 dias vendendo energia solar, foram R$84 mil de faturamento,
               todos vindos dos contatos da lista, sem investimento em anúncios.
