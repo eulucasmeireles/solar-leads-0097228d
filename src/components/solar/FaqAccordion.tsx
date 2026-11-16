@@ -8,32 +8,42 @@ interface FaqItem {
 
 const FAQS: FaqItem[] = [
   {
-    question: "Posso escolher qualquer cidade?",
+    question: "Essa lista serve para quem vende energia solar?",
     answer:
-      "Sim. Depois da compra, a gente te chama no WhatsApp e você informa a cidade na própria conversa. Pode ser a sua ou outra onde consiga atender os projetos.",
+      "Sim. A oferta foi pensada para quem quer abrir uma nova frente de prospecção de projetos solares, com contatos e informações organizados para o comercial.",
   },
   {
-    question: "O que eu recebo?",
+    question: "São pessoas que já pediram orçamento?",
     answer:
-      "Um PDF com 500 contatos enriquecidos, contendo nome, WhatsApp e cidade. Você recebe o arquivo na mesma conversa do WhatsApp em que escolheu a cidade, em até 2h após o pagamento confirmado e a cidade informada.",
+      "São contatos enriquecidos para prospecção. A lista não representa pedidos de orçamento nem compradores confirmados.",
   },
   {
-    question: "Preciso ter uma equipe?",
+    question: "Posso escolher a cidade?",
+    answer: "Sim. Depois da compra, você informa pelo WhatsApp a cidade onde deseja gerar a lista.",
+  },
+  {
+    question: "Vou receber acesso a um aplicativo?",
     answer:
-      "Você pode trabalhar os contatos sozinho ou dividir com seus vendedores. A lista serve pra quem já vende e pra quem está começando e já tem como atender os projetos.",
+      "Você recebe um PDF com os contatos. Não precisa de acesso a aplicativo para consultar a lista.",
   },
   {
-    question: "Tem mensalidade?",
-    answer: "R$97 é o valor da lista com 500 contatos. É uma compra única.",
-  },
-  {
-    question: "Preciso investir em anúncios?",
+    question: "Todos os contatos têm todas as informações?",
     answer:
-      "Você recebe os contatos no PDF e pode trabalhar sua prospecção sem criar uma campanha de anúncios pra obtê-los.",
+      "Nome e WhatsApp verificado fazem parte da entrega. Informações adicionais, como e-mail, outros telefones e dados de contexto, aparecem conforme a disponibilidade.",
   },
   {
-    question: "Como funciona a garantia?",
-    answer: "Você tem 30 dias para solicitar a devolução dos R$97.",
+    question: "Os disparos estão incluídos?",
+    answer:
+      "Não. Essa compra inclui a lista enriquecida em PDF. A abordagem e o acompanhamento dos contatos ficam com o seu comercial.",
+  },
+  {
+    question: "Preciso investir em anúncios para usar a lista?",
+    answer:
+      "Não. Você pode trabalhar os contatos por prospecção, sem criar uma campanha de tráfego pago.",
+  },
+  {
+    question: "Quanto custa?",
+    answer: "R$97, em pagamento único, por 500 contatos enriquecidos.",
   },
 ];
 
