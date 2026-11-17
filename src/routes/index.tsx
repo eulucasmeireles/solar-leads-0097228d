@@ -152,11 +152,16 @@ function Index() {
 
       {/* Rodapé institucional */}
       <footer className="bg-[#043B81] text-white/80 py-6 px-5 text-center text-xs">
-        <div className="max-w-[960px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p>© {new Date().getFullYear()} Solar Leads. Todos os direitos reservados.</p>
+        <div className="max-w-[960px] mx-auto flex flex-col items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 w-full">
+            <p>© {new Date().getFullYear()} Solar Leads. Todos os direitos reservados.</p>
+            <p className="text-white/60">
+              Entrega digital de contatos públicos organizados e enriquecidos para prospecção
+              comercial.
+            </p>
+          </div>
           <p className="text-white/60">
-            Entrega digital de contatos públicos organizados e enriquecidos para prospecção
-            comercial.
+            46.290.750/0001-46 | 46.290.750 LUCAS GABRIEL MADUREIRA DE MEIRELES
           </p>
         </div>
       </footer>
